@@ -1,10 +1,10 @@
 /* angular.module('smartFeed', ['ionic', 'smartFeed.controllers', 'smartFeed.services', 'ngMessages','onezone-datepicker','initialValue','ngCordova','ionic.cloud', 'chart.js', 'ionic-timepicker']) */
 angular.module('smartFeed', ['ionic', 'smartFeed.controllers', 'smartFeed.services', 'ngMessages','onezone-datepicker','initialValue','ngCordova','ionic.cloud', 'chart.js'])
-
-.run(function($ionicPlatform,$cordovaSQLite,$rootScope,$anchorScroll,$ionicPush,CommonService,$location,$state) {
+ 
+.run(function($ionicPlatform,$cordovaSQLite,$rootScope,$anchorScroll,$ionicPush,CommonService,$location,$state,) {
 	$ionicPlatform.ready(function(){ 
 		 /* Hide the accessory bar by default (remove this to show the accessory bar above the keyboard for form inputs) */
-
+ 
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 			cordova.plugins.Keyboard.disableScroll(true);
@@ -13,7 +13,7 @@ angular.module('smartFeed', ['ionic', 'smartFeed.controllers', 'smartFeed.servic
 		if (window.StatusBar) {
 			 /* org.apache.cordova.statusbar required */
 			StatusBar.styleDefault();
-		}
+		} 
 	});
 	
 	  /* for logout on click back button from mobile if screen or page is loggoff */
@@ -55,9 +55,23 @@ angular.module('smartFeed', ['ionic', 'smartFeed.controllers', 'smartFeed.servic
 	$rootScope.$on("$locationChangeSuccess", function(){
         $anchorScroll();
     }); 
+	
+	if(localStorage.getItem('user_id')!=null && localStorage.getItem('user_id')!=undefined && localStorage.getItem('user_id')!=''){
+		CommonService.getNewOrders(); 
+		setInterval(function () { 
+			 if(localStorage.getItem("unread_orders") && localStorage.getItem("unread_orders") !="" ){
+				CommonService.getNewOrders(localStorage.getItem("unread_orders")); 
+			}else{
+				CommonService.getNewOrders(localStorage.getItem("unread_orders")); 
+			} 
+			
+		 CommonService.getNewOrders(localStorage.getItem("unread_orders")); 
+		}, 2000);
+	}else{
+		 console.log('no user_id '+localStorage.getItem('user_id'));
+	}
 }) 
 
-/* .config(function($stateProvider, $urlRouterProvider,$ionicCloudProvider,ionicTimePickerProvider) { */
 .config(function($stateProvider, $urlRouterProvider,$ionicCloudProvider) {
   $stateProvider
 
@@ -599,19 +613,39 @@ angular.module('smartFeed', ['ionic', 'smartFeed.controllers', 'smartFeed.servic
 		}
 	})    
 	
+	.state('app.allSites', {
+		url: '/allSites',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/allSites.html', 
+				controller: 'allSitesCtrl'
+			}
+		}
+	})    
+	
+	.state('app.switchSite', {
+		url: '/switchSite',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/switchSite.html', 
+				controller: 'allSitesCtrl'
+			}
+		}
+	})    
+	
+	.state('app.home', {
+		url: '/home',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/home.html', 
+				controller: 'homeCtrl'
+			}
+		}
+	})    
 	
 	
 	$urlRouterProvider.otherwise('/app/orderList=pending');
-	
-	/*  var timePickerObj = {
-      inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
-      format: 12,
-      step: 15,
-      setLabel: 'Set',
-      closeLabel: 'Close'
-    };
-    ionicTimePickerProvider.configTimePicker(timePickerObj);
-	 */
+	/* $urlRouterProvider.otherwise('/app/home'); */
 	
 	$ionicCloudProvider.init({
 		"core": {

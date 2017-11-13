@@ -1,6 +1,6 @@
 angular.module('smartFeed.controllers', ['ionic.cloud'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout,$location,$ionicPush,CommonService,$ionicPopup,$state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout,$location,$ionicPush,CommonService,$ionicPopup,$state,$timeout) {
 	angular.element($('[nav-view="cached"]')).remove();  /* for remove cache of template */
 	$scope.logout = function() {
 		var currentUserId = localStorage.getItem("user_id");
@@ -30,19 +30,34 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 	
 	/* for subscribe for notification and send notification */
 	$scope.register = function(){
-		$ionicPush.register().then(function(t) {
+	   $ionicPush.register().then(function(t) {
 			return $ionicPush.saveToken(t);
 		}).then(function(t){
 			localStorage.setItem("device_token", t.token);
 			if(t.token!==''){
 				$ionicPopup.alert({
 					title: 'Success!',
-					template: "You'r successfully subscribed for order notification."
+					template: "You're successfully subscribed for order notification."
 				});
 			}
 			CommonService.saveDeviceToken(t.token);
-		});
+		}); 
+ 
+ 
+		/* $scope.deviceInformation = ionic.Platform.device();
+		$scope.currentPlatform = ionic.Platform.platform();
+		$scope.currentPlatformVersion = ionic.Platform.version();
+
+  
+		var deviceInformation = ionic.Platform.device(); */
+		/* alert('platform: ' +  deviceInformation.platform);
+		alert('udid: ' + deviceInformation.uuid);
+		alert('model: ' + deviceInformation.model); */
+ 
+		/* CommonService.enablePushNotification($scope.currentPlatform,$scope.currentPlatformVersion,deviceInformation.model);   */
+		 
 	}
+	  
 	
 	$scope.$on('cloud:push:notification', function(event, data) {
 		var msg = data.message;
@@ -66,6 +81,23 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 	}else{
 		console.log('else currentUsrId '+currentUsrId);
 	}
+	
+	 /* console.log('user_id '+localStorage.getItem('user_id')); */
+	/* if(localStorage.getItem('user_id')!=null && localStorage.getItem('user_id')!=undefined && localStorage.getItem('user_id')!=''){
+		CommonService.getNewOrders(); 
+		setInterval(function () { 
+			 if(localStorage.getItem("unread_orders") && localStorage.getItem("unread_orders") !="" ){
+				CommonService.getNewOrders(localStorage.getItem("unread_orders")); 
+			}else{
+				CommonService.getNewOrders(localStorage.getItem("unread_orders")); 
+			} 
+			
+		 CommonService.getNewOrders(localStorage.getItem("unread_orders")); 
+		}, 2000);
+	}else{
+		 console.log('else user_id '+localStorage.getItem('user_id'));
+	} */
+	 
 })
  
 .controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal,CommonService) { 
@@ -85,14 +117,17 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 .controller('orderListCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams, $ionicGesture) {
 	$scope.$on('$ionicView.beforeEnter', function(){  
 	 /* for loading every time when view load  */
+		var orderSrtBy = "24_hours"; 
+		if(angular.element(document.getElementById("orderStBy")).val()!=""){ 
+			orderSrtBy = angular.element(document.getElementById("orderStBy")).val();	
+		} 
 	 
 	 	var api_url = localStorage.getItem('api_url'); 
  
 		$scope.user_id = localStorage.getItem('user_id');   // get local storage
 		var order_type = $stateParams.order_type; 
 		var dbName     = localStorage.getItem("db_name");
-		
-		/* console.log('dbName '+dbName); */
+		  
 		if($scope.user_id!=null && $scope.user_id!=undefined && $scope.user_id!=''){
 			CommonService.getUserPrivileges($scope.user_id);  /*  for get assigned privileges to add checks on tabs  */
 			
@@ -109,10 +144,29 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 
 			/* for fetch orders on load page */
 			$scope.ord_sts = order_type; 
-			$http.get(api_url+'/mobileapp/orders_listing.php?page='+1+'&order_status='+order_type+'&db_name='+dbName).success(function(items) {
+			$http.get(api_url+'/mobileapp/orders_listing.php?page='+1+'&order_status='+order_type+'&db_name='+dbName+'&sort_by='+orderSrtBy).success(function(items) {
 				angular.forEach(items, function(value, key) {
 					if(value.id!=null && value.id!=undefined && value.id!=''){  
-						$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,msg: items.msg});  
+						/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,msg: items.msg});   */
+						/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg}); */
+    
+							ordrClass = "";
+							if(angular.lowercase(value.status) == "pending"){
+								ordrClass = "pending-ordr";
+							}
+							if(angular.lowercase(value.status) == "confirmed"){
+								ordrClass = "confirmed-ordr";
+							}
+							if(angular.lowercase(value.status) == "cancelled"){
+								ordrClass = "cancelled-ordr";
+							}
+							
+							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass}); 
+					}
+					else{
+						if(items.msg=="no record found"){
+							$scope.no_record = items.msg;			
+						} 
 					}
 				});
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -122,10 +176,26 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.noMoreItemsAvailable = false;
 			$scope.page=2;
 			$scope.loadMore = function(){
-				$http.get(api_url+'/mobileapp/orders_listing.php?page='+$scope.page+'&order_status='+order_type+'&db_name='+dbName).success(function(items) {
+				$http.get(api_url+'/mobileapp/orders_listing.php?page='+$scope.page+'&order_status='+order_type+'&db_name='+dbName+'&sort_by='+orderSrtBy).success(function(items) {
 					angular.forEach(items, function(value, key) {
 						if(value.id!=null && value.id!=undefined && value.id!=''){  
-							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,msg: items.msg}); 
+							/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,msg: items.msg});  */
+						
+							ordrClass = "";
+							if(angular.lowercase(value.status) == "pending"){
+								ordrClass = "pending-ordr"
+							}
+							if(angular.lowercase(value.status) == "confirmed"){
+								ordrClass = "confirmed-ordr"
+							}
+							if(angular.lowercase(value.status) == "cancelled"){
+								ordrClass = "cancelled-ordr"
+							}
+							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass});  
+						}else{
+							if(items.msg=="no record found"){
+								$scope.no_record = items.msg;			
+							} 
 						}
 					});
 					if ( items.msg == "no record found" ) {
@@ -167,19 +237,80 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 		
 		/* end code for get swipe gesture*/
 
+		$scope.mySelect = "24_hours";
+		$scope.order_sort_by =function(mySelect){
+			/* alert(mySelect); */
+			$scope.ord_sts = order_type; 
+			$http.get(api_url+'/mobileapp/orders_listing.php?page='+1+'&order_status='+order_type+'&db_name='+dbName+'&sort_by='+mySelect).success(function(items) {
+				angular.forEach(items, function(value, key) {
+					if(value.id!=null && value.id!=undefined && value.id!=''){  
+						/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,msg: items.msg});   */
+						/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg}); */
+    
+							ordrClass = "";
+							if(angular.lowercase(value.status) == "pending"){
+								ordrClass = "pending-ordr";
+							}
+							if(angular.lowercase(value.status) == "confirmed"){
+								ordrClass = "confirmed-ordr";
+							}
+							if(angular.lowercase(value.status) == "cancelled"){
+								ordrClass = "cancelled-ordr";
+							}
+							
+							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass}); 
+					}
+				});
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});
+			
+			/* for fetch orders on scroll page */
+			$scope.noMoreItemsAvailable = false;
+			$scope.page=2;
+			$scope.loadMore = function(){
+				$http.get(api_url+'/mobileapp/orders_listing.php?page='+$scope.page+'&order_status='+order_type+'&db_name='+dbName+'&sort_by='+mySelect).success(function(items) {
+					angular.forEach(items, function(value, key) {
+						if(value.id!=null && value.id!=undefined && value.id!=''){  
+							/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,msg: items.msg});  */
+						
+							ordrClass = "";
+							if(angular.lowercase(value.status) == "pending"){
+								ordrClass = "pending-ordr"
+							}
+							if(angular.lowercase(value.status) == "confirmed"){
+								ordrClass = "confirmed-ordr"
+							}
+							if(angular.lowercase(value.status) == "cancelled"){
+								ordrClass = "cancelled-ordr"
+							}
+							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass});  
+						}
+					});
+					if ( items.msg == "no record found" ) {
+						$scope.noMoreItemsAvailable = true;
+					}
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				});
+				$scope.page +=1;
+			};
+			  
+			$scope.items = [];
+		};
    }) 
 })
 
-.controller('orderDetailCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams,$cordovaPrinter,$ionicPopup) {
+.controller('orderDetailCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams,$cordovaPrinter,$ionicPopup,$window,$cordovaDevice) {
 	$scope.$on('$ionicView.beforeEnter', function() { 
 		/* for loading every time when view load  */
 		
 		var api_url = localStorage.getItem('api_url');
 
-		$scope.user_id=localStorage.getItem('user_id');   // get local storage
-		var site_name=localStorage.getItem('site_name');  
-		var site_url=localStorage.getItem('site_url');  
-		var orderID = $stateParams.order_id;
+		$scope.user_id = localStorage.getItem('user_id');   // get local storage
+		var site_name  = localStorage.getItem('site_name');  
+		var site_url   = localStorage.getItem('site_url');  
+		var orderID    = $stateParams.order_id;
+		var dbName     = localStorage.getItem("db_name");
+		
 		if($scope.user_id!=null && $scope.user_id!=undefined && $scope.user_id!=''){
 			$ionicLoading.show({
 				content: 'Loading',
@@ -209,17 +340,18 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 		}   
 		 
 		/* code for print order details */
-		$scope.print = function() {
+		$scope.print = function() { 
 			if($cordovaPrinter.isAvailable()) {
-				/* $cordovaPrinter.print("http://comparethecab.co.uk/mobileapp/print_order_detail.php?order_id="+orderID+"&site_name="+site_name+"&site_url="+site_url); */
-				$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+orderID+"&site_name="+site_name+"&site_url="+site_url);
+				 $cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+orderID+"&site_name="+site_name+"&site_url="+site_url+"&db_name="+dbName);
 			} else {
 				$ionicPopup.alert({
 					title: 'Error!',
 					template: 'Printing is not available on device'
 				});
 			}
-		}
+		} 
+	 
+		 
 		/* end print order details */	
  
 		$scope.updateOrder = function(orderID) {
@@ -464,26 +596,6 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			
 			$state.go('app.login'); 
 		}
-		
-		/* $scope.openTimePicker1 = function () {
-		  var ipObj1 = {
-			callback: function (val) {      //Mandatory
-			  if (typeof (val) === 'undefined') {
-				console.log('Time not selected');
-			  } else {
-				var selectedTime = new Date(val * 1000);
-				console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-			  }
-			},
-			inputTime: 50400,   //Optional
-			format: 12,         //Optional
-			step: 15,           //Optional
-			setLabel: 'Set2'    //Optional
-		  };
-		  
-		  ionicTimePicker.openTimePicker(ipObj1);
-		}; */
-		
 	}) 
 }) 
 
@@ -621,8 +733,14 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
    })
 })
 
-.controller('businessReportsCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$ionicModal) {
-	$scope.$on('$ionicView.beforeEnter', function() { 
+.controller('businessReportsCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$ionicModal) { 
+	$scope.$on('$ionicView.beforeEnter', function() {
+		$scope.orderSortBy = "24_hours";
+		var orderSortBy = "24_hours"; 
+		if(angular.element(document.getElementById("ordrSortBy")).val()!=""){ 
+			orderSortBy = angular.element(document.getElementById("ordrSortBy")).val();	
+		} 
+			
 		$scope.user_id = localStorage.getItem('user_id');
 		var dbName     = localStorage.getItem("db_name");
 		var api_url    = localStorage.getItem('api_url');
@@ -643,7 +761,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 
 			/* for fetch orders on load page */ 
 			/* $http.get('http://www.comparethecab.co.uk/mobileapp/dasbhboard_api.php?page='+1+'&db_name='+dbName+'&get_list=businessReports').success(function(items) { */
-			$http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+1+'&db_name='+dbName+'&get_list=businessReports').success(function(items) {
+			/* $http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+1+'&db_name='+dbName+'&get_list=businessReports').success(function(items) { 
 				angular.forEach(items, function(value, key) {
 					$scope.total_ordrs   = items.total_orders;
 					$scope.total_price   = items.total_price;
@@ -654,8 +772,32 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 					$scope.stx_orders    = items.stx_orders;
 					$scope.stx_price     = items.stx_price;
 					$scope.stx_prcntage  = items.stx_prcntage;
-					
-					$scope.items.push({ id: value.id,price_total: value.price_total,msg: items.msg});
+					 
+					$scope.items.push({ id: value.id,price_total: value.price_total,order_date:value.created_date,msg: items.msg});
+				});
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});  */
+			
+			$http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+1+'&db_name='+dbName+'&get_list=businessReports'+'&sort_by='+orderSortBy).success(function(items) {
+				angular.forEach(items, function(value, key) {
+					if(value.id!=null && value.id!=undefined && value.id!=''){  
+						$scope.total_ordrs   = items.total_orders;
+						$scope.total_price   = items.total_price;
+						$scope.cash_orders   = items.cash_orders; 
+						$scope.cash_prcntage = items.cash_prcntage;
+						$scope.cash_price    = items.cash_price;
+						
+						$scope.stx_orders    = items.stx_orders;
+						$scope.stx_price     = items.stx_price;
+						$scope.stx_prcntage  = items.stx_prcntage;
+						
+						/* $scope.items.push({ id: value.id,price_total: value.price_total,msg: items.msg}); */
+						$scope.items.push({ id: value.id,price_total: value.price_total,order_date:value.created_date,msg: items.msg});
+					}else{
+						if(items.msg=="no record found"){
+							$scope.no_record = items.msg;			
+						} 
+					}
 				});
 				$scope.$broadcast('scroll.infiniteScrollComplete');
 			});
@@ -664,9 +806,17 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.noMoreItemsAvailable = false;
 			$scope.page=2;
 			$scope.loadMore = function(){
-				$http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+$scope.page+'&db_name='+dbName+'&get_list=businessReports').success(function(items) {
+				/* $http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+$scope.page+'&db_name='+dbName+'&get_list=businessReports').success(function(items) { */
+				$http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+$scope.page+'&db_name='+dbName+'&get_list=businessReports'+'&sort_by='+orderSortBy).success(function(items) {
 					angular.forEach(items, function(value, key) {
-						$scope.items.push({ id: value.id,price_total: value.price_total,msg: items.msg});
+						/* $scope.items.push({ id: value.id,price_total: value.price_total,msg: items.msg}); */
+						if(value.id!=null && value.id!=undefined && value.id!=''){  
+							$scope.items.push({ id: value.id,price_total: value.price_total,order_date:value.created_date,msg: items.msg});
+						}else{
+							if(items.msg=="no record found"){
+								$scope.no_record = items.msg;			
+							} 
+						}
 					});
 					if ( items.msg == "no record found" ) {
 						$scope.noMoreItemsAvailable = true;
@@ -688,6 +838,45 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 		}).then(function(modal) {
 			$scope.modal = modal;
 		});
+		
+		
+		
+		$scope.order_sort_by_dashboard =function(orderSortBy){  
+			$http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+1+'&db_name='+dbName+'&get_list=businessReports'+'&sort_by='+orderSortBy).success(function(items) {
+				angular.forEach(items, function(value, key) {
+					$scope.total_ordrs   = items.total_orders;
+					$scope.total_price   = items.total_price;
+					$scope.cash_orders   = items.cash_orders; 
+					$scope.cash_prcntage = items.cash_prcntage;
+					$scope.cash_price    = items.cash_price;
+					
+					$scope.stx_orders    = items.stx_orders;
+					$scope.stx_price     = items.stx_price;
+					$scope.stx_prcntage  = items.stx_prcntage;
+					
+					$scope.items.push({ id: value.id,price_total: value.price_total,order_date:value.created_date,msg: items.msg});
+				});
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});
+			
+			/* for fetch orders on scroll page */
+			$scope.noMoreItemsAvailable = false;
+			$scope.page=2;
+			$scope.loadMore = function(){
+				$http.get(api_url+'/mobileapp/dasbhboard_api.php?page='+$scope.page+'&db_name='+dbName+'&get_list=businessReports'+'&sort_by='+orderSortBy).success(function(items) {
+					angular.forEach(items, function(value, key) {
+						$scope.items.push({ id: value.id,price_total: value.price_total,order_date:value.created_date,msg: items.msg});
+					});
+					if ( items.msg == "no record found" ) {
+						$scope.noMoreItemsAvailable = true;
+					}
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				});
+				$scope.page +=1;
+			};
+			  
+			$scope.items = []; 
+		};
    }) 
 })
 
@@ -737,21 +926,28 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 				
 				total1 = [];
 				total1 = total.split(','); 
-				 
-				$scope.labels = ['Today','This Week','This Month','This Year'];
-				$scope.data   = total1; 
-				
+				/*  $scope.colors1 = ['#4D5360', '#48BF46', '#F7464A', '#46BFBD'];  
 				
 				/* for show value on top of each bar in graph */
-				var opt = {
-					events: false,
-					tooltips: {
+				   $scope.labels1 = ['Today','This Week','This Month','This Year'];
+				      $scope.data1 = [
+					 total1
+				   ];  
+				   /*  $scope.data1 = [
+					 20,25,30,35
+				   ];  */
+				   
+				   $scope.options1 = {
+					  legend: {
+						 display: true,
+					  },
+					  tooltips: {
 						enabled: false
-					},
-					hover: {
-						animationDuration: 0
-					},
-					animation: {
+						},
+					 hover: {
+						animationDuration: 0,
+					 },
+					  animation: {
 						duration: 1,
 						onComplete: function () {
 							var chartInstance = this.chart,
@@ -763,28 +959,36 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 							this.data.datasets.forEach(function (dataset, i) {
 								var meta = chartInstance.controller.getDatasetMeta(i);
 								meta.data.forEach(function (bar, index) {
-									/* var data = 'Â£'+dataset.data[index];       */
 									var data = '£'+dataset.data[index];      
-									ctx.fillText(data, bar._model.x, bar._model.y - 0);
+									ctx.fillText(data, bar._model.x, bar._model.y);
 								});
 							});
 						}
 					},
-					scales: {
+					  scales: {
 						xAxes: [{
 								gridLines: {
 									display:false
+								},
+								ticks: {
+									display: true,
+									beginAtZero:true
 								}
 							}],
 						yAxes: [{
 								gridLines: {
 									display:false
-								}   
+								} ,
+								ticks: {
+									display: true,
+									beginAtZero:true
+								}  
 							}]
 					}
-				};
-				
-				$scope.options =  opt ; 
+				   }
+				   $scope.datasetOverride1 = [{
+					  label: 'Business Overview'
+				   }];
 				/* end show value on top of each bar in graph */
 				 
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -845,19 +1049,27 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 				total2 = [];
 				total2 = total1.split(','); 
 				 
-				$scope.labels = ['Today','This Week','This Month','This Year']; 
-				$scope.data   =  total2;
-				
-				/* for show value on top of each bar in graph */
-				var opt = {
-					events: false,
-					tooltips: {
+			 
+				  
+				  $scope.labels = ['Today','This Week','This Month','This Year']; 
+			  	  $scope.data = [
+					 total2
+				   ]; 
+				   /* $scope.data = [
+					 20,25,30,35
+				   ]; */
+				   
+				   $scope.options = {
+					  legend: {
+						 display: true
+					  },
+					  tooltips: {
 						enabled: false
-					},
-					hover: {
-						animationDuration: 0
-					},
-					animation: {
+						},
+					 hover: {
+						animationDuration: 0,
+					 },
+					  animation: {
 						duration: 1,
 						onComplete: function () {
 							var chartInstance = this.chart,
@@ -869,27 +1081,36 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 							this.data.datasets.forEach(function (dataset, i) {
 								var meta = chartInstance.controller.getDatasetMeta(i);
 								meta.data.forEach(function (bar, index) {
-									var data = dataset.data[index];      
-									ctx.fillText(data, bar._model.x, bar._model.y - 0);
+									var data = '£'+dataset.data[index];      
+									ctx.fillText(data, bar._model.x, bar._model.y);
 								});
 							});
 						}
 					},
-					scales: {
+					  scales: {
 						xAxes: [{
 								gridLines: {
 									display:false
+								},
+								ticks: {
+									display: true,
+									beginAtZero:true
 								}
 							}],
 						yAxes: [{
 								gridLines: {
 									display:false
-								}   
+								} ,
+								ticks: {
+									display: true,
+									beginAtZero:true
+								}  
 							}]
 					}
-				};
-				
-				$scope.options =  opt ; 
+				   }
+				   $scope.datasetOverride = [{
+					  label: 'Customer Overview'
+				   }];
 				/* end show value on top of each bar in graph */
 				 
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -1278,7 +1499,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 				
 				
 				/* for show value on top of each bar in graph */
-				var opt = {
+			/* 	var opt = {
 					events: false,
 					tooltips: {
 						enabled: false
@@ -1297,9 +1518,9 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 
 							this.data.datasets.forEach(function (dataset, i) {
 								var meta = chartInstance.controller.getDatasetMeta(i);
-								meta.data.forEach(function (bar, index) {
+								meta.data.forEach(function (bar, index) { */
 									/* var data = 'Â£'+dataset.data[index];       */
-									var data = '£'+dataset.data[index];      
+									/* var data = '£'+dataset.data[index];      
 									ctx.fillText(data, bar._model.x, bar._model.y - 0);
 								});
 							});
@@ -1320,6 +1541,70 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 				};
 				
 				$scope.options =  opt ; 
+				 */
+				
+				 $scope.labels2 = zip1;  
+				 $scope.data2 =[zipData1];
+				 /* $scope.labels2 = ['Today','This Week','This Month','This Year']; */
+				  /*     $scope.data1 = [
+					 total1
+				   ];  */ 
+				   /*  $scope.data1 = [
+					 20,25,30,35
+				   ];  */
+				   
+				   $scope.options2 = {
+					  legend: {
+						 display: true,
+					  },
+					  tooltips: {
+						enabled: false
+						},
+					 hover: {
+						animationDuration: 0,
+					 },
+					  animation: {
+						duration: 1,
+						onComplete: function () {
+							var chartInstance = this.chart,
+								ctx = chartInstance.ctx;
+							ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+							ctx.textAlign = 'center';
+							ctx.textBaseline = 'bottom';
+
+							this.data.datasets.forEach(function (dataset, i) {
+								var meta = chartInstance.controller.getDatasetMeta(i);
+								meta.data.forEach(function (bar, index) {
+									var data = dataset.data[index];      
+									ctx.fillText(data, bar._model.x, bar._model.y);
+								});
+							});
+						}
+					},
+					  scales: {
+						xAxes: [{
+								gridLines: {
+									display:false
+								},
+								ticks: {
+									display: true,
+									beginAtZero:true
+								}
+							}],
+						yAxes: [{
+								gridLines: {
+									display:false
+								} ,
+								ticks: {
+									display: true,
+									beginAtZero:true
+								}  
+							}]
+					}
+				   }
+				   $scope.datasetOverride2 = [{
+					  label: 'Top Areas(Orders)'
+				   }];
 				/* end show value on top of each bar in graph */
 						  
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -1547,7 +1832,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 
 			/* for fetch orders on load page */
 			$scope.ord_sts = order_type; 
-			$http.get(api_url+'/mobileapp/customers_listing.php?page='+1+'db_name='+dbName).success(function(items) {
+			$http.get(api_url+'/mobileapp/customers_listing.php?page='+1+'&db_name='+dbName).success(function(items) {
 				angular.forEach(items, function(value, key) {
 					$scope.items.push({ id: value.id,name: value.name,price_total: value.price_total,msg: items.msg});  
 				});
@@ -1558,7 +1843,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.noMoreItemsAvailable = false;
 			$scope.page=2;
 			$scope.loadMore = function(){
-				$http.get(api_url+'/mobileapp/customers_listing.php?page='+$scope.page+'db_name='+dbName).success(function(items) {
+				$http.get(api_url+'/mobileapp/customers_listing.php?page='+$scope.page+'&db_name='+dbName).success(function(items) {
 					angular.forEach(items, function(value, key) {
 						$scope.items.push({ id: value.id,name: value.name,price_total: value.price_total,msg: items.msg}); 
 					});
@@ -1616,7 +1901,21 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			/* for fetch orders on load page */
 			$http.get(api_url+'/mobileapp/customer_orders.php?page='+1+'&customer_id='+customer_id+'&db_name='+dbName+'&status='+order_status).success(function(items) {
 				angular.forEach(items, function(value, key) {
-					$scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,msg: items.msg}); 
+					/* $scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,msg: items.msg});  */
+					/* $scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg});  */
+					
+					ordrClass = "";
+					if(angular.lowercase(value.status) == "pending"){
+						ordrClass = "pending-ordr";
+					}
+					if(angular.lowercase(value.status) == "confirmed"){
+						ordrClass = "confirmed-ordr";
+					}
+					if(angular.lowercase(value.status) == "cancelled"){
+						ordrClass = "cancelled-ordr";
+					}  
+					
+					$scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass}); 					
 				});
 				$scope.$broadcast('scroll.infiniteScrollComplete');
 			});
@@ -1627,7 +1926,21 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.loadMore = function(){
 				$http.get(api_url+'/mobileapp/customer_orders.php?page='+$scope.page+'&customer_id='+customer_id+'&db_name='+dbName+'&status='+order_status).success(function(items) {
 					angular.forEach(items, function(value, key) {
-						$scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,msg: items.msg}); 
+						/* $scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,msg: items.msg});  */
+						/* $scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg});  */
+						
+						ordrClass = "";
+						if(angular.lowercase(value.status) == "pending"){
+							ordrClass = "pending-ordr";
+						}
+						if(angular.lowercase(value.status) == "confirmed"){
+							ordrClass = "confirmed-ordr";
+						}
+						if(angular.lowercase(value.status) == "cancelled"){
+							ordrClass = "cancelled-ordr";
+						} 
+						 
+						$scope.items_orders.push({ id: value.id,order_status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass}); 
 					});
 					if ( items.msg == "no record found" ) {
 						$scope.noMoreItemsAvailable = true;
@@ -1650,13 +1963,14 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
    }) 
 })
 
-.controller('cutomersOrderDetailCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams) {
+.controller('cutomersOrderDetailCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams,$window) {
 	$scope.$on('$ionicView.beforeEnter', function() { 
 		$scope.user_id = localStorage.getItem('user_id');
 		var site_name  = localStorage.getItem('site_name');  
 		var site_url   = localStorage.getItem('site_url');  
 		var orderID    = $stateParams.order_id;
 		var api_url    = localStorage.getItem('api_url');
+		var dbName     = localStorage.getItem("db_name");
 		
 		if($scope.user_id!=null && $scope.user_id!=undefined && $scope.user_id!=''){
 			CommonService.getUserPrivileges($scope.user_id);  /*  for get assigned privileges to add checks on tabs  */
@@ -1689,15 +2003,13 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 		/* code for print order details */
 		$scope.print = function() {
 			if($cordovaPrinter.isAvailable()) {
-				/* $cordovaPrinter.print("http://comparethecab.co.uk/mobileapp/print_order_detail.php?order_id="+orderID+"&site_name="+site_name+"&site_url="+site_url); */ 
-				
-				$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+orderID+"&site_name="+site_name+"&site_url="+site_url);
+				$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+orderID+"&site_name="+site_name+"&site_url="+site_url+'&db_name='+dbName);
 			} else {
 				$ionicPopup.alert({
 					title: 'Error!',
 					template: 'Printing is not available on device'
 				});
-			}
+			} 
 		}
 		/* end print order details */	
    }) 
@@ -1749,7 +2061,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			}, 1000); 
 
 			/* for fetch orders on load page */
-			$http.get(api_url+'/mobileapp/products_listing.php?page='+1+'db_name='+dbName).success(function(items) {
+			$http.get(api_url+'/mobileapp/products_listing.php?page='+1+'&db_name='+dbName).success(function(items) {
 				angular.forEach(items, function(value, key) {
 					$scope.items.push({ id: value.id,name: value.name,product_price: value.price,featured:value.is_featured,msg: items.msg});  
 				});
@@ -1760,7 +2072,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.noMoreItemsAvailable = false;
 			$scope.page=2;
 			$scope.loadMore = function(){
-				$http.get(api_url+'/mobileapp/products_listing.php?page='+$scope.page+'db_name='+dbName).success(function(items) {
+				$http.get(api_url+'/mobileapp/products_listing.php?page='+$scope.page+'&db_name='+dbName).success(function(items) {
 					angular.forEach(items, function(value, key) {
 						$scope.items.push({ id: value.id,name: value.name,product_price: value.price,featured:value.is_featured,msg: items.msg});  
 					});
@@ -1854,8 +2166,6 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			 var product_is_open           = angular.element(document.getElementById("product_is_open")).val();
 			 var product_order             = angular.element(document.getElementById("product_order")).val();
 			 
-			/* console.log(" product_name = "+product_name+ ' product_price '+product_price);   */
-			    
 			 if(form.$valid ){
 				CommonService.saveProducts(product_name,product_description,product_description_show,product_price,product_is_featured,product_is_open,product_order);
 				$timeout(function(){
@@ -1972,7 +2282,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			}, 1000); 
 
 			/* for fetch orders on load page */
-			$http.get(api_url+'/mobileapp/extras_listing.php?page='+1+'db_name='+dbName).success(function(items) {
+			$http.get(api_url+'/mobileapp/extras_listing.php?page='+1+'&db_name='+dbName).success(function(items) {
 				angular.forEach(items, function(value, key) {
 					$scope.items.push({ id: value.id,name: value.name,extras_price: value.price,msg: items.msg});  
 				});
@@ -1983,7 +2293,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.noMoreItemsAvailable = false;
 			$scope.page=2;
 			$scope.loadMore = function(){
-				$http.get(api_url+'/mobileapp/extras_listing.php?page='+$scope.page+'db_name='+dbName).success(function(items) {
+				$http.get(api_url+'/mobileapp/extras_listing.php?page='+$scope.page+'&db_name='+dbName).success(function(items) {
 					angular.forEach(items, function(value, key) {
 						$scope.items.push({ id: value.id,name: value.name,extras_price: value.price,msg: items.msg});  
 					});
@@ -2039,14 +2349,12 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			var extra_price1 = extra_price.val(); 
 			 
 			if(extra_name1.trim()==""){
-				console.log('else  if');
 				$ionicPopup.alert({
 					title: 'Error!',
 					template: 'Please enter name.'
 				});
 			}
 			else if(extra_price1==""){
-				console.log('elseeee');
 				$ionicPopup.alert({
 					title: 'Error!',
 					template: 'Please enter price.'
@@ -2134,9 +2442,8 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			}, 1000); 
 
 			/* for fetch orders on load page */
-			$http.get(api_url+'/mobileapp/categories_listing.php?page='+1+'db_name='+dbName).success(function(items) {
+			$http.get(api_url+'/mobileapp/categories_listing.php?page='+1+'&db_name='+dbName).success(function(items) {
 				angular.forEach(items, function(value, key) {
-					 console.log(': value ' + items);  
 					$scope.items.push({ id: value.id,name: value.name,is_open: value.is_open,msg: items.msg});  
 				});
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -2146,7 +2453,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 			$scope.noMoreItemsAvailable = false;
 			$scope.page=2;
 			$scope.loadMore = function(){
-				$http.get(api_url+'/mobileapp/categories_listing.php?page='+$scope.page+'db_name='+dbName).success(function(items) {
+				$http.get(api_url+'/mobileapp/categories_listing.php?page='+$scope.page+'&db_name='+dbName).success(function(items) {
 					angular.forEach(items, function(value, key) {
 						$scope.items.push({ id: value.id,name: value.name,is_open: value.is_open,msg: items.msg});  
 					});
@@ -3116,7 +3423,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 				angular.forEach(items, function(value, key) {
 					if(value.id!='' && value.id!=null && value.id!=undefined ){
 						checkRecord =1;
-						console.log('if checkRecord '+checkRecord);
+						
 						$scope.items.push({ id: value.id,location_id: value.location_id,postcode_part1: value.postcode_part1,postcode_part2:value.postcode_part1,price:value.price,total_amount:value.total_amount,msg: items.msg});  
 					}
 				});
@@ -3136,7 +3443,7 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 							$scope.items.push({ id: value.id,location_id: value.location_id,postcode_part1: value.postcode_part1,postcode_part2:value.postcode_part1,price:value.price,total_amount:value.total_amount,msg: items.msg});   
 						}
 					});
-					console.log('else checkRecord '+checkRecord);
+					
 					if ( items.msg == "no record found" ) { 
 						$scope.noMoreItemsAvailable = true;
 					} 
@@ -4041,3 +4348,244 @@ angular.module('smartFeed.controllers', ['ionic.cloud'])
 		} 
    }) 
 }) 
+ 
+.controller('allSitesCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams,$ionicPopup) {
+	 $scope.$on('$ionicView.beforeEnter', function(){  
+	 /* for loading every time when view load  */
+	 
+	 	var api_url = localStorage.getItem('api_url'); 
+ 
+		$scope.user_id = localStorage.getItem('user_id'); // get local storage
+		var order_type = $stateParams.order_type; 
+		var dbName     = localStorage.getItem("db_name");
+		
+		/* console.log('dbName '+dbName); */
+		if($scope.user_id!=null && $scope.user_id!=undefined && $scope.user_id!=''){
+			CommonService.getUserPrivileges($scope.user_id);  /* for get assigned privileges to add checks on tabs */
+			
+			$ionicLoading.show({
+				content: 'Loading',
+				animation: 'fade-in',
+				showBackdrop: true,
+				maxWidth: 200,
+				showDelay: 0
+			});
+			$timeout(function () {
+				$ionicLoading.hide();
+			}, 1000); 
+
+			/* for fetch orders on load page */
+			$scope.ord_sts = order_type; 
+			$http.get(api_url+'/mobileapp/get_all_sites.php?page='+1).success(function(items) {
+				angular.forEach(items, function(value, key) {
+					if(value.db_id!=null && value.db_id!=undefined && value.db_id!=''){
+						console.log('site name '+ value.site_name)						
+						$scope.items.push({ id: value.db_id,site_name: value.site_name,db_name: value.db_name,site_url: value.site_url,msg: items.msg});  
+					}
+				});
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});
+			
+			/* for fetch orders on scroll page */
+			$scope.noMoreItemsAvailable = false;
+			$scope.page=2;
+			$scope.loadMore = function(){
+				$http.get(api_url+'/mobileapp/get_all_sites.php?page='+$scope.page).success(function(items) {
+					angular.forEach(items, function(value, key) {
+						if(value.db_id!=null && value.db_id!=undefined && value.db_id!=''){  
+							$scope.items.push({ id: value.db_id,site_name: value.site_name,db_name: value.db_name,site_url: value.site_url,msg: items.msg});  
+						}
+					});
+					if ( items.msg == "no record found" ) {
+						$scope.noMoreItemsAvailable = true;
+					}
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				});
+				$scope.page +=1;
+			};
+			  
+			$scope.items = [];
+			
+			
+			$scope.managesite =function(dbID){
+				alert('db '+dbID);
+				/* $state.go('app.switchSite', {'dbId':dbID,reload: true}); */
+				
+				CommonService.getSingleSiteDetail(dbID);  
+				
+			}
+			/* end fetch orders on load page */
+		}else{
+			$state.go('app.login');
+		}  
+   }) 
+}) 
+
+
+.controller('homeCtrl', function($scope,$http,$state,CommonService,$ionicLoading,$timeout,$stateParams, $ionicGesture) {
+	$scope.$on('$ionicView.beforeEnter', function(){  
+	 /* for loading every time when view load  */
+	  
+		$scope.user_id = localStorage.getItem('user_id');   // get local storage
+		var api_url    = localStorage.getItem('api_url');  
+		var order_type = $stateParams.order_type; 
+		var dbName     = localStorage.getItem("db_name");
+	 
+		if($scope.user_id!=null && $scope.user_id!=undefined && $scope.user_id!=''){
+			CommonService.getUserPrivileges($scope.user_id);  /*  for get assigned privileges to add checks on tabs  */
+			
+			$ionicLoading.show({
+				content: 'Loading',
+				animation: 'fade-in',
+				showBackdrop: true,
+				maxWidth: 200,
+				showDelay: 0
+			});
+			$timeout(function () {
+				$ionicLoading.hide();
+			}, 1000); 
+
+			/* for fetch orders on load page */
+			$scope.ord_sts = order_type; 
+			$http.get(api_url+'/mobileapp/home_api.php?page='+1+'&db_name='+dbName).success(function(items) {
+				angular.forEach(items, function(value, key) { 
+					if(value.id!=null && value.id!=undefined && value.id!=''){  
+						/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg}); */
+
+							ordrClass = "";
+							if(angular.lowercase(value.status) == "pending"){
+								ordrClass = "pending-ordr";
+							}
+							if(angular.lowercase(value.status) == "confirmed"){
+								ordrClass = "confirmed-ordr";
+							}
+							if(angular.lowercase(value.status) == "cancelled"){
+								ordrClass = "cancelled-ordr";
+							} 
+							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass});							
+					}else{
+						if(items.msg=="no record found"){
+							$scope.no_record = items.msg;			
+						} 
+					}
+				});
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});
+			
+			/* for fetch orders on scroll page */
+			$scope.noMoreItemsAvailable = false;
+			$scope.page=2;
+			$scope.loadMore = function(){
+				$http.get(api_url+'/mobileapp/home_api.php?page='+$scope.page+'&db_name='+dbName).success(function(items) {
+					angular.forEach(items, function(value, key) { 
+						if(value.id!=null && value.id!=undefined && value.id!=''){  
+							/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg});   */
+							
+							ordrClass = "";
+							if(angular.lowercase(value.status) == "pending"){
+								ordrClass = "pending-ordr";
+							}
+							if(angular.lowercase(value.status) == "confirmed"){
+								ordrClass = "confirmed-ordr";
+							}
+							if(angular.lowercase(value.status) == "cancelled"){
+								ordrClass = "cancelled-ordr";
+							}
+							 
+							$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass});  
+							
+						}else{
+							if(items.msg=="no record found"){
+								$scope.no_record = items.msg;			
+							} 
+						}
+					});
+					if ( items.msg == "no record found" ) {
+						$scope.noMoreItemsAvailable = true;
+					}
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				});
+				$scope.page +=1;
+			};
+			  
+			$scope.items = [];
+			
+			$scope.orderdetail = function(orderID) {
+				$state.go('app.orderDetail',{'order_id': orderID}); 
+			}  
+			/* end fetch orders on load page */
+		}else{
+			$state.go('app.login');
+		} 
+
+
+		$scope.sortHmOrdr = "24_hours";
+				$scope.order_sort_by_hm =function(sortHmOrdr){
+					/* alert(mySelect); */
+					/* for fetch orders on load page */
+					$scope.ord_sts = order_type; 
+					$http.get(api_url+'/mobileapp/home_api.php?page='+1+'&db_name='+dbName+'&sort_by='+sortHmOrdr).success(function(items) {
+						angular.forEach(items, function(value, key) { 
+							if(value.id!=null && value.id!=undefined && value.id!=''){  
+								/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg}); */
+
+									ordrClass = "";
+									if(angular.lowercase(value.status) == "pending"){
+										ordrClass = "pending-ordr";
+									}
+									if(angular.lowercase(value.status) == "confirmed"){
+										ordrClass = "confirmed-ordr";
+									}
+									if(angular.lowercase(value.status) == "cancelled"){
+										ordrClass = "cancelled-ordr";
+									} 
+									$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass});							
+							}else{
+								if(items.msg=="no record found"){
+									$scope.no_record = items.msg;			
+								} 
+							}
+						});
+						$scope.$broadcast('scroll.infiniteScrollComplete');
+					});
+					
+					/* for fetch orders on scroll page */
+					$scope.noMoreItemsAvailable = false;
+					$scope.page=2;
+					$scope.loadMore = function(){
+						$http.get(api_url+'/mobileapp/home_api.php?page='+$scope.page+'&db_name='+dbName+'&sort_by='+sortHmOrdr).success(function(items) {
+							angular.forEach(items, function(value, key) { 
+								if(value.id!=null && value.id!=undefined && value.id!=''){  
+									/* $scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg});   */
+									
+									ordrClass = "";
+									if(angular.lowercase(value.status) == "pending"){
+										ordrClass = "pending-ordr";
+									}
+									if(angular.lowercase(value.status) == "confirmed"){
+										ordrClass = "confirmed-ordr";
+									}
+									if(angular.lowercase(value.status) == "cancelled"){
+										ordrClass = "cancelled-ordr";
+									}
+									 
+									$scope.items.push({ id: value.id,status: value.status,price_total: value.price_total,order_date: value.created_date,msg: items.msg,ordercls:ordrClass});  
+									
+								}else{
+									if(items.msg=="no record found"){
+										$scope.no_record = items.msg;			
+									} 
+								}
+							});
+							if ( items.msg == "no record found" ) {
+								$scope.noMoreItemsAvailable = true;
+							}
+							$scope.$broadcast('scroll.infiniteScrollComplete');
+						});
+						$scope.page +=1;
+					};
+					  
+					$scope.items = [];
+				};		
+   }) 
+})

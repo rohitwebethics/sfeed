@@ -8,7 +8,7 @@
 		<button class="button button-icon icon ion-android-add-circle" ng-click="addDeliveryCharges()"></button>
 			<div class="items items-head all_loc">
 				<h3 class="col-25">Distance From</h3>
-				<h3 class="col-25">Distance To</h3>
+				<h3 class="col-25 align-c">Distance To</h3>
 				<!-- <h3 class="col-25">Delivery Price</h3> -->
 				<h3 class="col-50 h-align-r">Action</h3>
 			</div>         
@@ -18,7 +18,7 @@
 							<h3 ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">{{item.total_from}}</h3>
 						</div>
 						<div class="pull-left col-25 head">
-							<h3 class="cap-text" ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">{{item.total_to}}</h3>
+							<h3 class="cap-text align-c" ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">{{item.total_to}}</h3>
 						</div>
 						<!-- <div class="pull-left col-3 head">
 							<h3 class="cap-text" ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">£{{item.price}}</h3>

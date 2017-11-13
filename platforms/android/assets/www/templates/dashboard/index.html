@@ -3,7 +3,7 @@
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
 		<h1 class = "title">Dashboard</h1>
 	</div>
-	<ion-content class="appSpacingTop has-header dashboard-reports">
+	<ion-content class="appSpacingTop has-header dashboard-reports"  padding="true">
 		<!-- <div class ="tabs dashboard-tabs">
 		   <a class="tab-item active" href="#app/dashboard">Business Reports</a>
 		   <a class="tab-item" href="#app/graphicalReport">Graphical Report</a>
@@ -80,11 +80,11 @@
 				</tr>
 				<tr ng-if="cash_orders!=''">
 					<th>Cash Orders</th>     
-					<td>{{cash_orders}} £{{cash_price}} ({{cash_prcntage}})</td>
+					<td>{{cash_orders}} - £{{cash_price}} ({{cash_prcntage}})</td>
 				</tr>	
 				<tr ng-if="stx_orders!=''">
 					<th>STX Orders</th>
-					<td>{{stx_orders}} £{{stx_price}} ({{stx_prcntage}})</td>    
+					<td>{{stx_orders}} - £{{stx_price}} ({{stx_prcntage}})</td>    
 				</tr>
 				<!-- <tr ng-if="cash_prcntage!=''">
 					<th>Cash Percentage</th>
@@ -132,6 +132,15 @@
 			</tbody>
 		</table> -->
 	
+		<div class="item">
+			<label class="item-input item-select sort-by"> 
+				<div class="input-label">Sort By</div> 
+				<select id="ordrSortBy" ng-model="orderSortBy" ng-change="order_sort_by_dashboard(orderSortBy);"> 
+					<option value="24_hours">24 Hours</option> 
+					<option value="show_all">Show All</option>
+				</select> 
+			</label> 
+		</div>    
 		<ion-list> 
 			<!--- <span ng-if="total_ordrs!=''">Total: {{total_ordrs}}</span>
 				<span ng-if="total_price!=''">£{{total_price}}</span>  <br>
@@ -140,17 +149,36 @@
 				<span ng-if="cash_prcntage!=''"></span> <br>
 				--->
 				
-				<div class="items items-head" style="z-index: 1000;"><h3>Id</h3><h3>Price</h3><h3>Action</h3></div>     			
-				<ion-item ng-repeat="item in items" ng-if="item.id">
+				<div class="items items-head" style="z-index: 1000;"><h3>Id</h3><h3 style="text-align:center;">Price</h3><h3 class="h-align-r">Action</h3></div>     			
+				<ion-item ng-repeat="item in items" ng-if="item.id"> 
 					<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
-						<div style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span>{{item.id}}</span><span>£{{item.price_total}}</span><a href="#app/orderDetail={{item.id}}" id="order_stats">View Order</a></div>
+						<div style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'">
+							<span>{{item.id}}
+								<span class="orddt full-wdth">({{item.order_date}})</span>
+							</span>
+							<span style="text-align:center;">£{{item.price_total}}</span> 
+							<span class="ng-binding align-r"><a href="#app/orderDetail={{item.id}}" id="order_stats" class="align-r">View Order</a></span>
+						</div>
+						
+						<!-- <div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'">
+									<span class="col-30">{{item.id}}</span>
+									<span class="col-30">£{{item.price_total}}</span>
+									<span id="order_stats" class="col-40 align-r">{{item.status}} </span>
+								</div>
+								<span class="orddt full-wdth">({{item.order_date}})</span> -->
 						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+					</div>
+				</ion-item> 
+				<ion-item ng-if="no_record!='' && items==''"> 
+					<div>
+						<span class="full-wdth al-cntr cap-text">{{no_record}}</span>
 					</div>
 				</ion-item> 
 		</ion-list>
 		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
 	</ion-content>
-</ion-view>
+</ion-view>
+
 <div class="tabs tabs-icon-top">
 	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
    <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>

@@ -1,11 +1,12 @@
 var app = angular.module('smartFeed.services', [])
  
-.service('CommonService', function ($rootScope,$http,$state,$ionicPopup,$ionicLoading,$location) {
+.service('CommonService', function ($rootScope,$http,$state,$ionicPopup,$ionicLoading,$location,$timeout) {
 	/* ============================login function service =========================*/ 
 	this.login = function (username,password,login_type,order_status) {
 		$http({  
 			method: 'POST',
-			url: 'http://www.comparethecab.co.uk/mobile_login.php',
+			/* url: 'http://www.comparethecab.co.uk/mobile_login.php', */
+			url: 'http://www.smart-feed.co.uk/mobile_login.php',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			dataType: 'jsonp',
 			data: $.param({
@@ -25,7 +26,10 @@ var app = angular.module('smartFeed.services', [])
 				localStorage.setItem("site_name", response.data.site_name);
 				localStorage.setItem("site_url", response.data.site_url);
 				localStorage.setItem("db_id", response.data.db_id);
-				localStorage.setItem("api_url", "http://www.comparethecab.co.uk");
+				localStorage.setItem("admin_role", response.data.admin_role);
+				
+				/* localStorage.setItem("api_url", "http://www.comparethecab.co.uk"); */
+				localStorage.setItem("api_url", "http://www.smart-feed.co.uk");
 				 
 				console.log('after uid '+localStorage.getItem("user_id"));
 				  
@@ -51,22 +55,31 @@ var app = angular.module('smartFeed.services', [])
 					}).then(function successCallback(response) {
 						console.log('response.data '+response.data);
 						last_url = response.data;
-						dt =JSON.stringify(response.data);
-						 
-						console.log('json_obj '+dt);
-						$location.path(dt);  
-						/* dt =JSON.stringify(response.data); 
-						console.log(' dt '+dt.user_id);
-						json_obj = JSON.parse(dt);
+						console.log('app rdircy '+localStorage.getItem("admin_role"));
+						if(localStorage.getItem("admin_role") == "superadmin"){
+							$location.path('/app/allSites');
+						}else{  
+							if(last_url!=null && last_url!=undefined && last_url!=''){
+								$location.path(last_url);
+							}else{
+								/* $location.path('/app/orderList='+order_status);   */
+								/* $location.path('/app/home');  */
+								$state.go('app.home');								
+								
+							}
+						}
 						
-						console.log('json_obj user_id '+json_obj.user_id);
-						$rootScope.items = json_obj; */
-						console.log('return '+last_url);
-						 last_url ="jdsa";
-						/* return last_url; */
 					}, function errorCallback(response) {}) 
 				 }else{
-					 $location.path('/app/orderList='+order_status);  
+					 /* $location.path('/app/orderList='+order_status);  */
+
+						if(localStorage.getItem("admin_role") == "superadmin"){
+							$location.path('/app/allSites');
+						}else{  
+							/* $location.path('/app/orderList='+order_status);  */
+							/* $location.path('/app/home');   */
+							$state.go('app.home');			
+						}					 
 				 }
 				 
 				 /* $location.path('/app/orderList='+order_status);   */
@@ -154,8 +167,7 @@ var app = angular.module('smartFeed.services', [])
 		var api_url = localStorage.getItem('api_url');  
 		
 		$http({   
-			method: 'POST', 
-			/* url: 'http://www.comparethecab.co.uk/mobileapp/order_api.php',  */
+			method: 'POST',
 			url: api_url+'/mobileapp/order_api.php', 
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
 			data: $.param({
@@ -294,8 +306,7 @@ var app = angular.module('smartFeed.services', [])
 				$rootScope.items5 = titlemsg;
 				
 				if($cordovaPrinter.isAvailable()) {
-					/* $cordovaPrinter.print("http://comparethecab.co.uk/mobileapp/print_order_detail.php?order_id="+order_id+"&site_name="+site_name+"&site_url="+site_url); */
-					$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+order_id+"&site_name="+site_name+"&site_url="+site_url);
+					$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+order_id+"&site_name="+site_name+"&site_url="+site_url+'&db_name='+dbName);
 				} else { 
 					$ionicPopup.alert({
 						title: 'Error!',
@@ -1052,7 +1063,7 @@ var app = angular.module('smartFeed.services', [])
 		}, function errorCallback(response) {})
 	} 
 	
-	this.saveUser = function(user_name,user_password,email_address,selected_privileges){
+	this.saveUser = function(user_name,user_password,email_address,selected_privileges,presetStatus){
 		$rootScope.items='';
 		var dbName  = localStorage.getItem("db_name");
 		var dbId    = localStorage.getItem("db_id"); 
@@ -1071,6 +1082,7 @@ var app = angular.module('smartFeed.services', [])
 				user_password :user_password,
 				email_address :email_address,
 				selected_privileges :selected_privileges,
+				preset_status :presetStatus,
 				do_action :'save_user'
 			})
 		}).then(function successCallback(response){  
@@ -1110,6 +1122,40 @@ var app = angular.module('smartFeed.services', [])
 			$rootScope.items = json_obj;
 			$rootScope.selectedList = json_obj;
 		}, function errorCallback(response) {})
+	}  
+		
+	this.getPresetPrivileges = function(){
+		/* $rootScope.items=''; */
+		var dbName  = localStorage.getItem("db_name");
+		var dbId    = localStorage.getItem("db_id");
+		var api_url = localStorage.getItem('api_url');  
+		
+		$http({   
+			method: 'POST', 
+			url: api_url+'/mobileapp/user_api.php', 
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+			data: $.param({ 
+				db_name :dbName,
+				db_id :dbId,
+				do_action :'get_preset_privileges'
+			})
+		}).then(function successCallback(response){  
+			dt =JSON.stringify(response.data); 
+			json_obj = JSON.parse(dt);
+			/* $rootScope.items = json_obj; */
+			/* console.log('datacc '+response.data); */
+			$rootScope.presetPrivileges = response.data;
+			
+			if(response.data!="" && response.data!=null && response.data!=undefined){
+				$rootScope.selectPreset1 = { checked: true };
+			}else{
+				$rootScope.selectPreset1 = { checked: false };
+			}
+		}, function errorCallback(response) {})
+	}  	
+	
+	this.removePresetPrivileges = function(){ 
+		 $rootScope.presetPrivileges = "";
 	}  
 	
 	this.removePrivileges = function(privileges_name){
@@ -1223,14 +1269,28 @@ var app = angular.module('smartFeed.services', [])
 		}).then(function successCallback(response){  
 		    dt = JSON.stringify(response.data); 
 			json_obj = JSON.parse(dt);
-			$rootScope.items_edit = json_obj;
-			$rootScope.username   = json_obj.user_name;
-			$rootScope.email      = json_obj.user_email;
+			$rootScope.items_edit    = json_obj;
+			$rootScope.username      = json_obj.user_name;
+			$rootScope.email         = json_obj.user_email;
+			console.log('presessst_status '+json_obj.preset_status);
+			$rootScope.presetCheck   = json_obj.preset_status;
+			
+			$timeout(function () {
+				var preset_status = true;
+				if(json_obj.preset_status == null || json_obj.preset_status == 0 || json_obj.preset_status == undefined){ 
+					preset_status = false;
+				}
+				console.log('preset_status '+preset_status);
+				/* $rootScope.selectPreset1.checked = preset_status */
+				$rootScope.selectPreset1 = {checked : preset_status};
+				console.log('sadsadad '+$rootScope.selectPreset1.checked);
+			}, 1000); 
+			
 			$rootScope.selected_privileges = json_obj.privileges;
 		}, function errorCallback(response) {})
 	}
 	
-	this.updateUser = function(userId,user_name,user_password,email_address,slectd_privileges){
+	this.updateUser = function(userId,user_name,user_password,email_address,slectd_privileges,presetStatus){
 		$rootScope.items_edit='';
 		var dbName = localStorage.getItem("db_name");
 		var dbId   = localStorage.getItem("db_id");
@@ -1250,6 +1310,7 @@ var app = angular.module('smartFeed.services', [])
 				user_password :user_password,
 				email_address :email_address,
 				slectd_privileges :slectd_privileges,
+				preset_status :presetStatus,
 				do_action :'update_user'
 			})
 		}).then(function successCallback(response){
@@ -1356,6 +1417,50 @@ var app = angular.module('smartFeed.services', [])
 					template: response.data.msg
 				});  */
 			/* }   */
+		}, function errorCallback(response) {})
+	} 
+	
+	
+	this.getSingleSiteDetail = function(dbID){
+		var api_url = localStorage.getItem('api_url');  
+		$rootScope.items_edit=''; 
+		/* alert('dv '+dbID);		 */
+		$http({   
+			method: 'POST', 
+			url: api_url+'/mobileapp/getSingleSiteDetail.php', 
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+			data: $.param({
+				db_id :dbID
+			})
+		}).then(function successCallback(response){ 
+			console.log('response dsadd '+response.data.msg);
+			if(response.data.msg == "founded") {
+				
+				localStorage.setItem("site_name", "");
+				localStorage.setItem("site_url", "");
+				localStorage.setItem("db_name", "");
+				localStorage.setItem("db_id", "");
+				
+				localStorage.setItem("site_name", response.data.site_name);
+				localStorage.setItem("site_url", response.data.site_url);
+				localStorage.setItem("db_name", response.data.db_name);
+				localStorage.setItem("db_id", response.data.dbID);
+				
+				$location.path('/app/orderList=pending');  
+				
+				/* localStorage.setItem("username", response.data.data.user_login);
+				localStorage.setItem("email", response.data.data.user_email);
+				localStorage.setItem("fullname", response.data.data.display_name);
+				localStorage.setItem("user_id", response.data.data.ID);
+				localStorage.setItem("db_name", response.data.db_name);
+				localStorage.setItem("site_name", response.data.site_name);
+				localStorage.setItem("site_url", response.data.site_url);
+				localStorage.setItem("db_id", response.data.db_id);
+				localStorage.setItem("admin_role", response.data.admin_role); */
+			}
+				/* dt = JSON.stringify(response.data); 
+				json_obj = JSON.parse(dt);  */
+				/* $rootScope.items_edit = json_obj;  */
 		}, function errorCallback(response) {})
 	} 	
 });

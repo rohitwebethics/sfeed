@@ -10,7 +10,7 @@
 		    <a class="tab-item active" href="javascript:void(0);" ng-click="wrkingTimePickup({{items_edit.location_id}})" ng-click="modal.hide()">Pickup Time</a>
 			 <a class="tab-item" href="javascript:void(0);" ng-click="wrkingTimeDelivery({{items_edit.location_id}})" ng-click="modal.hide()">Delivery Time</a>
 		</div>
-			<div class="items items-head all_loc"><h3 class="col-25">Days</h3><h3 class="col-25">Start Time</h3><h3 class="col-25">End Time</h3><h3 class="col-25 align-r">Action</h3></div>         
+			<div class="items items-head all_loc"><h3 class="col-25">Days</h3><h3 class="col-25 align-c">Start Time</h3><h3 class="col-25 align-c">End Time</h3><h3 class="col-25 align-r">Action</h3></div>         
 				<!-- <ion-item ng-repeat="item in items_edit" ng-if="item.location_id"  class="col-12"> -->
 					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
 						<div class="pull-left working-head">
@@ -26,10 +26,10 @@
 						</div>
 						<div ng-if="items_edit.p_monday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_monday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_monday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_monday_to}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_monday_to}}</h3>
 							</div>
 						</div>
 						<div class="pull-left working-head align-r">
@@ -59,10 +59,10 @@
 						</div>
 						<div ng-if="items_edit.p_tuesday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_tuesday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_tuesday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_tuesday_to}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_tuesday_to}}</h3>
 							</div>
 						</div> 
 						
@@ -93,10 +93,10 @@
 						</div>
 						<div ng-if="items_edit.p_wednesday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_wednesday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_wednesday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_wednesday_from}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_wednesday_from}}</h3>
 							</div>
 						</div> 
 						
@@ -126,10 +126,10 @@
 						</div>
 						<div ng-if="items_edit.p_thursday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_thursday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_thursday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_thursday_to}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_thursday_to}}</h3>
 							</div>
 						</div>  
 						
@@ -159,10 +159,10 @@
 						</div>
 						<div ng-if="items_edit.p_friday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_friday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_friday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_friday_to}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_friday_to}}</h3>
 							</div>
 						</div> 
 						
@@ -192,10 +192,10 @@
 						</div>
 						<div ng-if="items_edit.p_saturday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_saturday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_saturday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_saturday_to}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_saturday_to}}</h3>
 							</div>
 						</div>  
 						<div class="pull-left working-head align-r">
@@ -225,10 +225,10 @@
 						</div>
 						<div ng-if="items_edit.p_sunday_dayoff!='T'">
 							<div class="pull-left working-head">
-								<h3>{{items_edit.pick_sunday_from}}</h3>
+								<h3 class="align-c">{{items_edit.pick_sunday_from}}</h3>
 							</div>
 							<div class="pull-left working-head">
-								<h3 class="cap-text">{{items_edit.pick_sunday_to}}</h3>
+								<h3 class="cap-text align-c">{{items_edit.pick_sunday_to}}</h3>
 							</div>
 						</div> 
 						<div class="pull-left working-head align-r">

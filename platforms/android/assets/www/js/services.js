@@ -2,11 +2,13 @@ var app = angular.module('smartFeed.services', [])
  
 .service('CommonService', function ($rootScope,$http,$state,$ionicPopup,$ionicLoading,$location,$timeout) {
 	/* ============================login function service =========================*/ 
+	 /* var main_url = "http://www.smart-feed.co.uk";   */
+	var main_url = "http://www.comparethecab.co.uk";
+	
 	this.login = function (username,password,login_type,order_status) {
 		$http({  
 			method: 'POST',
-			/* url: 'http://www.comparethecab.co.uk/mobile_login.php', */
-			url: 'http://www.smart-feed.co.uk/mobile_login.php',
+			url: main_url+'/mobile_login.php',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			dataType: 'jsonp',
 			data: $.param({
@@ -16,8 +18,7 @@ var app = angular.module('smartFeed.services', [])
 				password: password,
 			})
 		}).then(function successCallback(response) {
-			if(response.data.msg=="matched"){ 
-			console.log('before uid '+localStorage.getItem("user_id"));
+			if(response.data.msg=="matched"){
 				localStorage.setItem("username", response.data.data.user_login);
 				localStorage.setItem("email", response.data.data.user_email);
 				localStorage.setItem("fullname", response.data.data.display_name);
@@ -26,13 +27,10 @@ var app = angular.module('smartFeed.services', [])
 				localStorage.setItem("site_name", response.data.site_name);
 				localStorage.setItem("site_url", response.data.site_url);
 				localStorage.setItem("db_id", response.data.db_id);
-				/* localStorage.setItem("api_url", "http://www.comparethecab.co.uk"); */
-				localStorage.setItem("api_url", "http://www.smart-feed.co.uk");
-				 
-				console.log('after uid '+localStorage.getItem("user_id"));
+				localStorage.setItem("admin_role", response.data.admin_role);
+				
+				localStorage.setItem("api_url", main_url);
 				  
-				 /* alert('last_url '+myFunc1); */
-				 
 				  var user_id = localStorage.getItem("user_id"); 
 				 if(user_id!=""){
 					 var dbName  = localStorage.getItem("db_name");
@@ -51,20 +49,31 @@ var app = angular.module('smartFeed.services', [])
 							do_action:'get_last_url'
 						})
 					}).then(function successCallback(response) {
-						console.log('response.data '+response.data);
 						last_url = response.data;
-						if(last_url!=null && last_url!=undefined && last_url!=''){
-							$location.path(last_url);
-						}else{
-							$location.path('/app/orderList='+order_status);  
+						if(localStorage.getItem("admin_role") == "superadmin"){
+							$location.path('/app/allSites');
+						}else{  
+							if(last_url!=null && last_url!=undefined && last_url!=''){
+								$location.path(last_url);
+							}else{
+								$location.path('/app/orderList=pending');
+								setInterval(function () { 
+									 window.location.reload(true) ;
+								}, 100); 
+							}
 						}
+						
 					}, function errorCallback(response) {}) 
 				 }else{
-					 $location.path('/app/orderList='+order_status);  
+					 	if(localStorage.getItem("admin_role") == "superadmin"){
+							$location.path('/app/allSites');
+						}else{  
+							$location.path('/app/orderList=pending');
+							setInterval(function () { 
+								 window.location.reload(true) ;
+							}, 100); 							
+						}					 
 				 }
-				 
-				 /* $location.path('/app/orderList='+order_status);   */
-				/* $window.location.reload(true) ; */
 			}
 			else{
 				$ionicPopup.alert({
@@ -117,6 +126,8 @@ var app = angular.module('smartFeed.services', [])
 			dt =JSON.stringify(response.data); 
 			json_obj = JSON.parse(dt);
 			$rootScope.items4 = json_obj;
+			
+			$rootScope.order_items = json_obj.output;
 		}, function errorCallback(response) {})
 	}
 	
@@ -148,8 +159,7 @@ var app = angular.module('smartFeed.services', [])
 		var api_url = localStorage.getItem('api_url');  
 		
 		$http({   
-			method: 'POST', 
-			/* url: 'http://www.comparethecab.co.uk/mobileapp/order_api.php',  */
+			method: 'POST',
 			url: api_url+'/mobileapp/order_api.php', 
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
 			data: $.param({
@@ -288,8 +298,7 @@ var app = angular.module('smartFeed.services', [])
 				$rootScope.items5 = titlemsg;
 				
 				if($cordovaPrinter.isAvailable()) {
-					/* $cordovaPrinter.print("http://comparethecab.co.uk/mobileapp/print_order_detail.php?order_id="+order_id+"&site_name="+site_name+"&site_url="+site_url); */
-					$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+order_id+"&site_name="+site_name+"&site_url="+site_url);
+					$cordovaPrinter.print(api_url+"/mobileapp/print_order_detail.php?order_id="+order_id+"&site_name="+site_name+"&site_url="+site_url+'&db_name='+dbName);
 				} else { 
 					$ionicPopup.alert({
 						title: 'Error!',
@@ -404,6 +413,8 @@ var app = angular.module('smartFeed.services', [])
 			dt =JSON.stringify(response.data); 
 			json_obj = JSON.parse(dt);
 			$rootScope.items10 = json_obj;
+			console.log('out '+json_obj.output);
+			$rootScope.ordr_itmes = json_obj.output;
 		}, function errorCallback(response) {})
 	}
 	
@@ -1108,7 +1119,6 @@ var app = angular.module('smartFeed.services', [])
 	}  
 		
 	this.getPresetPrivileges = function(){
-		/* $rootScope.items=''; */
 		var dbName  = localStorage.getItem("db_name");
 		var dbId    = localStorage.getItem("db_id");
 		var api_url = localStorage.getItem('api_url');  
@@ -1125,8 +1135,6 @@ var app = angular.module('smartFeed.services', [])
 		}).then(function successCallback(response){  
 			dt =JSON.stringify(response.data); 
 			json_obj = JSON.parse(dt);
-			/* $rootScope.items = json_obj; */
-			/* console.log('datacc '+response.data); */
 			$rootScope.presetPrivileges = response.data;
 			
 			if(response.data!="" && response.data!=null && response.data!=undefined){
@@ -1264,7 +1272,6 @@ var app = angular.module('smartFeed.services', [])
 					preset_status = false;
 				}
 				console.log('preset_status '+preset_status);
-				/* $rootScope.selectPreset1.checked = preset_status */
 				$rootScope.selectPreset1 = {checked : preset_status};
 				console.log('sadsadad '+$rootScope.selectPreset1.checked);
 			}, 1000); 
@@ -1278,8 +1285,6 @@ var app = angular.module('smartFeed.services', [])
 		var dbName = localStorage.getItem("db_name");
 		var dbId   = localStorage.getItem("db_id");
 		var api_url = localStorage.getItem('api_url');  
-		
-		/* alert('user_name '+user_name+' email_address '+email_address+' userId '+userId) */
 		
 		$http({   
 			method: 'POST', 
@@ -1316,8 +1321,6 @@ var app = angular.module('smartFeed.services', [])
 		var dbName  = localStorage.getItem("db_name");
 		var dbId    = localStorage.getItem("db_id");
 		var api_url = localStorage.getItem('api_url');  
-		
-		/* alert('user_name '+user_name+' email_address '+email_address+' userId '+userId) */
 		
 		$http({   
 			method: 'POST', 
@@ -1374,8 +1377,6 @@ var app = angular.module('smartFeed.services', [])
 		var api_url = localStorage.getItem('api_url'); 
 		var user_id = localStorage.getItem("user_id"); 		
 		
-		/* alert('user_name '+user_name+' email_address '+email_address+' userId '+userId) */
-		
 		$http({   
 			method: 'POST', 
 			url: api_url+'/mobileapp/user_api.php', 
@@ -1387,19 +1388,234 @@ var app = angular.module('smartFeed.services', [])
 				do_action :'get_logged_off_users'
 			})
 		}).then(function successCallback(response){
-			/* console.log(response.data.msg); */
-			  /* if(response.data.msg == "founded"){ */
 				dt = JSON.stringify(response.data); 
 				json_obj = JSON.parse(dt);
-				/* console.log('json_obj '+json_obj); */
 				$rootScope.items_edit = json_obj;
-				/* $rootScope.username   = json_obj.user_name; */
-			/* }else{ */
-				/* $ionicPopup.alert({
-					title: 'Error!',
-					template: response.data.msg
-				});  */
-			/* }   */
 		}, function errorCallback(response) {})
-	} 	
+	} 
+	
+	
+	this.getSingleSiteDetail = function(dbID){
+		var api_url = localStorage.getItem('api_url');  
+		$rootScope.items_edit=''; 
+		
+		$http({   
+			method: 'POST', 
+			url: api_url+'/mobileapp/getSingleSiteDetail.php', 
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+			data: $.param({
+				db_id :dbID
+			})
+		}).then(function successCallback(response){ 
+			console.log('response dsadd '+response.data.msg);
+			if(response.data.msg == "founded") {
+				localStorage.setItem("site_name", "");
+				localStorage.setItem("site_url", "");
+				localStorage.setItem("db_name", "");
+				localStorage.setItem("db_id", "");
+				
+				localStorage.setItem("site_name", response.data.site_name);
+				localStorage.setItem("site_url", response.data.site_url);
+				localStorage.setItem("db_name", response.data.db_name);
+				localStorage.setItem("db_id", response.data.dbID);
+				$location.path('/app/orderList=pending');  
+			}
+
+		}, function errorCallback(response) {})
+	}
+	
+	
+	this.getNewOrders = function(){
+		console.log('getNewOrders ');
+		var dbName  = localStorage.getItem("db_name");
+		var dbId    = localStorage.getItem("db_id");
+		var api_url = localStorage.getItem('api_url'); 
+		var user_id = localStorage.getItem("user_id"); 				
+		 
+		$http({   
+			method: 'POST', 
+			url: api_url+'/mobileapp/check_neworder_api.php', 
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+			data: $.param({
+				db_name :dbName,
+				db_id :dbId,
+				user_id :user_id,
+				do_action: "check_neworder",
+			})
+		}).then(function successCallback(response){ 
+			if(response.data.msg == "founded") {
+				var responsed_unreadOrders = response.data.unread_orders;   /* responsed by ajax */ 
+				var current_unreadOrders   = localStorage.getItem("unread_orders");  /* current stored value */
+				
+				if((responsed_unreadOrders > current_unreadOrders) && (current_unreadOrders > 0)){
+					var order_id = response.data.order_id;   /* responsed by ajax */
+					
+					var currentState = $state.current.name;  
+						if(currentState == "app.orderList"){
+							 /* accpet/decline order popup */ 
+							    
+							   $http({   
+									method: 'POST', 
+									url: api_url+"/mobileapp/check_neworder_api.php", 
+									headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+									data: $.param({
+										db_name :dbName,
+										db_id :dbId,
+										user_id :user_id,
+										order_id :order_id,
+										do_action :"get_new_order_detail" 
+									})
+								}).then(function successCallback(response){ 
+									if(response.data.msg == "founded") { 
+										/* accpet/decline order popup */							 
+										  
+										$http({   
+										method: 'POST', 
+										url: api_url+"/mobileapp/check_neworder_api.php",
+										headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+										data: $.param({
+											db_name :dbName,
+											db_id :dbId,
+											user_id :user_id,
+											order_id :order_id,
+											do_action :"get_new_order_detail" 
+										})
+									}).then(function successCallback(response){ 
+										if(response.data.msg == "founded" && response.data.content!="") { 
+											console.log('show '+response.data.content); 
+											$ionicPopup.show({
+											   template: response.data.content,
+											   title: 'New Order Notification',
+											   buttons: [
+												 { text: "Accept",
+												   onTap:function(e){
+														$state.go('app.acceptOrder',{'order_status':'accept','order_id': order_id});
+												   }
+												 },
+												 { text: "Decline",
+												   onTap:function(e){
+														$state.go('app.declineOrder',{'order_status':'decline','order_id': order_id});
+												   }
+												 },
+											   ]
+											});	
+										}
+										/* else{ 
+											$ionicPopup.alert({
+												title: 'Error!',
+												template: 'Something went wrong,please try again'
+											});
+										} */
+										 
+									}, function errorCallback(response) {}) 
+									   /* end accpet/decline order popup */
+									   
+									}else{ 
+										$ionicPopup.alert({
+											title: 'Error!',
+											template: 'Something went wrong,please try again CONTENT '+response.data.msg
+										});
+									}
+									 
+								}, function errorCallback(response) {}) 
+						}else{
+							$location.path('/app/orderList=pending');
+							$state.go('app.orderList',{'order_type':'pending'});
+							
+							$http({   
+									method: 'POST', 
+									url: api_url+"/mobileapp/check_neworder_api.php",
+									headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+									data: $.param({
+										db_name :dbName,
+										db_id :dbId,
+										user_id :user_id,
+										order_id :order_id,
+										do_action :"get_new_order_detail" 
+									})
+								}).then(function successCallback(response){ 
+									   console.log('ELSE content '+response.data.content);
+									 
+									if(response.data.msg == "founded" && response.data.content!="") { 
+										console.log('show '+response.data.content); 
+										$ionicPopup.show({ 
+										   template: response.data.content,
+										   title: 'New Order Notification',
+										   buttons: [
+											 { text: "Accept",
+											   onTap:function(e){
+													$state.go('app.acceptOrder',{'order_status':'accept','order_id': order_id});
+											   }
+											 },
+											 { text: "Decline",
+											   onTap:function(e){
+													$state.go('app.declineOrder',{'order_status':'decline','order_id': order_id});
+											   }
+											 },
+										   ]
+										});	
+									}
+									/* else{ 
+										$ionicPopup.alert({
+											title: 'Error!',
+											template: 'Something went wrong,please try again'
+										});
+									} */
+									 
+								}, function errorCallback(response) {})  
+							
+						   /* end accpet/decline order popup */
+	   
+						} 
+					}
+
+					/* accpet/decline order popup */ 
+					 
+							/*        $http({   
+									method: 'POST', 
+									url: api_url+"/mobileapp/check_neworder_api.php",
+									//url: get_order_detail,
+									headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+									data: $.param({
+										db_name :dbName,
+										db_id :dbId,
+										user_id :user_id,
+										order_id :108884,
+										do_action :"get_new_order_detail" 
+									})
+								}).then(function successCallback(response){ 
+									 // console.log('responsedsfdsfsd dsadd '+response.data.msg);
+									 // console.log('content '+response.data.content);
+									 
+									if(response.data.msg == "founded" && response.data.content!="") { 
+										console.log('show '+response.data.content); 
+										$ionicPopup.show({
+										   // template: 'New order (108515) has been placed, please accept.', 
+										   template: response.data.content,
+										   title: 'New Order Notification',
+										   buttons: [
+											 { text: "Accept",
+											   onTap:function(e){
+													$state.go('app.acceptOrder',{'order_status':'accept','order_id': 92507});
+											   }
+											 },
+											 { text: "Decline",
+											   onTap:function(e){
+													$state.go('app.declineOrder',{'order_status':'decline','order_id': 92507});
+											   }
+											 },
+										   ]
+										});	
+									} 
+								}, function errorCallback(response) {})    */
+						   /* end accpet/decline order popup */				
+			
+			/* $rootScope.currState = $state; */ 
+				$rootScope.totalOrders = response.data.unread_orders;
+				 localStorage.setItem("unread_orders", response.data.unread_orders);  
+			} 
+			
+		}, function errorCallback(response) {})
+	}  
+	 
 });

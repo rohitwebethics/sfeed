@@ -11,7 +11,7 @@
 						 <a class="top-icons" href="javascript:void(0);" ng-click="updateOrder({{ item.orderId }})"><i class="icon ion-edit"></i></a>
 					</div>  -->
 					<div class ="tabs dashboard-tabs action-btns" ng-if="assignedPrivileges.includes('Priv_Orders Edit Order') ==  true || assignedPrivileges.includes('Preset_Orders Edit Order') ==  true || assignedPrivileges == ''">
-						<a class="tab-item active" href="javascript:void(0);" ng-click="updateOrder({{ item.orderId }})">Edit Oder</a>
+						<a class="tab-item active" href="javascript:void(0);" ng-click="updateOrder({{ item.orderId }})">Edit Order</a>
 					</div> 
 					<!-- <div class ="tabs dashboard-tabs action-btns" ng-if="assignedPrivileges == ''">
 					  <a class="tab-item active" href="javascript:void(0);" ng-click="updateOrder({{ item.orderId }})">Edit Oder</a>
@@ -22,7 +22,8 @@
 							<div style="clear:both;"></div>	  
 							<div><h4 class="col-6">{{item.orderId}}</h4><h4 class="col-6 align-r">£{{item.price_total}}</h4></div>  
 							<div style="clear:both;"></div>	  
-							<div class="last" ng-if="items4.order_placed_time!=''"><h3 class="col-6">Order Place On</h3><h4 class="col-6 align-r">{{items4.order_placed_time}}</h4></div>  
+							<div class="last" ng-if="items4.order_placed_time!=''"><h3 class="col-12">Order Place On</h3></div>  
+							<div><h4 class="col-12">{{items4.order_placed_time}}</h4></div>  
 							<div style="clear:both;"></div>	  	  
 						</div>
 						<div class="ord-sec-2">
@@ -36,8 +37,8 @@
 							<div style="clear:both;"></div>	
 							<div><h4 class="col-6">Paid</h4><h4 class="col-6 align-r" ng-if="item.is_paid == 0 || item.is_paid == null">No</h4><h4 class="col-6 align-r" ng-if="item.is_paid == 1">Yes</h4></div>
 						</div>
-						<div class="ord-sec-4">			
-							<div class="prodct-detls" ng-repeat="subrow in item.products_items">
+						<!-- <div class="ord-sec-4">			
+							 <div class="prodct-detls" ng-repeat="subrow in item.products_items">
 							<div class="row responsive-sm">
 								  <div class="col">
 									  <h3>Product Items</h3>
@@ -54,12 +55,16 @@
 									  <p>£{{subrow.item_price}}</p>
 								  </div>
 								  </div>
-							</div>		
+							</div> 							
+						</div>
+						 -->
+						<div class="ord-sec-4 ordr_itms"> 
+							<div ng-bind-html="order_items"></div> 							
 						</div>
 						<div class="ord-sec-5">
 							<div><h3 class="col-12 al-cntr">Summary</h3></div>              
 							<div style="clear:both;"></div>	  
-							<div class="prc-dtl"><h4 class="col-6">Sub Total</h4><h4 class="col-6 align-r"><strong>£{{item.subtotalPrice}}</strong></h4></div>  
+							<div class="prc-dtl"><h4 class="col-6">Sub Total</h4><h4 class="col-6 align-r"><span>£{{item.subtotalPrice}}</span></h4></div>  
 							<div style="clear:both;"></div>	  
 							<div ng-if="item.redeem_amount != '' && item.redeem_amount != null"><h4 class="col-6">Redeem Amount</h4><h4 class="col-6 align-r"><strong>£{{item.redeem_amount}}</strong></h4></div>  
 							<div style="clear:both;"></div>	  
@@ -68,7 +73,8 @@
 							<span class="col-md-12 voucher_cd" ng-if="item.voucher_code !='' && item.voucher_code!=null"><em>(Applied code: {{item.voucher_code}} )</em></span>
 							</div>  
 							<div style="clear:both;"></div>	  
-							<div><h4 class="col-6">Delivery</h4><h4 class="col-6 align-r"><strong ng-if="item.price_delivery!='' && item.price_delivery>0">£{{item.price_delivery}}</strong><strong ng-if="item.price_delivery=='' || item.price_delivery <= 0">Free</strong></h4></div>     
+							<!-- <div><h4 class="col-6">Delivery</h4><h4 class="col-6 align-r"><strong ng-if="item.price_delivery!='' && item.price_delivery>0">£{{item.price_delivery}}</strong><strong ng-if="item.price_delivery=='' || item.price_delivery <= 0">Free</strong></h4></div>      -->
+							<div><h4 class="col-6">Delivery</h4><h4 class="col-6 align-r"><span ng-if="item.price_delivery!='' && item.price_delivery>0">£{{item.price_delivery}}</span><span ng-if="item.price_delivery=='' || item.price_delivery <= 0">Free</span></h4></div>     
 							<div style="clear:both;"></div>	
 			
 							<div><h4 class="col-12 align-r pr_totl">Total <strong>£{{item.price_total}}</strong></h4></div>     			
@@ -100,11 +106,14 @@
 		</ion-list> 
 	</ion-content>
 
-<ion-footer-bar align-title = "center" class = "bar-assertive">
+<ion-footer-bar align-title="center" class="bar-assertive no-bg">
 	<div class="button-bar" ng-repeat="item in items4"  ng-if="item.orderId">
-		<button ng-if="item.status=='pending' || item.status==''" class="button button-positive button-clear icon ion-ios-paper" ng-click="orderstatus('accept','{{ item.orderId}}')" type="submit"> Accept Order</button>
-		<button ng-if="item.status=='pending' || item.status==''" class="button button-positive button-clear icon ion-android-cancel" ng-click="orderstatus('decline','{{ item.orderId}}')" type="submit"> Cancel Order</button>
+		<button ng-if="item.status=='pending' || item.status==''" class="acept-odr button button-positive button-clear icon ion-ios-paper" ng-click="orderstatus('accept','{{ item.orderId}}')" type="submit"> Accept Order</button>
+		<button ng-if="item.status=='pending' || item.status==''" class="dcline-odr button button-positive button-clear icon ion-android-cancel" ng-click="orderstatus('decline','{{ item.orderId}}')" type="submit"> Cancel Order</button>
+		
 		<button ng-if="item.status!='pending' && item.status!=''" class="button button-positive button-clear icon ion-printer" ng-click="print()">Print Order</button>
+		
+		 
 	</div>
 </ion-footer-bar>
 </ion-view>

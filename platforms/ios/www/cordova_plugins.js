@@ -427,6 +427,14 @@ module.exports = [
             "plugin.printer",
             "cordova.plugins.printer"
         ]
+    },
+    {
+        "id": "cordova-plugin-ionic-webview.ios-wkwebview-exec",
+        "file": "plugins/cordova-plugin-ionic-webview/src/www/ios/ios-wkwebview-exec.js",
+        "pluginId": "cordova-plugin-ionic-webview",
+        "clobbers": [
+            "cordova.exec"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -446,7 +454,8 @@ module.exports.metadata =
     "ionic-plugin-keyboard": "2.0.1",
     "phonegap-plugin-push": "1.10.5",
     "onesignal-cordova-plugin": "2.1.2",
-    "cordova-plugin-printer": "0.7.4-dev"
+    "cordova-plugin-printer": "0.7.4-dev",
+    "cordova-plugin-ionic-webview": "1.1.16"
 };
 // BOTTOM OF METADATA
 });

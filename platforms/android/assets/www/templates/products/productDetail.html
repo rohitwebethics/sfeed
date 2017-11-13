@@ -23,31 +23,37 @@
 						<div class="ord-sec-1">
 							<div>
 							<div class="col-12">
-								<h3 class="col-12">Product Name</h3>
-								<p class="col-12">{{item.name}}</p></br>
+								<h3 class="col-6 field-title">Product Name</h3>
+								<h3 class="col-6 align-r">{{item.name}}</h3></br>
 							</div> 
-							<div class="col-12" ng-if="item.image!=null" ><img class="product-image" src="{{item.product_image}}" /></div> 
+						 
+							<div class="col-12" ng-if="item.image!=null && item.image!=''" ><img class="product-image" src="{{item.product_image}}" /></div> 
 							</div>
-						</div>
-						<div  ng-if="item.description" class="ord-sec-2">
-							<div><h3 class="col-12">Description</h3><h4 class="col-12 cap-text desc">{{item.description}}</h4></div>  
+							
+							<div  ng-if="item.description">
+							<div><h3 class="col-12 field-title">Description</h3><h4 class="col-12 cap-text desc">{{item.description}}</h4></div>  
 						</div>	  
-						<div ng-if="item.categry_name"><h3 class="col-12">Categories</h3><h4 ng-repeat="cat_item in item.categry_name" class="col-6 cap-text">{{cat_item}}</h4></div>
+						</div>
+						
+						<div ng-if="item.categry_name"><h3 class="col-12 field-title">Categories</h3><h4 ng-repeat="cat_item in item.categry_name" class="col-6 cap-text">{{cat_item}}</h4></div>
 						<div style="clear:both;"></div>	 
 						<div ng-if="item.extra_name"><h3 class="col-12">Extras</h3><h4 ng-repeat="extra_item in item.extra_name" class="col cap-text">{{extra_item}}</h4></div>
 						<div style="clear:both;"></div>
-						<div><h3 class="col-6">Price</h3><h4 class="col-6 cap-text text-align-r">£{{item.price}}</h4></div>
+						<div><h3 class="col-6">Price</h3><h4 class="col-6 cap-text  align-r">£{{item.price}}</h4></div>
 						<div style="clear:both;"></div>
-						<div><h3 class="col-6">Is Featured</h3><h4 class="col-6 cap-text text-align-r" ng-if="item.is_featured == 0">No</h4><h4 class="col-6 cap-text text-align-r" ng-if="item.is_featured == 1">Yes</h4></div>
+						<div><h3 class="col-6">Is Featured</h3><h4 class="col-6 cap-text align-r" ng-if="item.is_featured == 0">No</h4><h4 class="col-6 cap-text  align-r" ng-if="item.is_featured == 1">Yes</h4></div>
 						<div style="clear:both;"></div>
 					</div>
-					<div ng-if="item.prodcut_symbols!=''" class="ord-sec-3">
+					<div class="ord-sec-3">
 						<div><h3 class="col-12">Product Symbol</h3></div>  
 						<div ng-repeat="prodct_symbol in item.prodcut_symbols" class="col-12"><img class="col-6 img-symbol" src="{{prodct_symbol.symbol_image}}" /><h4 class="col-6">{{prodct_symbol.symbol_name}}</h4></div>
+						
 						<div style="clear:both;"></div>
+						<h4></h4>
+						
 					</div>
 					<div ng-if="item.sub_product" class="ord-sec-4 sub_product">
-						<h3 class="col-12">Sub Products</h3>
+						<h3 class="col-12 field-title">Sub Products</h3>
 						<table class="table">
 						  <thead>
 							<tr>

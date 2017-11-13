@@ -7,10 +7,11 @@
 		</div>
 	</ion-nav-bar--->  
 	
+	
 	<div class = "bar bar-header bar-positive"> 
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
 		<h1 class = "title">Order List</h1>
-	</div>
+	</div> 
 	
 	<ion-content padding="true" class="appSpacingTop odr-lst has-header order-listing"
 	id="content"
@@ -21,38 +22,79 @@
 	on-hold="onGesture('hold',ord_sts)"
 	on-double-tap="onGesture('tap',ord_sts)"
 	scroll="true"> 
-			   
+			<div class="item">
+				<label class="item-input item-select sort-by"> 
+					<div class="input-label">Sort By</div> 
+					<select id="orderStBy" ng-model="mySelect" ng-change="order_sort_by(mySelect);"> 
+						<option value="24_hours">24 Hours</option> 
+						<option value="show_all">Show All</option>
+					</select> 
+				</label> 
+			</div>    
 			<ion-list>   
+			
+			<!-- totalOrders = {{totalOrders}} -->
 			<div class="items items-head" style="z-index: 1000;"><h3 class="col-30">Id</h3><h3 class="col-30">Price</h3><h3 class="col-40 h-align-r">Status</h3></div>  
-				<ion-item ng-repeat="item in items" ng-if="item.id"> 
+				<ion-item ng-repeat="item in items" ng-if="item.id">
+				<!-- <ion-item ng-repeat="item in items track by $index" ng-if="item.id" ng-class="{nwordr:$index==0 && item.status=='pending'}">   -->
 					<!-- <div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
 						<div style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span>{{item.id}}</span><span>£{{item.price_total}}</span><span id="order_stats">{{item.status}} </span></div>
 						<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
-					</div> -->
-					
-					
+					</div> --> 
+					 
 					<div ng-if="assignedPrivileges!=''">
 						<!-- <div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  true || assignedPrivileges.includes('Preset_Orders Detail') ==  true"> -->
+						 
 						<div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  true"> 
 							<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
-								<div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span class="col-30">{{item.id}}</span><span class="col-30">£{{item.price_total}}</span><span id="order_stats" class="col-40 align-r">{{item.status}} </span></div>
-								<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+								<div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'">
+									<span class="col-30">{{item.id}}
+									<span class="orddt full-wdth">({{item.order_date}})</span>
+									</span>
+									<span class="col-30">£{{item.price_total}}</span>
+									<span id="order_stats" class="actn-btns col-40 action-link {{item.ordercls}}" >{{item.status}} </span>
+								</div>
+								
+								<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'">
+									<span>{{item.msg}}</span>
+								</div>
 							</div>
 						</div>
 						<!-- <div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  false || assignedPrivileges.includes('Preset_Orders Detail') ==  false"> --> 
 						<div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  false"> 
 							<div ng-if="item.id">
-								<div ng-if="item.msg=='founded'"><span class="col-30">{{item.id}}</span><span class="col-30">£{{item.price_total}}</span><span id="order_stats" class="col-40 align-r action-link">{{item.status}}</span></div>
-								<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+								<div ng-if="item.msg=='founded'">
+									<span class="col-30">{{item.id}}
+									<span class="orddt full-wdth">({{item.order_date}})</span>
+									</span>
+									<span class="col-30">£{{item.price_total}}</span>
+									<span id="order_stats" class="actn-btns col-40 action-link {{item.ordercls}}">{{item.status}}</span>
+								</div>
+								<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'">
+									<span>{{item.msg}}</span>
+								</div>
+							</div>
+						</div>
+					</div> 
+					<div ng-if="assignedPrivileges ==''"> 
+						<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
+							<div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'">
+								<span class="col-30">{{item.id}}
+								<span class="orddt full-wdth">({{item.order_date}})</span>
+								</span>
+								<span class="col-30">£{{item.price_total}}</span> 
+								<span id="order_stats" class="actn-btns col-40 action-link {{item.ordercls}}">{{item.status}}</span>
+							</div>
+							
+							<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'">
+								<span>{{item.msg}}</span>
 							</div>
 						</div>
 					</div>
-					
-					<div ng-if="assignedPrivileges ==''"> 
-						<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
-							<div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span class="col-30">{{item.id}}</span><span class="col-30">£{{item.price_total}}</span><span id="order_stats" class="col-40 align-r action-link">{{item.status}} </span></div>
-							<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
-						</div>
+				</ion-item> 
+				<ion-item ng-if="no_record!='' && items==''"> 
+					<div>
+						<span class="full-wdth al-cntr cap-text">{{no_record}}</span>
 					</div>
 				</ion-item> 
 		</ion-list>

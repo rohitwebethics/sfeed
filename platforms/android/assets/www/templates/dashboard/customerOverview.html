@@ -54,9 +54,10 @@
 			</div>
 				<div class="items items-head" style="z-index: 1000;"> </div>       
 			<div class="col">
-				<canvas id="bar" class="chart chart-bar"
-				  chart-data="data" chart-labels="labels" chart-options="options"> chart-series="series"
+				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-options="options" chart-dataset-override="datasetOverride"> chart-series="series"
 				</canvas>
+				
+				<!-- <canvas id="myChart"  class="chart chart-bar" width="100" height="100" chart-labels="labels" chart-options="options"></canvas> -->
 			</div>  			
 				<ion-item ng-repeat="item in items" ng-if="item.id"> 
 					<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">

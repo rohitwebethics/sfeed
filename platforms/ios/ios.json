@@ -63,6 +63,18 @@
                         {
                             "xml": "<feature name=\"Printer\"><param name=\"ios-package\" value=\"APPPrinter\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<allow-navigation href=\"http://localhost:8080/*\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CDVWKWebViewEngine\"><param name=\"ios-package\" value=\"CDVWKWebViewEngine\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"CordovaWebViewEngine\" value=\"CDVWKWebViewEngine\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -169,6 +181,9 @@
             "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
         },
         "cordova-plugin-printer": {
+            "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
+        },
+        "cordova-plugin-ionic-webview": {
             "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
         }
     },
@@ -601,6 +616,14 @@
                 "plugin.printer",
                 "cordova.plugins.printer"
             ]
+        },
+        {
+            "id": "cordova-plugin-ionic-webview.ios-wkwebview-exec",
+            "file": "plugins/cordova-plugin-ionic-webview/src/www/ios/ios-wkwebview-exec.js",
+            "pluginId": "cordova-plugin-ionic-webview",
+            "clobbers": [
+                "cordova.exec"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -618,6 +641,7 @@
         "ionic-plugin-keyboard": "2.0.1",
         "phonegap-plugin-push": "1.10.5",
         "onesignal-cordova-plugin": "2.1.2",
-        "cordova-plugin-printer": "0.7.4-dev"
+        "cordova-plugin-printer": "0.7.4-dev",
+        "cordova-plugin-ionic-webview": "1.1.16"
     }
 }

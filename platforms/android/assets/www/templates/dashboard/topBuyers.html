@@ -31,16 +31,16 @@
 		<ion-list> 
 			<div class="items items-head" style="z-index: 1000;">
 				<h3 class="col-33">Name</h3>
-				<h3 class="col-33">Total Orders</h3>
-				<h3 class="col-33">Total Business</h3>
+				<h3 class="col-33 align-c">Total Orders</h3>
+				<h3 class="col-33 h-align-r">Total Business</h3>
 			</div>      
 			<ion-item ng-repeat="item in items" ng-if="item.id"> 
 				<div href="#/app/orderDetail={{item.id}}">
 					<div style="z-index: 1000;" ng-click="customerOrders({{item.id}},'confirmed')" ng-if="item.msg=='founded'">
 						<div >
 							<span class="col-33">{{item.name}}</span>
-							<span class="col-33">{{item.total_orders}}</span>
-							<span class="col-33">£{{item.total_business}}</span>
+							<span class="col-33 align-c">{{item.total_orders}}</span>
+							<span class="col-33 align-r">£{{item.total_business}}</span>
 						</div>
 					</div>
 					<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>

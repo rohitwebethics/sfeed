@@ -73,8 +73,11 @@
 				</div>
 				<div class="items items-head" style="z-index: 1000;"> </div>       
 				<div class="col">
-					<canvas id="bar" class="chart chart-bar"
-					  chart-data="data" chart-labels="labels" chart-options="options"> chart-series="series"
+					<!-- <canvas id="bar" class="chart chart-bar"
+					  chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors"> chart-series="series"
+					</canvas> -->
+					
+					<canvas id="bar" class="chart chart-bar" chart-data="data1" chart-labels="labels1" chart-options="options1" chart-dataset-override="datasetOverride1"> chart-series="series"
 					</canvas>
 				</div>                                   
 				<ion-item ng-repeat="item in items" ng-if="item.id"> 
@@ -85,7 +88,8 @@
 				</ion-item> 
 		</ion-list>
 	</ion-content>
-</ion-view>
+</ion-view>
+
 <div class="tabs tabs-icon-top">
 	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
    <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>

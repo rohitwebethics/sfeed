@@ -115,4 +115,9 @@
     <feature name="Printer">
         <param name="ios-package" value="APPPrinter" />
     </feature>
+    <allow-navigation href="http://localhost:8080/*" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
 </widget>

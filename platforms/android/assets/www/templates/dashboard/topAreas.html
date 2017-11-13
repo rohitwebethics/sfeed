@@ -39,15 +39,18 @@
       </ion-modal-view>
     </script>
 <div class="col">
-			<canvas id="bar" class="chart chart-bar"
+			<!-- <canvas id="bar" class="chart chart-bar"
 			  chart-data="data" chart-labels="labels" chart-options="options"> chart-series="series"
-			</canvas>
+			</canvas> -->
+			
+			<canvas id="bar" class="chart chart-bar" chart-data="data2" chart-labels="labels2" chart-options="options2" chart-dataset-override="datasetOverride2"> chart-series="series"
+					</canvas>
 			</div>		
 		<ion-list>  
 			<div class="items items-head" style="z-index: 1000;">
 				<h3 class="col-33">Area</h3>
-				<h3 class="col-33">Total Orders</h3>
-				<h3 class="col-33">Total Business</h3>
+				<h3 class="col-33 align-c">Total Orders</h3>
+				<h3 class="col-33 h-align-r">Total Business</h3>
 			</div>  
 				
 			<!-- <ion-item ng-repeat="item in items" ng-if="item.id">  -->
@@ -55,8 +58,8 @@
 			<ion-item ng-repeat="item in items" ng-if="item.d_zip">  
 				<div style="z-index: 1000;" ng-if="item.msg=='founded'">
 					<span class="col-33 click " ng-click="getAreaWiseOrders('{{item.d_zip}}')">{{item.d_zip}}</span>
-					<span class="col-33 click" ng-click="getOrders('{{item.d_zip}}')">{{item.total}}</span>
-					<span class="col-33 click" ng-click="getOrders('{{item.d_zip}}')">£{{item.total_price}}</span>
+					<span class="col-33 click align-c" ng-click="getOrders('{{item.d_zip}}')">{{item.total}}</span>
+					<span class="col-33 click align-r" ng-click="getOrders('{{item.d_zip}}')">£{{item.total_price}}</span>
 				</div>
 				<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div> 
 			</ion-item> 
