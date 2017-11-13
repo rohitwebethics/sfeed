@@ -1,0 +1,63 @@
+<ion-view view-title="Refund Claims">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Refund Claims</h1>
+	</div>
+	<ion-content class="appSpacingTop has-header dashboard-reports">
+		<div class ="tabs dashboard-tabs main-tabs">
+		   <a class="tab-item active button-icon icon ion-navicon" href="javascript:void(0);" ng-click="modal.show()">Refund Claims</a> 
+		</div>  
+		 
+		 <script id="templates/modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">Menus</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class ="tabs dashboard-tabs">
+			 <a class="tab-item active" href="#app/dashboard" ng-click="modal.hide()">Business Reports</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport">Graphical Report</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers">Top Buyers</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes">Top Dishes</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas">Top Areas</a>	
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos">Top Promos</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims">Refund Claims</a>
+		</div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+
+		<ion-list> 
+			<!-- <span ng-if="total_ordrs!=''">Total: {{total_ordrs}}</span>
+			<span ng-if="total_price!=''">£{{total_price}}</span>  <br>
+			<span ng-if="cash_orders!=''">Cash Orders: {{cash_orders}} £{{cash_price}} ({{cash_prcntage}})</span>
+			<span ng-if="stx_orders!=''">STX Orders: {{stx_orders}} £{{stx_price}} ({{stx_prcntage}})</span>
+			<span ng-if="cash_prcntage!=''"></span> <br> -->
+			<!-- <div class="items items-head" style="z-index: 1000;"><h3>Name</h3><h3>Unit Sold</h3><h3>Unit Price</h3><h3>Total Business</h3><h3>Action</h3></div>      -->
+			<div class="items items-head" style="z-index: 1000;">
+				<h3 class="col-33">Order Id</h3>
+				<h3 class="col-33">Price</h3>
+				<h3 class="col-33">Action</h3>
+			</div>     
+			<ion-item ng-repeat="item in items" ng-if="item.id"> 
+				<div>
+					<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+						<span class="col-33" ng-click="orderDetail({{item.id}})">{{item.id}}</span>
+						<span class="col-33" ng-click="orderDetail({{item.id}})">£{{item.price_total}}</span>
+						<!-- <span ng-click="href="#app/refundDetail={{item.id}}" class="col-33">Refund Detail</a> -->
+						<span ng-click="refundDetail({{item.id}})" class="col-33 item-details item-details-link">Refund Detail</a>
+					</div>
+					<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+				</div>
+			</ion-item> 
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>
+
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+</div>

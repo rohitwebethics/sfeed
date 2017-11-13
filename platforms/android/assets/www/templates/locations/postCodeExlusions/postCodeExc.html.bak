@@ -1,0 +1,49 @@
+<ion-view title="Post Code Exclusions">
+	<div class = "bar bar-header bar-positive"> 
+		<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+		<h1 class = "title">Post Code Exclusions</h1>
+	</div>
+	<ion-content padding="true" class="appSpacingTop odr-lst has-header"> 
+		<ion-list> 
+		<button class="button button-icon icon ion-android-add-circle" ng-click="addPostCodeExec()"></button>
+			<div class="items items-head all_loc">
+				<h3 class="col-25">Post Code Part 1</h3>
+				<h3 class="col-25">Post Code Part 2</h3>
+				<!-- <h3 class="col-25">Delivery Price</h3> -->
+				<h3 class="col-50 h-align-r">Action</h3>
+			</div>         
+				<ion-item ng-repeat="item in items" ng-if="item.id"  class="col-12">
+					<div class="loc-items delch" ng-if="item.msg=='founded'">
+						<div class="pull-left col-25 head">
+							<h3 ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">{{item.postcode_part1}}</h3>
+						</div>
+						<div class="pull-left col-25 head">
+							<h3 class="cap-text" ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">{{item.postcode_part2}}</h3>
+						</div>
+						<!-- <div class="pull-left col-3 head">
+							<h3 class="cap-text" ng-click="editDeliveryCharge({{item.id}},{{item.location_id}})">£{{item.price}}</h3>
+						</div> -->
+						<div class="pull-right col-50 action-sec">
+							<h3 class="text-align-r align-r" ng-click="editPostCodeExec({{item.id}},{{item.location_id}})" id="order_stats">Edit</h3>
+							<h3 class="text-align-r align-r" ng-click="deletePostCodeExc({{item.id}},{{item.location_id}})" id="order_stats">Delete</h3>
+						</div>
+					</div> 
+					<!-- <div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>  -->
+				</ion-item>   
+				<div class="no-ordrs" ng-if="errMsg=='no record found'"><h3 class="item">{{errMsg}}</h3></div>  
+				
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+	<!-- <div class="tabs tabs-icon-top">
+		<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+	   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+		<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+	</div>	 -->
+	
+	<ion-footer-bar align-title = "center" class = "bar-assertive">
+		<div class="button-bar">
+			<button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+		</div>
+	</ion-footer-bar> 
+</ion-view> 
