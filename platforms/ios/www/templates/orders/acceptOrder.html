@@ -1,0 +1,23 @@
+
+<ion-view view-title="Update Order">
+    <ion-content class="appSpacingTop">
+		<div class="list list-inset entryCustom"  ng-controller="orderAcceptCtrl">
+			<h1 class="pg-heading">Update Order</h1>
+			<div ng-if="items5 && items5!=''" class="text-center msg-alrt col-12">{{items5}}</div>
+			<form name="savetime" novalidate ng-submit="saveEstimateTime(savetime)">
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : savetime.estimate_time.$invalid && savetime.$submitted, 'no-errors' : savetime.estimate_time.$valid  && savetime.$submitted}">
+					<input type="text" id="estimate_time" placeholder="Enter time until order ready (mins)" name="estimate_time" ng-model="estimate_time" required>
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_estimate_time">Save</button>
+				</label>
+			</form>
+		</div> 
+    </ion-content> 
+</ion-view>
+
+
+<div class="tabs tabs-icon-top tabs-striped tabs-color-assertive">
+	<a class="tab-item active" href="#/app/orderList"><i class="icon ion-ios-people-outline"></i> List </a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-ios-person-outline"></i> Profile</a> 
+</div> 

@@ -1,0 +1,30 @@
+<ion-view view-title="Swtich User" name="swtich-user">
+	<ion-content class="appSpacingTop mid-logo login-switch-usr has-header">
+		<ion-list> 
+			<div class="list list-inset entryCustom login-screen">
+				<div class="main-logo">
+					<img src="img/smartfeed_logo.png" />
+				</div>
+				<form id="lognswitchusr" name="lognswitchusr" ng-controller="switchLogOffCtrl" novalidate ng-submit="loginswitchUser(lognswitchusr);">
+					<label class="item item-input">
+						<i class="icon ion-ios-person-outline"></i>
+						<input type="text" id="switch_user_name" placeholder="Username" name="switch_user_password" ng-model="switch_username" required>
+					</label>
+					
+					<label class="item item-input">
+						<i class="icon ion-ios-locked-outline"></i>
+						<input type="password" id="switch_user_password" placeholder="Password" name="switch_user_password" ng-model="switch_password" required>
+					</label> 
+					<label class="item noBorder">
+						<button class="login-btn button button-block button-theme" type="submit" name="submit">Login</button>
+					</label>
+				</form>
+			</div> 
+		</ion-list> 
+	</ion-content> 
+	<ion-footer-bar align-title="center" class="bar-assertive">
+		<div class="button-bar">
+		  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+		</div>
+	</ion-footer-bar> 
+</ion-view> 

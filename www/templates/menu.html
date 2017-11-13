@@ -1,0 +1,73 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+	<ion-side-menu side="left" is-enabled="true" width="275" class="menu menu-left"> 
+		<ion-content class="has-header scroll-content"> 
+			<div class="scroll" style="transform: translate3d(0px, 0px, 0px);"> 
+				<!-- if user is staff user and assigned privileges to user --->
+				<div class="logo"><img class="side-menu-icon" src="img/smartfeed_logo.png" /></div>
+				<div class="list disable-user-behavior" ng-if="assignedPrivileges!==''"> 
+					<!-- <div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/home"  href="#/app/home"><span>Home</span></a> 
+					</div> -->
+					<div ng-if="assignedPrivileges.includes('Priv_Dashboard') ==  true || assignedPrivileges.includes('Preset_Dashboard') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/dashboard"  href="#/app/dashboard"><span>Dashboard</span></a> 
+					</div>
+					<div ng-if="assignedPrivileges.includes('Priv_Orders') ==  true || assignedPrivileges.includes('Preset_Orders') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/orderList=pending"  href="#/app/orderList=pending"><span>Orders</span></a> 
+					</div>
+					<!-- <div ng-if="assignedPrivileges.includes('Priv_Products') ==  true || assignedPrivileges.includes('Preset_Products') ==  true " class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/products"  href="#/app/products"><span>Products</span></a> 
+					</div>
+					<div ng-if="assignedPrivileges.includes('Priv_Extras') ==  true || assignedPrivileges.includes('Preset_Extras') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/extras" href="#/app/extras"><span>Extras</span></a> 
+					</div>
+					<div ng-if="assignedPrivileges.includes('Priv_Categories') ==  true || assignedPrivileges.includes('Preset_Categories') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/categories" href="#/app/categories"><span>Categories</span></a> 
+					</div> -->
+					<div ng-if="assignedPrivileges.includes('Priv_Customers') ==  true || assignedPrivileges.includes('Preset_Customers') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/customers" href="#/app/customers"><span>Customers</span></a> 
+					</div>
+					<div ng-if="assignedPrivileges.includes('Priv_Locations') ==  true || assignedPrivileges.includes('Preset_Locations') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/allLocations" href="#/app/allLocations"><span>Locations</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/userProfile"  href="#/app/userProfile"><span>Profile</span></a> 
+					</div> 
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-click="register()"><span>Subscribe Notification</span></a> 
+					</div>  
+					<!-- <div ng-if="assignedPrivileges.includes('Priv_Others Switch User') ==  true || assignedPrivileges.includes('Preset_Others Switch User') ==  true" class="item item-complex item-swipeable" nav-clear="" menu-close="" ><a class="item-content" ng-click="logoff()"><span>Log Off</span></a> </div>  -->
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" ><a class="item-content" ng-click="logoff()"><span>Log Off</span></a> </div> 
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-click="logout()"><span>Logout</span></a> 
+					</div>
+				</div>
+				
+				<!-- if user is tao admin --->
+				<div class="list disable-user-behavior" ng-if="assignedPrivileges==''">
+					<!-- <div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href= "#/app/home" href="#/app/home"><span>Home</span></a> 
+					</div> -->
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/dashboard" href="#/app/dashboard"><span>Dashboard</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/orderList=pending" href="#/app/orderList=pending"><span>Orders</span></a> 
+					</div>
+					<!-- <div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/products" href="#/app/products"><span>Products</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/extras" href="#/app/extras"><span>Extras</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/categories" href="#/app/categories"><span>Categories</span></a> 
+					</div> -->
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/customers" href="#/app/customers"><span>Customers</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/allLocations" href="#/app/allLocations"><span>Locations</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/getUsers" href="#/app/getUsers"><span>Users</span></a> 
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-href="#/app/userProfile" href="#/app/userProfile"><span>Profile</span></a> 
+					</div> 
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-click="register()"><span>Subscribe Notification</span></a> 
+					</div> 
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" ><a class="item-content" ng-click="logoff()"><span>Log Off</span></a> 
+					</div>
+					<div class="item item-complex item-swipeable" nav-clear="" menu-close="" href="#/app/browse"><a class="item-content" ng-click="logout()"><span>Logout</span></a> 
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="scroll-bar scroll-bar-v">
+				<div class="scroll-bar-indicator scroll-bar-fade-out" style="height: 0px; transform: translate3d(0px, 0px, 0px) scaleY(1);"></div>
+			</div>
+		</ion-content>
+	</ion-side-menu>
+</ion-side-menus>

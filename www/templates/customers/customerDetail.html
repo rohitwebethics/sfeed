@@ -1,0 +1,66 @@
+<ion-view view-title="Customer Detail"> 
+	<div class="bar bar-header bar-positive"> 
+	<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+	<h1 class="title">Customer Detail</h1>
+	</div>
+	<ion-content class="appSpacingTop has-header">
+	<ion-list>
+		<ion-item class="customer_detail" ng-repeat="item in items11" ng-if="item.id"> 
+			<div ng-if="item.id" class="odr-dtl">
+				<div ng-if="items11.msg=='found'">
+					<div class="ord-sec-1">
+						<div><h3 class="col-6 field-title">Id</h3><h4 class="col-6 text-align-r field-title">{{item.id}}</h4></div>              
+						<div style="clear:both;"></div>	  
+						<div><h3 class="col-6">Name</h3><h4 class="col-6 text-align-r cap-text">{{item.name}}</h4></div>  
+						<div style="clear:both;"></div>	  
+						<div ng-if="item.c_gender!=''"><h3 class="col-6">Gender</h3><h4 class="col-6 text-align-r cap-text">{{item.c_gender}}</h4></div>  
+						<div style="clear:both;"></div>	 
+						<div><h3 class="col-6">Role</h3><h4 class="col-6 text-align-r cap-text">{{item.role}}</h4></div>  
+						<div style="clear:both;"></div>
+					</div>
+					<div class="ord-sec-2" ng-if="item.meta">
+						<div><h3 class="col-12 field-title">Contact Detail</h3></div>              
+						<div style="clear:both;"></div>	  
+						<div><h3 class="col-6">Email</h3><h4 class="col-6 text-align-r smal-text">{{item.email}}</h4></div>  
+						<div style="clear:both;"></div>	  
+						<div ng-if="item.meta.c_phone"><h3 class="col-6">Phone</h3><h4 class="col-6 text-align-r smal-text">{{item.meta.c_phone}}</h4></div>  
+						<div style="clear:both;"></div>
+					</div>
+					<div class="ord-sec-3">
+						<div><h3 class="col-12 field-title">Address Detail</h3></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">{{item.meta.c_address_1}}</h4></div>              
+						<div style="clear:both;"></div>	  
+						<div ng-if="item.meta.c_address_2!=''"><h4 class="col-6">{{item.meta.c_address_2}}</h4></div>              
+						<div style="clear:both;"></div>	
+						<div ng-if="item.meta.c_city!=''"><h4 class="col-6">{{item.meta.c_city}} {{item.meta.c_zip}}</h4></div>              
+						<div style="clear:both;"></div>	
+						<div ng-if="item.meta.c_state!=''"><h4 class="col-6">{{item.meta.c_state}}</h4></div>              
+						<div style="clear:both;"></div>	 
+						<div ng-if="item.meta.c_country!=''"><h4 class="col-6">{{item.meta.c_country}}</h4></div>              
+						<div style="clear:both;"></div>
+					</div>
+					<div class="ord-sec-3" ng-if="item.meta.sp_totalpoints">
+						<div><h3 class="col-12 field-title">Smart Points Detail</h3></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">Total Points</h4><h4 class="col-6 text-align-r">{{item.meta.sp_totalpoints}}</h4></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">Total Amount</h4><h4 class="col-6 text-align-r">£{{item.meta.sp_totalamount}}</h4></div>              
+						<div style="clear:both;"></div> 							
+					</div>
+			</div> 
+	  </div>
+		<div class="no-ordrs" ng-if="item.msg=='no record found'">
+			<h4>{{item.msg}}</h4>
+		</div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+
+</ion-view>

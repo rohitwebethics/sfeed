@@ -1,0 +1,40 @@
+<ion-view hide-nav-bar="true">
+<ion-view view-title="Order List"> 
+	<ion-content class="appSpacingTop"> 
+		<h1 class="pg-heading">Order List</h1>
+		<ion-list> 
+			<div class="items items-head" style="z-index: 1000;"><h3>Id </h3> <h3>Price </h3>  <h3>Status</h3></div>                                            
+				<ion-item ng-repeat="item in items">
+					<div ng-if="item.id">
+						<div style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="items.msg=='founded'"><h3 >{{item.id}}</h3><h3>£{{item.price_total}}</h3><h3 id="order_stats">{{item.status}} </h3></div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>  
+		</ion-list> 
+	</ion-content> 
+</ion-view> 
+<div class="tabs tabs-icon-top tabs-striped tabs-color-assertive">
+  <!----a class="tab-item" href="#/app/createChild">
+    <i class="icon ion-ios-people-outline"></i>
+    Create
+  </a---->
+
+   <a class="tab-item active" href="#/app/orderList">
+    <i class="icon ion-ios-people-outline"></i>
+    List
+  </a>
+  <a class="tab-item" href="#/app/userProfile">
+    <i class="icon ion-ios-person-outline"></i>
+    Profile
+  </a>
+
+  <!---a class="tab-item" href="#/app/filter">
+    <i class="icon ion-ios-color-filter-outline"></i>
+    Filter
+  </a---->
+
+ <!--<a class="tab-item active" href="#/app/status">
+    <i class="icon ion-ios-book-outline"></i>
+    Status
+  </a> -->
+</div>

@@ -1,0 +1,42 @@
+<ion-view  title="Privileges">
+	<div class = "bar bar-header bar-positive"> 
+		<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+		<h1 class = "title">Privileges</h1>
+	</div>
+	<ion-content padding="true" class="appSpacingTop odr-lst has-header">
+		<ion-list> 
+			<div class="items items-head" style="z-index: 1000;"><h3 class="col-6">Name</h3><h3 class="col-6 align-r">Action</h3></div>                                            
+				<!-- <ion-item ng-repeat="item in items" ng-if="item.name">
+						<div style="z-index: 1000;" class="col-6"><h3 id="order_stats">{{item.name}} </h3></div>
+						<div ng-if="item.privileges_status == true || item.privileges_status == 1" class="col-6">
+							<input type="checkbox" name="privileges_status" value="{{item.privileges_status}}" ng-click="removePrivileges($event,'{{item.name}}');" checked /> 
+						</div> 
+						<div ng-if="item.privileges_status != true && item.privileges_status != 1" class="col-6">
+							<input type="checkbox" name="privileges_status" value="{{item.privileges_status}}" ng-click="removePrivileges($event,'{{item.name}}');" /> 
+						</div>
+				</ion-item>   -->
+				
+				<!-- <ion-item ng-repeat="(key, item)  in items track by $index">
+				index {{$index}} -->
+				<ion-item ng-repeat="(key, item) in items" ng-if="key !='msg'">
+					<h3 class="col-12 font-15" ng-if="key !='msg'">{{key}}</h3>
+					<div ng-repeat="itm in item" ng-if="itm.name && key !='msg'">
+							<div style="z-index: 1000;" class="col-6 "><h3 class="no-margin">{{itm.name}} </h3></div>
+							<div ng-if="itm.privileges_status == true || itm.privileges_status == 1" class="col-6 cell-spacing">
+								<input class="pull-right" type="checkbox" name="privileges_status" value="{{itm.privileges_status}}" ng-click="removePrivileges($event,'{{itm.name}}');" checked /> 
+							</div> 
+							<div ng-if="itm.privileges_status != true && itm.privileges_status != 1" class="col-6 cell-spacing">
+								<input class="pull-right" type="checkbox" name="privileges_status" value="{{itm.privileges_status}}" ng-click="removePrivileges($event,'{{itm.name}}');" /> 
+							</div>
+					</div>  
+				</ion-item> 
+					 
+		</ion-list>
+		<!-- <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll> -->
+	</ion-content> 
+	<ion-footer-bar align-title = "center" class = "bar-assertive">
+		<div class="button-bar">
+		  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+		</div>
+	</ion-footer-bar>
+</ion-view> 

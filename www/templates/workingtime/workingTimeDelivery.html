@@ -1,0 +1,258 @@
+<ion-view title="Working Time">
+	<div class = "bar bar-header bar-positive"> 
+		<!-- <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>  -->
+		<button class="button icon show" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+		<h1 class = "title">Working Time</h1>
+	</div>
+	<ion-content padding="true" class="appSpacingTop odr-lst has-header"> 
+		<ion-list> 
+		<div class ="tabs dashboard-tabs">
+		    <a class="tab-item" href="javascript:void(0);" ng-click="wrkingTimePickup({{items_edit.location_id}})" ng-click="modal.hide()">Pickup Time</a>
+			 <a class="tab-item active" href="javascript:void(0);" ng-click="wrkingTimeDelivery({{items_edit.location_id}})" ng-click="modal.hide()">Delivery Time</a>
+		</div>
+			<div class="items items-head all_loc"><h3 class="col-25">Days</h3><h3 class="col-25">Start Time</h3><h3 class="col-25">End Time</h3><h3 class="col-25 align-r">Action</h3></div>         
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Monday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_monday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_monday_to}}</h3>
+						</div> -->
+						 
+						<div ng-if="items_edit.d_monday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_monday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_monday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_monday_to}}</h3>
+							</div>
+						</div>
+						 
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_monday_from','d_monday_to','d_monday_dayoff','Monday')">Edit</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Tuesday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_tuesday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_tuesday_to}}</h3>
+						</div>
+						 -->
+						
+						<div ng-if="items_edit.d_tuesday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_tuesday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_tuesday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_tuesday_to}}</h3>
+							</div>
+						</div>
+						
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_tuesday_from','d_tuesday_to','d_tuesday_dayoff','Tuesday')">Edit</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Wednesday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_wednesday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_wednesday_to}}</h3>
+						</div>
+						 -->
+						<div ng-if="items_edit.d_wednesday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_wednesday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_wednesday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_wednesday_to}}</h3>
+							</div>
+						</div> 
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_wednesday_from','d_wednesday_to','d_wednesday_dayoff','Wednesday')">Edit</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Thursday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_thursday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_thursday_to}}</h3>
+						</div> -->
+						<div ng-if="items_edit.d_thursday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_thursday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_thursday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_thursday_to}}</h3>
+							</div>
+						</div>
+						
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_thursday_from','d_thursday_to','d_thursday_dayoff','Thursday')">Edit</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Friday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_friday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_friday_to}}</h3>
+						</div> -->
+						<div ng-if="items_edit.d_friday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_friday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_friday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_friday_to}}</h3>
+							</div>
+						</div>
+						
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_friday_from','d_friday_to','d_friday_dayoff','Friday')">Edit</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Saturday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_saturday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_saturday_to}}</h3>
+						</div> -->
+						
+						<div ng-if="items_edit.d_saturday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_saturday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_saturday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_saturday_to}}</h3>
+							</div>
+						</div>
+						
+						
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_saturday_from','d_saturday_to','d_saturday_dayoff','Saturday')">Edit</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="item loc-items" ng-if="items_edit.msg=='founded'">
+						<div class="pull-left working-head">
+							<h3>Sunday</h3>
+						</div>
+						<!-- <div class="pull-left working-head">
+							<h3>{{items_edit.del_sunday_from}}</h3>
+						</div>
+						<div class="pull-left working-head">
+							<h3 class="cap-text">{{items_edit.del_sunday_to}}</h3>
+						</div> -->
+						
+						<div ng-if="items_edit.d_sunday_dayoff=='T'">
+							<div class="pull-left working-head">
+								<h3>Closed</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text">Closed</h3>
+							</div>
+						</div>
+						<div ng-if="items_edit.d_sunday_dayoff!='T'">
+							<div class="pull-left working-head">
+								<h3 class="align-c">{{items_edit.del_sunday_from}}</h3>
+							</div>
+							<div class="pull-left working-head">
+								<h3 class="cap-text align-c">{{items_edit.del_sunday_to}}</h3>
+							</div>
+						</div>
+						
+						<div class="pull-left working-head align-r">
+							<h3 class="action-link cap-text" ng-click="viewDeliveryTimeDetail({{items_edit.location_id}},'d_sunday_from','d_sunday_to','d_sunday_dayoff','Sunday')">Edit</h3>
+						</div>
+					</div>
+						<div class="no-ordrs" ng-if="items_edit.msg=='no record found'"><h3 class="item">{{items_edit.msg}}</h3></div> 
+				<!-- </ion-item>  -->
+		</ion-list>
+	</ion-content> 
+	<!-- <div class="tabs tabs-icon-top">
+		<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+	   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+		<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+	</div>	 -->
+	
+	<ion-footer-bar align-title = "center" class = "bar-assertive">
+	<div class="button-bar">
+	  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+	</div>
+	</ion-footer-bar>
+</ion-view> 

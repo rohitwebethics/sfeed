@@ -1,0 +1,37 @@
+<ion-view view-title="Add Post Code Exclusions">
+<div class="bar bar-header bar-positive"> 
+	<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+	<h1 class="title">Add Post Code Exclusions</h1>
+</div>
+    <ion-content class="appSpacingTop has-header"> 
+		<div class="list list-inset entryCustom accept-order"  ng-controller="addPostCodeExecCtrl">
+			<form name="savepostcode" class="margin-btm-10" novalidate ng-submit="savePostCodeExec()">
+				<label class="notice-sec">NOTE: SEPERATE THE POST CODE IN 2 PARTS. IF SECOND PART IS LEFT BLANK THEN ALL POSTCODES WITHIN FIRST PART (AREA) WILL BE EXCLUDED.</label>
+			
+				<label class="item item-input text-center">
+					<input type="text" id="postcode_part1" placeholder="Postcode part1" name="postcode_part1" value="" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="postcode_part2" placeholder="Postcode part2" name="postcode_part2" value="" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="delivery_price" placeholder="Delivery Price" name="delivery_price" value=""/>
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="delivery_free" placeholder="or FREE if Total is Greater Than" name="delivery_free" value="" />
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_location">Save</button>
+				</label>
+			</form> 
+		</div>  
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

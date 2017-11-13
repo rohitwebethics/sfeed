@@ -1,0 +1,23 @@
+<ion-view  title="All Sites">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">All Sites</h1>
+	</div>
+	<ion-content padding="true" class="appSpacingTop odr-lst has-header order-listing"> 
+		<div class="items items-head" style="z-index: 1000;"><h3 class="col-30">Name</h3><h3 class="col-30">Manage Site</h3></div>  
+		<ion-list>  
+			<ion-item ng-repeat="item in items">
+				<div href="#/app/orderDetail={{item.id}}">
+					<div ng-click="managesite({{item.id}})"><span class="col-50">{{item.site_name}}</span><span id="order_stats" class="col-50 align-r">Manage Site </span></div>
+					<div class="no-ordrs" style="z-index: 1000;" ng-click="managesite({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+				</div>
+			</ion-item> 
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+	<div class="tabs tabs-icon-top">
+		<a ng-class="{active:ord_sts!='' && ord_sts== 'pending'}" class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+		<a ng-class="{active:ord_sts!='' && ord_sts== 'all'}" class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a> 
+	   <a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i> Profile</a>
+	</div>
+</ion-view> 

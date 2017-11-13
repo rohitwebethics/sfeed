@@ -1,0 +1,66 @@
+<ion-view  title="Order List">
+		<!----ion-nav-bar class="bar-stable nav-bar-container"> 
+		<div class="buttons"> 
+			<span class="left-buttons">
+				<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+			</span>
+		</div>
+	</ion-nav-bar--->  
+	
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Order List</h1>
+	</div>
+	
+	<ion-content padding="true" class="appSpacingTop odr-lst has-header order-listing"
+	id="content"
+	on-swipe-up="onGesture('up',ord_sts)"
+	on-swipe-right="onGesture('right',ord_sts)"
+	on-swipe-down="onGesture('down',ord_sts)"
+	on-swipe-left="onGesture('left',ord_sts)"
+	on-hold="onGesture('hold',ord_sts)"
+	on-double-tap="onGesture('tap',ord_sts)"
+	scroll="true"> 
+			   
+			<ion-list>   
+			<div class="items items-head" style="z-index: 1000;"><h3 class="col-30">Id</h3><h3 class="col-30">Price</h3><h3 class="col-40 h-align-r">Status</h3></div>  
+				<ion-item ng-repeat="item in items" ng-if="item.id"> 
+					<!-- <div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
+						<div style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span>{{item.id}}</span><span>£{{item.price_total}}</span><span id="order_stats">{{item.status}} </span></div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+					</div> -->
+					
+					
+					<div ng-if="assignedPrivileges!=''">
+						<!-- <div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  true || assignedPrivileges.includes('Preset_Orders Detail') ==  true"> -->
+						<div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  true"> 
+							<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
+								<div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span class="col-30">{{item.id}}</span><span class="col-30">£{{item.price_total}}</span><span id="order_stats" class="col-40 align-r">{{item.status}} </span></div>
+								<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+							</div>
+						</div>
+						<!-- <div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  false || assignedPrivileges.includes('Preset_Orders Detail') ==  false"> --> 
+						<div ng-if="assignedPrivileges.includes('Priv_Orders Detail') ==  false"> 
+							<div ng-if="item.id">
+								<div ng-if="item.msg=='founded'"><span class="col-30">{{item.id}}</span><span class="col-30">£{{item.price_total}}</span><span id="order_stats" class="col-40 align-r action-link">{{item.status}}</span></div>
+								<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+							</div>
+						</div>
+					</div>
+					
+					<div ng-if="assignedPrivileges ==''"> 
+						<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
+							<div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'"><span class="col-30">{{item.id}}</span><span class="col-30">£{{item.price_total}}</span><span id="order_stats" class="col-40 align-r action-link">{{item.status}} </span></div>
+							<div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+						</div>
+					</div>
+				</ion-item> 
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+	<div class="tabs tabs-icon-top">
+		<a ng-class="{active:ord_sts!='' && ord_sts== 'pending'}" class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+		<a ng-class="{active:ord_sts!='' && ord_sts== 'all'}" class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a> 
+	   <a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i> Profile</a>
+	</div>
+	</ion-view> 

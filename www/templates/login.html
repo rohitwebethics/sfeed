@@ -1,0 +1,24 @@
+<ion-view hide-nav-bar="true">
+<ion-view view-title="Please Login" name="login-view">
+    <ion-content class="appSpacingTop login">
+            <div class="list list-inset entryCustom login-screen">
+				<div class="main-logo">
+					<img src="img/smartfeed_logo.png" />
+				</div>
+                <form name="login" ng-controller="LoginCtrl" novalidate ng-submit="loginForm(login)">
+                    <label class="item item-input" ng-class="{ 'has-errors' : login.username.$invalid && login.$submitted, 'no-errors' : login.username.$valid  && login.$submitted}">
+                        <i class="icon ion-ios-person-outline"></i>
+                        <input type="text" id="username" placeholder="Username" name="username" ng-model="username" required>
+                    </label>
+                    
+                    <label class="item item-input" ng-class="{ 'has-errors' : login.password.$invalid && login.$submitted, 'no-errors' : login.password.$valid  && login.$submitted}">
+                        <i class="icon ion-ios-locked-outline"></i>
+                        <input type="password" id="password" placeholder="Password" name="password" ng-model="password" required>
+                    </label>
+                    <label class="item noBorder">
+                        <button class="login-btn button button-block button-theme" type="submit" name="submit">Login</button>
+                    </label>
+                </form>
+            </div>
+    </ion-content>
+</ion-view>

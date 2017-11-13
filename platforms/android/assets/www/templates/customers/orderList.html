@@ -1,0 +1,26 @@
+<ion-view view-title="Order List">
+	<div class="bar bar-header bar-positive"> 
+	<!-- <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>  -->
+	<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+	<h1 class="title">Orders</h1>
+	</div>
+				   
+	<ion-content class="appSpacingTop has-header" id="content">
+		<ion-list> 
+			<div class="items items-head" style="z-index: 1000;"><h3>Id</h3><h3>Price</h3><h3>Status</h3></div>                                            
+				<ion-item class="customer_order-list" ng-repeat="item in items_orders" ng-if="item.id"> 
+					<div ng-if="item.id" href="#/app/customerOrderDetail={{item.id}}">
+						<div style="z-index: 1000;" ng-click="customerOrderDetail({{item.id}})" ng-if="item.msg=='founded'"><h3 >{{item.id}}</h3><h3>£{{item.price_total}}</h3><h3 id="order_stats">{{item.order_status}} </h3></div>
+						<!-- <div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div> -->
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item> 
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+	<ion-footer-bar align-title = "center" class = "bar-assertive">
+	<div class="button-bar">
+	  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+	</div>
+	</ion-footer-bar>
+</ion-view> 

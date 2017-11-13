@@ -1,0 +1,30 @@
+<ion-view view-title="Add Extra">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Add Extra</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="addExtrasCtrl">
+			<!--div ng-if="items13.msg && items13.msg!=''" class="text-center msg-alrt col-12">{{items13.msg}}</div--->
+			<form name="saveextra" class="saveextra" novalidate ng-submit="saveExtras(saveextra)">
+				<label class="item item-input text-center time-unit" ng-class="{ 'has-errors' : saveextra.extra_name.$invalid && saveextra.$submitted, 'no-errors' : saveextra.extra_name.$valid  && saveextra.$submitted}">
+					<input type="text" id="extra_name" placeholder="Enter name" name="extra_name" ng-model="extra_name" required>
+				</label>
+				<label class="item item-input text-center time-unit" ng-class="{ 'has-errors' : saveextra.extra_price.$invalid && saveextra.$submitted, 'no-errors' : saveextra.extra_price.$valid  && saveextra.$submitted}"> 
+					<input type="number" id="extra_price" inputmode="numeric" pattern="[0-9]*" placeholder="Enter price" name="extra_price" ng-model="extra_price" required>
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_estimate_time">Save</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

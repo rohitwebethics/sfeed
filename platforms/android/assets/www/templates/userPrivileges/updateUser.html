@@ -1,0 +1,110 @@
+<ion-view view-title="Update User">
+	<div class="bar bar-header bar-positive"> 
+		<!-- <button menu-toggle="left" class="button button-icon icon ion-navicon"></button> -->
+		<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button>
+		<h1 class="title">Update User</h1> 
+	</div> 
+    <ion-content class="appSpacingTop has-header"> 
+		<div class="list list-inset entryCustom accept-order" ng-controller="updateUsersCtrl">
+			<form name="updateuser" class="savelocation margin-btm-10" novalidate ng-submit="updateUser(updateuser)" >
+				<div id="uname">
+					<!-- <label class="item item-input text-center" ng-class="{true: 'error'}[submitted && updateuser.username1.$invalid]"> -->
+					<label class="item item-input text-center">
+						<input type="text" id="user_name1" placeholder="User Name" name="user_name1" value="" ng-model="username" required />
+					</label>
+					<!-- <label>
+						<p class="help-inline" ng-show="submitted && updateuser.user_name1.$error.required">This is required field.</p>
+					</label>  -->
+				</div>
+				<div id="upass">
+					<label class="item item-input text-center">
+						<input type="password" id="user_password1" placeholder="Password" name="user_password" value="" /> 
+					</label>
+					<!-- <label>
+						<p class="help-inline" ng-show="submitted && updateuser.user_password.$error.required">This is required field.</p>
+					</label>  -->
+				</div>
+				<div id="uemail">
+					<!-- <label class="item item-input text-center" ng-class="{true: 'error'}[submitted && updateuser.email.$invalid]"> -->
+					<label class="item item-input text-center">
+						<input type="email" id="email_address1" placeholder="Email Address" name="email_address1" value="" required  ng-model="email" /> 
+					</label>
+					<!-- <label>
+						<p class="help-inline" ng-show="submitted && updateuser.email_address1.$error.required">This is required field.</p>
+						<p class="help-inline" ng-show="submitted && updateuser.email_address1.$error.email">Please enter valid email.</p>
+					</label>  -->
+				</div> 
+				<div>
+					
+					<label class="col-12"><i class="icon ion-android-add-circle"></i>Assign Privileges</label>
+				  <!-- selectPreset1.checked = 	{{selectPreset1.checked}}  -->
+					<!-- <ion-toggle ng-model="selectPreset1.checked"  ng-change="selectPresetPrivileges1()">Preset Notifications</ion-toggle> -->
+					<!-- {{presetCheck}} -->
+					<ion-toggle ng-model="selectPreset1.checked"  ng-change="selectPresetPrivileges1()" ng-checked="presetCheck == '1'">Preset Notifications</ion-toggle>
+					 <!-- <label class="col-12">{{presetPrivileges}}</label>  -->
+					<ion-item ng-repeat="(key, item) in items" ng-if="key !='msg'">
+						<h3 class="col-12 font-15 privlg-title item item-divider" ng-if="key !='msg'">{{key}}</h3>
+						<div ng-repeat="itm in item" ng-if="itm.name && key !='msg'">
+							<div style="z-index: 1000;" class="col-6 "><h3 class="no-margin">{{itm.name}}</h3></div>
+							<!-- <div ng-if="presetPrivileges==''" class="col-6 cell-spacing"> -->
+								<!-- selected_privileges : {{ selected_privileges }} -->
+								<!-- <input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" />  -->
+								
+								<!-- <input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" ng-disabled="presetPrivileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" />  -->
+							<!-- 	<input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+							</div> -->
+							
+							<!-- <div ng-if="presetPrivileges!=''" class="col-6 cell-spacing"> -->
+								 <!-- selected_privileges : {{ selected_privileges }}  -->
+								<!-- <input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" />  -->
+								
+								<!-- <input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" ng-disabled="presetPrivileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" />  -->
+								<!-- <input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+							</div> -->
+							<!-- <div ng-if="presetPrivileges!=''" class="col-6 cell-spacing">
+							selected_privileges : {{ selected_privileges }}
+							<input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}') && presetPrivileges!=''" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+							</div>
+							<div ng-if="presetPrivileges==''" class="col-6 cell-spacing">
+							selected_privileges : {{ selected_privileges }}
+							<input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+							</div> -->
+							
+							<div class="col-6 cell-spacing">
+							<!-- {{ selected_privileges }}
+							selected_privileges.includes('{{itm.name}}') -->
+							<input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" ng-disabled="presetPrivileges.includes('{{itm.name}}') && selectPreset1.checked==true"  name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+							</div>
+							<!-- <div ng-if="presetPrivileges==''" class="col-6 cell-spacing">
+							selected_privileges : {{ selected_privileges }}
+							<input class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+							</div> -->
+							<!-- <input ng-if="presetPrivileges!=''" class="pull-right" type="checkbox" ng-checked="selected_privileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" />  -->
+						</div>  
+					</ion-item>  
+					
+					<input id="prevAssignedToUser" type="hidden" ng-model="selected_privileges" value="{{ selected_privileges }}">
+					
+				</div>
+				 <label class="item noBorder">
+					<!-- <button type="submit" class="button button-block button-theme" ng-click="submitted=true">Save</button> -->
+					<button type="submit" class="button button-block button-theme">Save</button>
+				</label>
+			</form>
+		</div>  
+</ion-content> 
+	
+<!-- <ion-footer-bar align-title = "center" class = "bar-assertive">
+	<div class="tabs tabs-icon-top">
+		<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+		<a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+		<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+	</div>	
+</ion-footer-bar> -->
+ <ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()">Back</button>
+</div>
+</ion-footer-bar> 
+</ion-view>
+

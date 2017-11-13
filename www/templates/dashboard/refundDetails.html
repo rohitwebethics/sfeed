@@ -1,0 +1,44 @@
+<ion-view view-title="Refund Detail">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Refund Detail</h1>
+</div>
+    <ion-content class="appSpacingTop has-header refundDetails">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="refundDetailCtrl">
+			<form name="updaterefund" novalidate ng-submit="updateRefund(updaterefund)">
+				<label class="item text-center ordr-id" ng-click="orderDetail()">Order Id {{items_detail.order_id}}  </label> 
+				<!-- <label class="item item-input text-center" id="amount" placeholder="dsad">{{items_detail.amount}}</label> -->
+				<label class="item item-input">
+				<input type="text" class="item item-input" id="amount" placeholder="Claim from Customer"   value="{{items_detail.amount}}" readonly>
+				</label>
+				<label class="item item-input text-center"> 
+					<textarea id="customer_reason" placeholder="Reason from Customer"  cols="38" rows="8" readonly>{{items_detail.reason}}</textarea>
+				</label>
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Refund Status for customer</div>
+					<select id="refund_status" name="refund_status">
+						<option ng-repeat="item in refund_status" value="{{item.value}}" ng-selected="items_detail.status == item.value">{{item.name}}</option>
+					</select>
+				  </label> 
+				  <label class="item item-input text-center"> 
+					<input type="number" id="refund_approved_amount" inputmode="numeric" pattern="[0-9]*" placeholder="Amount if Approved" name="refund_approved_amount"   value="{{items_detail.amount_approved_tao}}">
+				</label>
+				<label class="item item-input text-center">
+					<textarea id="refund_message" placeholder="Message for Customer" name="refund_message" cols="38" rows="8">{{items_detail.note_customer_tao}}</textarea>
+				</label>
+				<input type="hidden" id="order_id" name="order_id" ng-model="order_id" value="{{items_detail.order_id}}" required >
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="apply_refund_status">Apply Refund Status</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

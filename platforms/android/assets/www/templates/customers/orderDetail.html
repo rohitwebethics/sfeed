@@ -1,0 +1,112 @@
+<ion-view view-title="Order Detail"> 
+<div class="bar bar-header bar-positive"> 
+	<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+	<h1 class="title">Order Detail</h1>
+	</div>
+				 
+	<ion-content class="appSpacingTop has-header">
+	<ion-list>
+		<ion-item  class="customer_order-detail odr-dtl" ng-repeat="item in items10"  ng-if="item.orderId"> 
+			<div ng-if="item.orderId">
+				<div class ="tabs dashboard-tabs action-btns" ng-if="assignedPrivileges.includes('Priv_Orders Edit Order') ==  true || assignedPrivileges.includes('Preset_Orders Edit Order') ==  true || assignedPrivileges == ''">
+					<a class="tab-item active" href="javascript:void(0);" ng-click="updateOrder({{ item.orderId }})">Edit Oder</a>
+				</div> 
+				<div ng-if="items10.msg=='founded'">
+					<div class="ord-sec-1">
+						<div><h3 class="col-6">Order Number</h3><h3 class="col-6 align-r">Amount</h3></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">{{item.orderId}}</h4><h4 class="col-6 align-r">£{{item.price_total}}</h4></div>  
+						<div style="clear:both;"></div>
+						<div ng-if="items10.order_placed_time!=''"><h3 class="col-6">Order Place On</h3><h4 class="col-6 align-r">{{items10.order_placed_time}}</h4></div>  
+						<div style="clear:both;"></div>	  	  
+					</div>
+				<div class="ord-sec-2">
+					<div class="cell-spacing pull-left"><h3 class="col-12">Payment Detail</h3></div>              
+					<div style="clear:both;"></div>	  
+					<div><h4 class="col-6">Order Type</h3><h4 class="col-6 align-r cap-text">{{item.type}}</h3></div>              
+					<div style="clear:both;"></div>	  
+					<div><h4 class="col-6">Payment Method</h4><h4 class="col-6 align-r cap-text">{{item.payment_method}}</h4></div>  
+					<div style="clear:both;"></div>	  
+					<div><h4 class="col-6">Status</h4><h4 class="col-6 align-r cap-text">{{item.status}}</h3></div>     
+					<div style="clear:both;"></div>	
+					<div><h4 class="col-6">Paid</h3><h4 class="col-6 align-r"><h4 ng-if="item.is_paid == 0 || item.is_paid == null">No</h4><h4 ng-if="item.is_paid == 1">Yes</h4></h3></div>
+				</div>
+				<div class="ord-sec-4"> 
+					<div class="prodct-detls" ng-repeat="subrow in item.products_items">
+						<div class="row responsive-sm">
+							<div class="col">
+								<h3>Product Items</h3>
+								<p class="cap-text">{{subrow.name}}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col col-50">
+								<h3>Quantity</h3>
+								<p>{{subrow.item_quantity}}</p>
+							</div>
+							<div class="col col-50 text-right">
+								<h3>Price</h3>
+								<p>£{{subrow.item_price}}</p>
+							</div>
+						</div>
+					</div>		
+				</div> 
+				<div class="ord-sec-5">
+					<div><h3 class="col-12">Summary</h3></div>              
+					<div style="clear:both;"></div>	  
+					<div class="prc-dtl"><h4 class="col-6">Sub Total</h4><h4 class="col-6 align-r"><strong>£{{item.subtotalPrice}}</strong></h4></div>  
+					<div style="clear:both;"></div>	  
+					<div ng-if="item.redeem_amount != '' && item.redeem_amount != null"><h4 class="col-6">Redeem Amount</h4><h4 class="col-6 align-r"><strong>£{{item.redeem_amount}}</strong></h4></div>  
+					<div style="clear:both;"></div>	  
+					<div ng-if="item.voucher_discount != '' && item.voucher_discount != null"><h4 class="col-6">Voucher Discount</h4><h4 class="col-6 align-r"><strong>£{{item.voucher_discount}}</strong></h4>
+					<div style="clear:both;"></div>	  
+					<span class="col-md-12 voucher_cd" ng-if="item.voucher_code !='' && item.voucher_code!=null"><em>(Applied code: {{item.voucher_code}} )</em></span>
+					</div>  
+					<div style="clear:both;"></div>
+					<div><h4 class="col-6">Delivery</h4><h4 class="col-6 align-r"><strong ng-if="item.price_delivery!='' && item.price_delivery>0">£{{item.price_delivery}}</strong><strong ng-if="item.price_delivery=='' || item.price_delivery <= 0">Free</strong></h4></div> 						
+					<div style="clear:both;"></div>	
+					<div><h4 class="col-12 align-r pr_totl">Total <strong>£{{item.price_total}}</strong></h4></div>     			
+				</div>
+				<div class="ord-sec-6">
+					<h3 class="col-12">Delivery Address</h3>              
+					<p class="col-12">{{item.c_name}}</p>
+					<p class="col-12">{{item.location_addrs}}</p>
+					<p class="col-12" ng-if="item.location_full_addrs != ''">{{item.location_full_addrs}}</p>
+					<p class="col-12" ng-if="item.ordr_type == 'delivery' && item.o_city != ''">{{item.o_city}}</p>
+					<p class="col-12" ng-if="item.ordr_type == 'delivery' && item.o_state != ''">{{item.o_state}}</p>
+					<p class="col-12" ng-if="item.ordr_type == 'delivery' && item.o_country != ''">{{item.o_country}}</p>
+					<p class="col-12" ng-if="item.c_phone != ''">Contact Number: {{item.c_phone}}</p>
+					 
+					<div style="clear:both;"></div>	 	
+				</div>
+				<div class="ord-sec-9" ng-if="item.d_notes != '' && item.d_notes != null">
+
+					<div><h3 class="col-12">Special Instructions</h3></div>              
+					<div style="clear:both;"></div>	  
+					<div><h4 class="col-12">{{item.d_notes}}</h4></div>
+					<div style="clear:both;"></div>
+				</div> 
+			</div> 
+	  </div>
+		<div class="no-ordrs" ng-if="item.msg=='no record found'">
+			<h4>{{item.msg}}</h4>
+		</div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!-- <ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar> -->
+
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+	<div class="button-bar" ng-repeat="item in items10"  ng-if="item.orderId">
+		<button ng-if="item.status=='pending' || item.status==''" class="button button-positive button-clear icon ion-ios-paper" ng-click="orderstatus('accept','{{ item.orderId}}')" type="submit"> Accept Order</button>
+		<button ng-if="item.status=='pending' || item.status==''" class="button button-positive button-clear icon ion-android-cancel" ng-click="orderstatus('decline','{{ item.orderId}}')" type="submit"> Cancel Order</button>
+		<button ng-if="item.status!='pending' && item.status!=''" class="button button-positive button-clear icon ion-printer" ng-click="print()">Print Order</button>
+	</div>
+</ion-footer-bar> 
+</ion-view>
+

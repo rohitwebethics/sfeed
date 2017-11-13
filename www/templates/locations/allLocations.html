@@ -1,0 +1,31 @@
+<ion-view title="Locations">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Locations</h1>
+	</div>
+	<ion-content padding="true" class="appSpacingTop odr-lst has-header itm-list"> 
+		<ion-list> 
+		<button class="button button-icon icon ion-android-add-circle" ng-click="addLocations()"></button>
+			<div class="items items-head all_loc"><h3 class="col-60">Name(Address)</h3><h3 class="col-40 h-align-r">Action</h3></div>         
+				<ion-item ng-repeat="item in items" ng-if="item.id"  class="col-12">
+					<div class="loc-items" ng-if="item.msg=='founded'">
+						<div class="pull-left col-60 loc-head">
+							<h3 ng-click="editLocation({{item.id}},{{item.add_latitude}},{{item.add_longitude}})">{{item.name}}</h3>
+							<h3 class="cap-text" ng-click="editLocation({{item.id}},{{item.add_latitude}},{{item.add_longitude}})">({{item.address}})</h3>
+						</div>
+						<div class="pull-right col-40 action-sec" >
+							<h3 class="text-align-r align-r" ng-click="editLocation({{item.id}},{{item.add_latitude}},{{item.add_longitude}})" id="order_stats">Edit</h3>
+							<h3 class="text-align-r align-r" ng-click="showPopup({{item.id}})" id="order_stats">Delete</h3>
+						</div>
+					</div>
+					<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div> 
+				</ion-item> 
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+	<div class="tabs tabs-icon-top">
+		<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+	   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+		<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+	</div>	
+</ion-view> 

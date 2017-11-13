@@ -1,0 +1,71 @@
+<ion-view view-title="Update Extra">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Extra</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class ="tabs dashboard-tabs">
+		    <a class="tab-item active" href="javascript:void(0);" ng-click="wrkingTimePickup({{items_edit.location_id}})" ng-click="modal.hide()">Pickup Time</a>
+			 <a class="tab-item" href="javascript:void(0);" ng-click="wrkingTimeDelivery({{items_edit.location_id}})" ng-click="modal.hide()">Delivery Time</a>
+		</div>
+		<div class="list list-inset entryCustom accept-order margin-btm-10 "  ng-controller="viewPickupTimeDetailCtrl">
+			<form name="updatepikuptime" class="updatepikuptime" novalidate ng-submit="updatePikupTime()">
+				<label class="item item-input text-center"> 
+					<input type="text" id="day_name" name="day_name" value="{{items_edit.day_name}}" readonly >
+				</label>
+				<div class="input-label select-title">To</div> 
+				 <label class="item item-select text-center col-6">
+					<div class="input-label select-title">Hours</div> 
+					 <select id="start_time_hours" name="start_time_hours" ng-disabled="day_off_value">
+						<option value='00'>Select</option>
+						<option ng-repeat="item in timeHours" value="{{item.value}}" ng-selected="items_edit.time_from_hours == item.value">{{item.name}}</option>
+					</select>
+				  </label>
+				  
+				  <label class="item item-select text-center col-6">
+					<div class="input-label select-title">Minutes</div> 
+					 <select id="start_time_minutes" name="start_time_minutes" ng-disabled="day_off_value">
+						<option value='00'>Select</option>
+						<option ng-repeat="item in timeSeconds" value="{{item.value}}" ng-selected="items_edit.time_from_minutes == item.value">{{item.name}}</option>
+					</select>
+				  </label>
+				  
+				 <div class="input-label select-title">From</div> 
+				   <label class="item item-select text-center col-6">
+					<div class="input-label select-title">Hours</div> 
+					 <select id="end_time_hours" name="end_time_hours" ng-disabled="day_off_value">
+						<option value='00'>Select</option>
+						<option ng-repeat="item in timeHours" value="{{item.value}}" ng-selected="items_edit.time_to_hours == item.value">{{item.name}}</option>
+					</select>
+				  </label>
+				  <label class="item item-select text-center col-6">
+					<div class="input-label select-title">Minutes</div> 
+					 <select id="end_time_minutes" name="end_time_minutes" ng-disabled="day_off_value">
+						<option value='00'>Select</option>
+						<option ng-repeat="item in timeSeconds" value="{{item.value}}" ng-selected="items_edit.time_to_minutes == item.value">{{item.name}}</option>
+					</select>
+				  </label>
+				   <label class="item item-text text-center">
+					<div class="select-title col-6">Is day Off</div>
+					 <!-- <input type="checkbox" id="day_off" name="day_off" value="T" ng-model="day_off" /> -->
+					 <input class="pull-right" type="checkbox" id="day_off" name="day_off" ng-model="day_off_value" ng-click="changeValue();" />
+					 <input type="hidden" id="day_off_value" name="day_off_value" value="{{day_off_value}}" />
+				  </label>
+				  <div class="clearfix"></div>
+				 
+				<!-- <input type="hidden" id="extra_id" name="extra_id" ng-model="extra_id" value="{{items_edit.id}}" > -->
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="update_estimate_time">Save</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

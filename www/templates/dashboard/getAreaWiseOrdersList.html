@@ -1,0 +1,91 @@
+<ion-view view-title="Top Areas">
+	<div class = "bar bar-header bar-positive"> 
+		<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+		<h1 class = "title">Top Areas Detail</h1>
+	</div>
+	<ion-content class="appSpacingTop has-header dashboard-reports">
+		<!-- <div class ="tabs dashboard-tabs">
+		   <a class="tab-item" href="#app/dashboard">Business Reports</a>
+		   <a class="tab-item" href="#app/graphicalReport">Graphical Report</a>
+		   <a class="tab-item" href="#app/topBuyers">Top Buyers</a>
+		   <a class="tab-item" href="#app/topDishes">Top Dishes</a>
+		   <a class="tab-item" href="#app/topAreas">Top Areas</a>
+		   <a class="tab-item" href="#app/topPromos">Top Promos</a>
+		   <a class="tab-item active" href="#app/refundClaims">Refund Claims</a>
+		</div> -->
+		
+			<div class ="tabs dashboard-tabs main-tabs">
+		   <!-- <a class="tab-item active" href="javascript:void(0);" ng-click="showMenu = !showMenu">Menus</a> -->
+		   <a class="tab-item active button-icon icon ion-navicon" href="javascript:void(0);" ng-click="modal.show()">Top Areas</a>
+		   <!-- <a class="tab-item active" href="javascript:void(0);" ng-click="showDiv = !showDiv">Order Details</a> -->
+		</div>  
+		 
+		 <script id="templates/modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">Menus</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+        <div class ="tabs dashboard-tabs">
+		   <a class="tab-item active" href="#app/dashboard" ng-click="modal.hide()">Business Reports</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport">Graphical Report</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers">Top Buyers</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes">Top Dishes</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas">Top Areas</a>	
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos">Top Promos</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims">Refund Claims</a>
+		 </div>
+		 
+		<!--  
+		<div class ="tabs dashboard-tabs" ng-if="assignedPrivileges!=''"> 
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/dashboard" ng-if="assignedPrivileges.includes('Priv_Dashboard Bussiness Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Bussiness Report') ==  true" >Business Reports</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport" ng-if="assignedPrivileges.includes('Priv_Dashboard Graphical Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Graphical Report') ==  true">Graphical Report</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Buyers Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Buyers Report') ==  true">Top Buyers</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Dishes Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Dishes Report') ==  true">Top Dishes</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Area') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Area') ==  true">Top Areas</a>	
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Promos') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Promos') ==  true">Top Promos</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims" ng-if="assignedPrivileges.includes('Priv_Dashboard Refund Claims') ==  true || assignedPrivileges.includes('Preset_Dashboard Refund Claims') ==  true">Refund Claims</a>
+		</div>
+		
+		<div class ="tabs dashboard-tabs" ng-if="assignedPrivileges==''">
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/dashboard">Business Reports</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport">Graphical Report</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers">Top Buyers</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes">Top Dishes</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas">Top Areas</a>	
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos">Top Promos</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims">Refund Claims</a>
+		</div> -->
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    
+
+		<ion-list> 
+			<div class="items items-head" style="z-index: 1000;">
+				<h3 class="col-33">Postal code</h3>
+				<h3 class="col-33">Total Orders</h3>
+				<h3 class="col-33">Total Business</h3>
+			</div>     
+			<!-- <ion-item ng-repeat="item in items" ng-if="item.id">  -->
+			<ion-item ng-repeat="item in items" ng-if="item.postal_code"> 
+				<div>
+					<div style="z-index: 1000;" ng-click="getOrders('{{item.postal_code}}')">
+					<span class="col-33">{{item.postal_code}}</span>
+					<span class="col-33 click">{{item.total}}</span>
+					<span class="col-33">£{{item.total_price}}</span>
+					</div>
+					<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>No Record Found</span></div>
+				</div>
+			</ion-item> 
+		</ion-list>
+		 <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>
+
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+</div>

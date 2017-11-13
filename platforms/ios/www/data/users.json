@@ -1,0 +1,6 @@
+var users = {"users":[
+    {"username":"admin", "password":"admin"},
+    {"username":"parent", "password":"parent"},
+    {"username":"child", "password":"child"},
+	{"username":"teacher", "password":"teacher"}
+]}

@@ -1,0 +1,22 @@
+<ion-view view-title="Profile"> 
+	<div class="bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Profile</h1>
+	</div>	 
+    <ion-content class="appSpacingTop has-header">
+		 <div class="entryCustom usr-profil">
+			<ul>
+				<li class="item item-icon-left"> <i class="icon ion-ios-person-outline"></i> <span id="myUsername">{{fullname}}</span> </li>
+				<li class="item item-icon-left"> <i class="icon ion-ios-email-outline"></i> <span id="myEmail">{{email}}</span> </li>
+			</ul>
+			<!-- <a class="button button-block button-theme logout" ng-click="logout()"> Logout </a> -->
+			<!-- <a class="button button-block button-theme logout" ng-click="openTimePicker1()"> openTimePicker1 </a> -->
+			<button class="button button-block button-theme" type="submit" ng-click="logout()" name="save_estimate_time">Logout</button>
+        </div>
+    </ion-content>
+</ion-view>
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+	<a class="tab-item active" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+</div>

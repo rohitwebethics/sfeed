@@ -1,0 +1,40 @@
+<ion-view view-title="Update Category">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Category</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="updateCategoryCtrl">
+			<form name="updatecategory" class="updatecategory" novalidate ng-submit="updateCategory(updatecategory)">
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updatecategory.category_price.$invalid && updatecategory.$submitted, 'no-errors' : updatecategory.category_price.$valid  && updatecategory.$submitted}"> 
+					<input type="text" id="category_name" placeholder="Enter name" name="category_name" value="{{items_edit.name}}" required >
+				</label>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updatecategory.category_description.$invalid && updatecategory.$submitted, 'no-errors' : updatecategory.category_description.$valid  && updatecategory.$submitted}"> 
+					<textarea id="category_description" placeholder="Enter description" name="category_description" cols="38" rows="8">{{items_edit.description}}</textarea>
+				</label>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updatecategory.category_order.$invalid && updatecategory.$submitted, 'no-errors' : updatecategory.category_order.$valid  && updatecategory.$submitted}">
+					<input type="number" id="category_order" inputmode="numeric" placeholder="Order" name="category_order" value="{{items_edit.order}}">
+				</label> 
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Is Open?</div> 
+					 <select id="category_is_open" name="category_is_open">
+						<option value='no'>Select</option>
+						<option ng-repeat="item in isOpen" value="{{item.value}}" ng-selected="items_edit.is_open == item.value">{{item.name}}</option>
+					</select>
+				</label>
+				<input type="hidden" id="category_id" name="category_id" ng-model="category_id" value="{{items_edit.id}}" required >
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="update_estimate_time">Update</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

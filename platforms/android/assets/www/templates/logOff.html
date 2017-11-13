@@ -1,0 +1,26 @@
+<ion-view view-title="Logoff Users" name="logoff-view" hide-back-button="true">
+	<ion-content class="appSpacingTop login mid-logo has-header">
+		<div class="main-sec"> 
+			<div class="list list-inset entryCustom login-screen">
+				<div class="main-logo">
+					<img src="img/smartfeed_logo.png" />
+				</div>
+				<ion-item ng-repeat="item in items_edit" ng-if="item.user_id"> 
+					<div class="">
+						<a ng-click="switchWithPassword('{{item.user_id}}','{{item.user_name}}');" href="javascript:void(0);"><h3 class="pull-left" >{{item.user_name}}</h3></a>
+					</div>
+				</ion-item>		
+				 <label class="item noBorder">
+					<button class="login-btn button button-block button-theme" ng-click="switchUser()" name="switch_user">Switch</button>
+				</label>
+				<!-- <div class="no-ordrs" ng-if="items_edit.msg == 'no record founded'"><h3>No records found.</h3></div>		 -->
+				<div class="no-ordrs" ng-if="items_edit.msg == 'no record founded'"><h3 class="item text-center">No records found.</h3></div>  
+			</div>
+		</div> 
+	</ion-content>
+	<ion-footer-bar align-title="center" class="bar-assertive bar bar-footer">
+		  <div class="button-bar">
+			<button class="button button-positive button-clear icon" ng-click="logout()"><i class="icon ion-log-out">Logout</i></button>
+		  </div>
+	</ion-footer-bar>
+</ion-view> 

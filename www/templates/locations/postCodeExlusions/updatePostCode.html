@@ -1,0 +1,35 @@
+<ion-view view-title="Update Delivery Charges">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Post Code Exclusions</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="updatePostCodeExecCtrl">
+			<form name="updatepostcodeexec" class="margin-btm-10" novalidate ng-submit="updatePostCodeExec(updatepostcodeexec)">
+				<label class="item item-input text-center">
+					<input type="text" id="postcode_part1" placeholder="Postcode part1" name="postcode_part1" value="{{items_edit.postcode_part1}}" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="postcode_part2" placeholder="Postcode part2" name="postcode_part2" value="{{items_edit.postcode_part2}}" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="delivery_price" placeholder="Delivery Price" name="delivery_price" value="{{items_edit.price}}"/>
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="delivery_free" placeholder="or FREE if Total is Greater Than" name="delivery_free" value="{{items_edit.total_amount}}" />
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_location">Update</button>
+				</label>
+			</form> 
+		</div>  
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

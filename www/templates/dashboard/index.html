@@ -1,0 +1,186 @@
+<ion-view view-title="Dashboard">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Dashboard</h1>
+	</div>
+	<ion-content class="appSpacingTop has-header dashboard-reports"  padding="true">
+		<!-- <div class ="tabs dashboard-tabs">
+		   <a class="tab-item active" href="#app/dashboard">Business Reports</a>
+		   <a class="tab-item" href="#app/graphicalReport">Graphical Report</a>
+		   <a class="tab-item" href="#app/topBuyers">Top Buyers</a>
+		   <a class="tab-item" href="#app/topDishes">Top Dishes</a>
+		   <a class="tab-item" href="#app/topAreas">Top Areas</a>	
+		   <a class="tab-item" href="#app/topPromos">Top Promos</a>
+		   <a class="tab-item" href="#app/refundClaims">Refund Claims</a>
+		   <a class="tab-item" href="javascript:void(0);" ng-click="showDiv = !showDiv">Order Details</a>
+		</div>  -->
+			 
+		<div class ="tabs dashboard-tabs main-tabs">
+		   <!-- <a class="tab-item active" href="javascript:void(0);" ng-click="showMenu = !showMenu">Menus</a> -->
+		   <a class="tab-item active button-icon icon ion-navicon" href="javascript:void(0);" ng-click="modal.show()">Business Reports</a>
+		   <a class="tab-item active" href="javascript:void(0);" ng-click="showDiv = !showDiv">Order Details</a>
+		</div>  
+		 
+		 <script id="templates/modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">Menus</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+		 <div class ="tabs dashboard-tabs">
+		   <!-- <a class="tab-item active" href="#app/dashboard" ng-click="showMenu = !showMenu">Business Reports</a> -->
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/dashboard" >Business Reports</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport">Graphical Report</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers">Top Buyers</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes">Top Dishes</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas">Top Areas</a>	
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos">Top Promos</a>
+		   <a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims">Refund Claims</a>
+		</div>
+		
+		<!-- <div class ="tabs dashboard-tabs" ng-if="assignedPrivileges!=''"> 
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/dashboard" ng-if="assignedPrivileges.includes('Priv_Dashboard Bussiness Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Bussiness Report') ==  true" >Business Reports</a>
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport" ng-if="assignedPrivileges.includes('Priv_Dashboard Graphical Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Graphical Report') ==  true">Graphical Report</a>
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Buyers Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Buyers Report') ==  true">Top Buyers</a>
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Dishes Report') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Dishes Report') ==  true">Top Dishes</a>
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Area') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Area') ==  true">Top Areas</a>	
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos" ng-if="assignedPrivileges.includes('Priv_Dashboard Top Promos') ==  true || assignedPrivileges.includes('Preset_Dashboard Top Promos') ==  true">Top Promos</a>
+			   <a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims" ng-if="assignedPrivileges.includes('Priv_Dashboard Refund Claims') ==  true || assignedPrivileges.includes('Preset_Dashboard Refund Claims') ==  true">Refund Claims</a>
+			</div>
+
+		<div class ="tabs dashboard-tabs" ng-if="assignedPrivileges==''">
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/dashboard">Business Reports</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/graphicalReport">Graphical Report</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topBuyers">Top Buyers</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topDishes">Top Dishes</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topAreas">Top Areas</a>	
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/topPromos">Top Promos</a>
+			<a class="tab-item active" ng-click="modal.hide()" href="#app/refundClaims">Refund Claims</a>
+		</div> -->
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    
+ 
+<div class="dashboard-ordr-details" ng-switch="showDiv"> 
+	  <!-- <div ng-switch-default>
+		hello you
+	  </div> -->
+	  <div ng-switch-when='true'>
+			<table class="dashboard-table table table-bordered">
+			<tbody>
+				<tr ng-if="total_ordrs!=''">  
+					<th>Total Orders</th>
+					<td>{{total_ordrs}}</td>
+				</tr>
+				<tr ng-if="total_price!=''">
+					<th>Total Price</th>     
+					<td>£{{total_price}}</td>
+				</tr>
+				<tr ng-if="cash_orders!=''">
+					<th>Cash Orders</th>     
+					<td>{{cash_orders}} - £{{cash_price}} ({{cash_prcntage}})</td>
+				</tr>	
+				<tr ng-if="stx_orders!=''">
+					<th>STX Orders</th>
+					<td>{{stx_orders}} - £{{stx_price}} ({{stx_prcntage}})</td>    
+				</tr>
+				<!-- <tr ng-if="cash_prcntage!=''">
+					<th>Cash Percentage</th>
+					<td></td>    
+				</tr> -->	
+			</tbody>
+		</table>
+	  </div> 
+</div>
+
+<div class="dashboard-ordr-details" ng-switch="showMenu"> 
+	  <!-- <div ng-switch-default>
+		hello you
+	  </div> -->
+	   <div ng-switch-when='true'>
+	 <div class ="tabs dashboard-tabs">
+		   <a class="tab-item active" href="#app/dashboard" ng-click="showMenu = !showMenu">Business Reports</a>
+		   <a class="tab-item" href="#app/graphicalReport">Graphical Report</a>
+		   <a class="tab-item" href="#app/topBuyers">Top Buyers</a>
+		   <a class="tab-item" href="#app/topDishes">Top Dishes</a>
+		   <a class="tab-item" href="#app/topAreas">Top Areas</a>	
+		   <a class="tab-item" href="#app/topPromos">Top Promos</a>
+		   <a class="tab-item" href="#app/refundClaims">Refund Claims</a>
+		</div>  
+		</div>  
+</div>
+		<!-- <table class="dashboard-table table table-bordered">
+			<tbody>
+				<tr ng-if="total_ordrs!=''">  
+					<th>Total Orders</th>
+					<td>{{total_ordrs}}</td>
+				</tr>
+				<tr ng-if="total_price!=''">
+					<th>Total Price</th>     
+					<td>£{{total_price}}</td>
+				</tr>
+				<tr ng-if="cash_orders!=''">
+					<th>Cash Orders</th>     
+					<td>{{cash_orders}} £{{cash_price}} ({{cash_prcntage}})</td>
+				</tr>	
+				<tr ng-if="stx_orders!=''">
+					<th>STX Orders</th>
+					<td>{{stx_orders}} £{{stx_price}} ({{stx_prcntage}})</td>    
+				</tr> 	
+			</tbody>
+		</table> -->
+	
+		<div class="item">
+			<label class="item-input item-select sort-by"> 
+				<div class="input-label">Sort By</div> 
+				<select id="ordrSortBy" ng-model="orderSortBy" ng-change="order_sort_by_dashboard(orderSortBy);"> 
+					<option value="24_hours">24 Hours</option> 
+					<option value="show_all">Show All</option>
+				</select> 
+			</label> 
+		</div>    
+		<ion-list> 
+			<!--- <span ng-if="total_ordrs!=''">Total: {{total_ordrs}}</span>
+				<span ng-if="total_price!=''">£{{total_price}}</span>  <br>
+				<span ng-if="cash_orders!=''">Cash Orders: {{cash_orders}} £{{cash_price}} ({{cash_prcntage}})</span>
+				<span ng-if="stx_orders!=''">STX Orders: {{stx_orders}} - £{{stx_price}} - ({{stx_prcntage}})</span>
+				<span ng-if="cash_prcntage!=''"></span> <br>
+				--->
+				
+				<div class="items items-head" style="z-index: 1000;"><h3>Id</h3><h3 style="text-align:center;">Price</h3><h3 class="h-align-r">Action</h3></div>     			
+				<ion-item ng-repeat="item in items" ng-if="item.id"> 
+					<div ng-if="item.id" href="#/app/orderDetail={{item.id}}">
+						<div style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'">
+							<span>{{item.id}}
+								<span class="orddt full-wdth">({{item.order_date}})</span>
+							</span>
+							<span style="text-align:center;">£{{item.price_total}}</span> 
+							<span class="ng-binding align-r"><a href="#app/orderDetail={{item.id}}" id="order_stats" class="align-r">View Order</a></span>
+						</div>
+						
+						<!-- <div ng-click="orderdetail({{item.id}})" ng-if="item.msg=='founded'">
+									<span class="col-30">{{item.id}}</span>
+									<span class="col-30">£{{item.price_total}}</span>
+									<span id="order_stats" class="col-40 align-r">{{item.status}} </span>
+								</div>
+								<span class="orddt full-wdth">({{item.order_date}})</span> -->
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><span>{{item.msg}}</span></div>
+					</div>
+				</ion-item> 
+				<ion-item ng-if="no_record!='' && items==''"> 
+					<div>
+						<span class="full-wdth al-cntr cap-text">{{no_record}}</span>
+					</div>
+				</ion-item> 
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>
+
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+</div>

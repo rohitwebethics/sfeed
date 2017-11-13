@@ -1,0 +1,36 @@
+<ion-view view-title="Add Delivery Charges">
+<div class="bar bar-header bar-positive"> 
+	<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+	<h1 class="title">Add Delivery Charges</h1>
+</div>
+    <ion-content class="appSpacingTop has-header"> 
+		<div class="list list-inset entryCustom accept-order"  ng-controller="addDeliveryChargesCtrl"> 
+			<form name="savedeliverycharges" class="savedeliverycharges margin-btm-10" novalidate ng-submit="saveDeliveryCharges(savedeliverycharges)">
+			<label class="notice-sec">(Note: Distance must be added in 'meters'. 1 Mile = 1609.34 meters, 1 Km = 1000 meters)</label>
+				<label class="item item-input text-center">
+					<input type="text" id="distance_from" placeholder="Distance from" name="distance_from" value="" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="distance_to" placeholder="Distance to" name="distance_to" value="" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="delivery_price" placeholder="Delivery Price" name="delivery_price" value="" />
+				</label>
+				<label class="item item-input text-center">
+					<input type="text" id="delivery_free" placeholder="or FREE if Total is Greater Than" name="delivery_free" value="" />
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_location">Save</button>
+				</label>
+			</form> 
+		</div>  
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

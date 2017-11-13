@@ -1,0 +1,69 @@
+<ion-view view-title="Update Location">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Location</h1>
+<style>
+.scroll {
+    height: 100%;
+}
+ 
+#map {
+    width: 100%;
+    height: 100%;
+}
+</style>
+</div>
+    <ion-content class="appSpacingTop has-header"> 
+		<div class ="tabs dashboard-tabs"> 
+		    <a class="tab-item active" href="javascript:void(0);" ng-click="workingTimePickup()" ng-click="modal.hide()">Working Time</a>
+		    <a class="tab-item active" href="javascript:void(0);" ng-click="deliveryCharges()" ng-click="modal.hide()">Delivery Charges</a>
+		    <a class="tab-item active" href="javascript:void(0);" ng-click="postCodeExc()" ng-click="modal.hide()">Post Code Exclusions</a>
+		</div>
+		<div class="list list-inset entryCustom accept-order"  ng-controller="updateLocationCtrl">
+			<form name="updatelocation" class="savelocation margin-btm-10" novalidate ng-submit="updateLocation(updatelocation)">
+				<label class="item item-input text-center">
+					<input type="text" id="location_name" placeholder="Enter Name" name="location_name" value="{{items_edit.name}}" />
+				</label>
+				<label class="item item-input text-center">
+					<!-- <input type="text" id="location_address" placeholder="Enter Address" name="location_address" value="{{items_edit.address}}" /> -->
+					<textarea id="location_address" placeholder="Enter Address" name="location_address" cols="38" rows="8">{{items_edit.address}}</textarea>
+				</label>
+				<!---label class="item item-input text-center">
+					<input type="text" id="location_latitude" placeholder="Enter Latitude" name="location_latitude" value="{{items_edit.lat}}" />
+				</label> 
+				<label class="item item-input text-center">
+					<input type="text" id="location_logitude" placeholder="Enter Logitude" name="location_logitude" value="{{items_edit.lng}}" />
+				</label--->
+				
+				<input type="hidden" id="location_latitude" name="location_latitude" value="{{items_edit.lat}}" />
+				<input type="hidden" id="location_logitude" name="location_logitude" value="{{items_edit.lng}}" />
+				
+				<input type="hidden" id="hidden_latitude" name="location_latitude" value="{{latitud}}" />
+				<input type="hidden" id="hidden_logitude" name="location_logitude" value="{{longitud}}" />
+				 <!-- <a href="javascript:void(0)"; ng-click="toggleCustom()"><i class="icon ion-search"></i></a>  -->
+				 <div class="col-12">
+			    	 <!-- <a class="search-map button button-block button-theme" href="javascript:void(0)"; ng-click="toggleCustom()">Search <i class="icon ion-search"></i></a>  -->
+			    	 <!-- <a class="search-map button button-block button-theme button-small" href="javascript:void(0)"; ng-click="toggleCustom()">Search</a>  -->
+			    	 <a class="search-map button-small" href="javascript:void(0)"; ng-click="toggleCustom()">Search</a> 
+				 </div>
+				 
+				 
+				<label class="item item-input text-center"> 
+					<input type="text" id="phone_number" placeholder="Enter Phone" name="phone_number" value="{{items_edit.phone}}">
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_location">Update</button>
+				</label>
+			</form> 
+		</div> 
+		<div id="map" data-tap-disabled="true"></div>
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

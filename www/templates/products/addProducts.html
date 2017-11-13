@@ -1,0 +1,72 @@
+<ion-view view-title="Add Product">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Add Product</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="addProductsCtrl">
+			<!---div ng-if="items_save_prdct.msg && items_save_prdct.msg!=''" class="text-center msg-alrt col-12">{{items_save_prdct.msg}}</div--->
+			<form name="saveproducts" class="saveproducts" novalidate ng-submit="saveProducts(saveproducts)">
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : saveproducts.product_name.$invalid && saveproducts.$submitted, 'no-errors' : saveproducts.product_name.$valid  && saveproducts.$submitted}">
+					<input type="text" id="product_name" placeholder="Enter name" name="product_name" ng-model="product.name" required>
+				</label>
+				 <!-- <div ng-show="saveproducts.$submitted || form.uName.$touched"> -->
+				 <div ng-show="saveproducts.$submitted || form.product_name.$touched">
+				  <div class="form-errors" ng-show="saveproducts.product_name.$error.required">Please enter product name.</div>
+				</div>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : saveproducts.product_description.$invalid && saveproducts.$submitted, 'no-errors' : saveproducts.product_description.$valid  && saveproducts.$submitted}">
+					<!---input type="text" id="product_description" placeholder="Enter description" name="product_description" ng-model="product.description"--->
+					<textarea id="product_description" placeholder="Enter description" name="product_description" cols="38" rows="8"></textarea>
+				</label>
+				 <label class="item item-select text-center" ng-class="{ 'has-errors' : saveproducts.product_description_show.$invalid && saveproducts.$submitted, 'no-errors' : saveproducts.product_description_show.$valid  && saveproducts.$submitted}">
+					<div class="input-label select-title">Show description on receipt?</div>
+					<select id="product_description_show" name="product_description_show">
+					  <option value="0">No</option>
+					  <option value="1">Yes</option>
+					</select> 
+				  </label> 
+				  
+				 <!-- <input type="hidden" value="{{ isSingl }}" name="is_single" id="is_single"> 
+				<label class="item item-checkbox text-center" ng-class="{ 'has-errors' : saveproducts.product_is_single.$invalid && saveproducts.$submitted, 'no-errors' : saveproducts.product_is_single.$valid  && saveproducts.$submitted}">
+					<input type="checkbox" id="product_is_single" name="product_is_single" ng-model="isSingl">Is single Choice
+				</label> -->
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : saveproducts.product_price.$invalid && saveproducts.$submitted, 'no-errors' : saveproducts.product_price.$valid  && saveproducts.$submitted}"> 
+					<input type="number" id="product_price" inputmode="numeric" pattern="[0-9]*" placeholder="Enter price" name="product_price" ng-model="product.price" required>
+				</label>
+				 <div ng-show="saveproducts.$submitted || form.product_price.$touched">
+				  <div class="form-errors" ng-show="saveproducts.product_price.$error.required">Please enter product price.</div>
+				   <div class="error form-errors" ng-show="saveproducts.product_price.$error.number">Not valid number!</div>
+				  </div>
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Is Fetaured?</div>
+					<select id="product_is_featured" name="product_is_featured">
+					  <option value="0">No</option>
+					  <option value="1">Yes</option>
+					</select>
+				</label>
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Is Open?</div>
+					<select id="product_is_open" name="product_is_open">
+					  <option value="0">No</option>
+					  <option value="1">Yes</option>
+					</select>
+				</label>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : saveproducts.product_order.$invalid && saveproducts.$submitted, 'no-errors' : saveproducts.product_order.$valid  && saveproducts.$submitted}">
+					<input type="number" id="product_order" inputmode="numeric" placeholder="Order" name="product_order" ng-model="product.order">
+				</label> 
+				   
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_estimate_time">Save</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

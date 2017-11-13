@@ -1,0 +1,81 @@
+<ion-view title="Add User">
+	<div class="bar bar-header bar-positive"> 
+		<!-- <button menu-toggle="left" class="button button-icon icon ion-navicon"></button> -->
+		<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button>
+		<h1 class="title">Add User</h1> 
+	</div>
+    <ion-content class="appSpacingTop has-header"> 
+		<!-- <div class ="tabs dashboard-tabs">  -->
+		    <!-- <a class="tab-item active" href="javascript:void(0);" ng-click="getPrivileges()" ng-click="modal.hide()">Privileges</a> -->
+		 <!--    <a class="tab-item active" href="javascript:void(0);" ng-click="getUsers()" ng-click="modal.hide()">Users</a>
+		</div>  -->
+		<div class="list list-inset entryCustom accept-order" ng-controller="addUserCtrl">
+			<form name="saveuser" class="save_user margin-btm-10" ng-submit="saveUser(saveuser)">
+				<label class="notice-sec wrning" ng-if="items_count.msg== 'success' && items_count.total_count >= 3">You have exceed the limit(3) of add users</label>
+				<div id="uname">
+					<label class="item item-input text-center" ng-class="{true: 'error'}[submitted && saveuser.username1.$invalid]">
+						<input type="text" id="user_name" placeholder="User Name" name="user_name" value="" ng-model="username1" required />
+					</label>
+					<label>
+						<p class="help-inline" ng-show="submitted && saveuser.user_name.$error.required">Please enter username.</p>
+					</label> 
+				</div>
+				<div id="upass">
+					<label class="item item-input text-center" ng-class="{true: 'error'}[submitted && saveuser.password1.$invalid]">
+						<input type="password" id="user_password" placeholder="Password" name="user_password" value="" ng-model="password1" required /> 
+					</label>
+					<label>
+						<p class="help-inline" ng-show="submitted && saveuser.user_password.$error.required">Please enter password.</p>
+					</label> 
+				</div>
+				<div id="uemail">
+					<label class="item item-input text-center" ng-class="{true: 'error'}[submitted && saveuser.email1.$invalid]">
+						<input type="email" id="email_address" placeholder="Email Address" name="email_address" value="" required  ng-model="email1" /> 
+					</label>
+					<label>
+						<p class="help-inline" ng-show="submitted && saveuser.email_address.$error.required">Please enter email.</p>
+						<p class="help-inline" ng-show="submitted && saveuser.email_address.$error.email">Please enter valid email.</p>
+					</label> 
+				</div> 
+				<div ng-if="items_count.total_count <= 2">
+				<!-- <label class="col-12">Preset Privileges <input class="pull-right" type="checkbox" name="privileges_status" value=""  ng-click="selectPresetPrivileges($event);" /> </label>  -->
+			
+					<label class="col-12"><i class="icon ion-android-add-circle"></i>Assign Privileges</label>
+					 	 <ion-toggle ng-model="selectPreset.checked" ng-change="selectPresetPrivileges()">Preset Notifications</ion-toggle>
+					 <!-- <label class="col-12">{{presetPrivileges}}</label>  -->
+					<!-- <ion-item ng-repeat="(key, item)  in items track by $index">
+					index {{$index}} -->
+					<ion-item ng-repeat="(key, item) in items" ng-if="key !='msg'">
+						<h3 class="col-12 font-15 item item-divider" ng-if="key !='msg'">{{key}}</h3>
+						<div ng-repeat="itm in item" ng-if="itm.name && key !='msg'">
+								<!-- <div ng-model="slectdItems" ></div> -->
+								<div style="z-index: 1000;" class="col-6"><h3 class="no-margin">{{itm.name}} </h3></div>
+								<!-- <div ng-if="itm.privileges_status == true || itm.privileges_status == 1" class="col-6 cell-spacing">
+									<input class="pull-right" type="checkbox" name="privileges_status" value="{{itm.privileges_status}}" ng-click="removePrivileges($event,'{{itm.name}}');" checked /> 
+								</div> 
+								<div ng-if="itm.privileges_status != true && itm.privileges_status != 1" class="col-6 cell-spacing">
+									<input class="pull-right" type="checkbox" name="privileges_status" value="{{itm.privileges_status}}" ng-click="removePrivileges($event,'{{itm.name}}');" /> 
+								</div> -->
+								<div class="col-6 cell-spacing">
+									<!-- <input class="pull-right" type="checkbox" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" />  -->
+									 
+									<input class="pull-right" type="checkbox" ng-checked="presetPrivileges.includes('{{itm.name}}')" ng-disabled="presetPrivileges.includes('{{itm.name}}')" name="privileges_status" value="{{itm.privileges_status}}" ng-click="addPrivileges($event,'{{itm.name}}','{{itm.original_name}}');" /> 
+								</div>
+						</div>  
+					</ion-item>  
+					<input type="hidden" value="{{presetPrivileges}}" ng-model="presetPrivileges">
+				</div>
+				 <label class="item noBorder">
+					<button type="submit" class="button button-block button-theme" ng-disabled="items_count.msg== 'success' && items_count.total_count >= 3" ng-click="submitted=true">Save</button>
+				</label>
+			</form>
+		</div>  
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+</ion-view>
+

@@ -1,0 +1,120 @@
+<ion-view view-title="Order Detail"> 
+	<ion-content class="appSpacingTop">
+	<!--h1 style="padding:16px;">Order Details</h1--->
+	<h1 class="pg-heading">Order Details</h1>
+	<ion-list>
+		<ion-item ng-repeat="item in items4">
+			<div ng-if="item.orderId">
+				<div ng-if="items4.msg=='founded'">
+				<div class="ord-sec-1">
+				<div><h3 class="col-6">Order Number</h3><h3 class="col-6 text-align-r">Amount</h3></div>              
+				<div style="clear:both;"></div>	  
+				<div><h3 class="col-6">{{item.orderId}}</h3><h3 class="col-6 text-align-r">£{{item.price_total}}</h3></div>  
+				<div style="clear:both;"></div>	  
+				<div><h3 class="col-6">{{item.created}}</h3><h3 class="col-6 text-align-r"></h3></div>  
+				<div style="clear:both;"></div>	  	  
+			</div>
+			<div class="ord-sec-2">
+				<div><h3 class="col-6">Order Type</h3><h3 class="col-6 text-align-r">{{item.type}}</h3></div>              
+				<div style="clear:both;"></div>	  
+				<div><h3 class="col-6">Payment Method</h3><h3 class="col-6 text-align-r">{{item.payment_method}}</h3></div>  
+				<div style="clear:both;"></div>	  
+				<div><h3 class="col-6">Status</h3><h3 class="col-6 text-align-r">{{item.status}}</h3></div>     
+				<div style="clear:both;"></div>	
+			</div>
+			<div class="ord-sec-3">
+				<h3 class="col-12">This order have 3 items.</h3>        
+				<div style="clear:both;"></div>
+			</div>
+			<div class="ord-sec-4">
+				<table class="table">
+				  <thead>
+					<tr>
+					 <th><h3>Product Items</h3></th><th><h3>Quantity</h3></th><th><h3>Price</h3></th>
+					</tr>
+				  </thead>
+				  <tbody>
+				  <tr class="prodct-detls" ng-repeat="subrow in item.products_items"><td>{{subrow.name}}</td><td>{{subrow.item_quantity}}</td><td>£{{subrow.item_price}}</td></tr> 
+				  </tbody>
+				</table>
+				<div style="clear:both;"></div>	 
+				<div class="ord-sec-5">
+					<div><h3 class="col-12">Summary</h3></div>              
+					<div style="clear:both;"></div>	  
+					<div><h3 class="col-6">Sub Total</h3><h3 class="col-6 text-align-r"><strong>£{{item.subtotalPrice}}</strong></h3></div>  
+					<div style="clear:both;"></div>	  
+					<div ng-if="item.redeem_amount != '' && item.redeem_amount != null"><h3 class="col-6">Redeem Amount</h3><h3 class="col-6 text-align-r"><strong>£{{item.redeem_amount}}</strong></h3></div>  
+					<div style="clear:both;"></div>	  
+					<div ng-if="item.voucher_discount != '' && item.voucher_discount != null"><h3 class="col-6">Voucher Discount</h3><h3 class="col-6 text-align-r"><strong>£{{item.voucher_discount}}</strong></h3>
+					<div style="clear:both;"></div>	  
+					<span class="col-md-12 voucher_cd" ng-if="item.voucher_code !='' && item.voucher_code!=null"><em>(Applied code: {{item.voucher_code}} )</em></span>
+					</div>  
+					<div style="clear:both;"></div>	  
+					<div><h3 class="col-6">Delivery</h3><h3 class="col-6 text-align-r"><strong>Free</strong></h3></div>     
+					<div style="clear:both;"></div>	
+					<hr>
+					<div><h3 class="col-12 text-align-r">Total <strong>£{{item.price_total}}</strong></h3></div>     			
+				</div>
+				<div style="clear:both;"></div>	
+				<hr> 
+			</div> 
+			<div class="ord-sec-6">
+				<h3 class="col-12">Delivery Address</h3>              
+				<p class="col-12">{{item.c_name}}</p>
+				<p class="col-12">{{item.location_addrs}}</p>
+				<p class="col-12" ng-if="item.location_full_addrs != ''">{{item.location_full_addrs}}</p>
+				<p class="col-12" ng-if="item.ordr_type == 'delivery' && item.o_city != ''">{{item.o_city}}</p>
+				<p class="col-12" ng-if="item.ordr_type == 'delivery' && item.o_state != ''">{{item.o_state}}</p>
+				<p class="col-12" ng-if="item.ordr_type == 'delivery' && item.o_country != ''">{{item.o_country}}</p>
+				<p class="col-12" ng-if="item.c_phone != ''">Contact Number: {{item.c_phone}}</p>
+				 
+				<div style="clear:both;"></div>	 	
+			</div>
+			<div class="ord-sec-7">
+				<h3 class="col-12">Payment Details</h3>            
+				<div style="clear:both;"></div>	  
+				<h3 class="col-6">Payment Mode</h3><h3 class="col-6 text-align-r"><strong>{{item.payment_method}}</strong></h3>
+				<div style="clear:both;"></div>	  
+				<h3 class="col-6">Paid</h3><h3 class="col-6 text-align-r"><strong ng-if="item.is_paid == 0 || item.is_paid == null">No</strong><strong ng-if="item.is_paid == 1">Yes</strong></h3>
+				<div style="clear:both;"></div>					
+			</div>
+			<hr> 
+			<div class="ord-sec-9" ng-if="item.d_notes != '' && item.d_notes != null">
+				<div><h3 class="col-12">Special Instructions</h3></div>              
+				<div style="clear:both;"></div>	  
+				<div><h3 class="col-12">{{item.d_notes}}</div>
+				<div style="clear:both;"></div>
+			</div>
+			
+			<div class="ord-sec-8 accp-dec-sec" ng-if="item.status=='pending' || item.status==''">
+				<!-- <div class="accept-ordr button button-block button-theme" ng-click="orderstatus('accept','{{ item.orderId}}')">Accept Order</div>				
+				<div class="decline-ordr button button-block button-theme" ng-click="orderstatus('decline','{{ item.orderId}}')">Decline Order</div> -->
+				
+				<button class="accept-ordr button button-block button-theme" ng-click="orderstatus('accept','{{ item.orderId}}')" type="submit">Accept Order</button>				
+				<button class="decline-ordr button button-block button-theme" ng-click="orderstatus('decline','{{ item.orderId}}')" type="submit">Decline Order</button>
+			</div>
+		 </div>
+		  <div class="no-ordrs" ng-if="item.msg=='no record found'">
+			<h3>{{item.msg}}</h3>
+		  </div>
+	  </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+</ion-view>
+
+<div class="tabs tabs-icon-top tabs-striped tabs-color-assertive">
+	<a class="tab-item active" href="#/app/orderList"><i class="icon ion-ios-people-outline"></i> List </a>
+	<a class="tab-item" href="#/app/userProfile"> <i class="icon ion-ios-person-outline"></i>Profile</a> 
+	<!---div class="sticky-acpt" ng-repeat="item in items4">
+		<div ng-if="item.orderId">
+			<div ng-if="item.status=='pending' || item.status==''" class="tab-item"><i class="icon ion-ios-people-outline"></i> Accept Order </div>
+		</div>
+	</div>
+	<div class="sticky-dcln" ng-repeat="item in items4"> 
+		<div ng-if="item.orderId==''">
+			<div ng-if="item.status=='pending' || item.status==''" class="tab-item"><i class="icon ion-ios-people-outline"></i> Decline Order </div>
+		</div>
+	</div---->
+</div>
+

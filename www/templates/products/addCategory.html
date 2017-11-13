@@ -1,0 +1,47 @@
+<ion-view view-title="Add Category">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Add Category</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="addCategoryCtrl">
+		 
+	<!-- 	<button class="button" ng-click="upload()">Upload From Assets</button> -->
+	 
+			<!--div ng-if="items13.msg && items13.msg!=''" class="text-center msg-alrt col-12">{{items13.msg}}</div--->
+			<form name="savecategory" class="savecategory" novalidate ng-submit="saveCategory(savecategory)">
+				<label class="item item-input text-center " ng-class="{ 'has-errors' : savecategory.category_name.$invalid && savecategory.$submitted, 'no-errors' : savecategory.category_name.$valid  && savecategory.$submitted}">
+					<input type="text" id="category_name" placeholder="Enter name" name="category_name" ng-model="category_name" required>
+				</label>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : savecategory.category_description.$invalid && savecategory.$submitted, 'no-errors' : savecategory.category_description.$valid  && savecategory.$submitted}">
+					<textarea id="category_description" placeholder="Enter description" name="category_description" cols="38" rows="8"></textarea>
+				</label>
+				<!--  <label class="item item-input text-center" ng-class="{ 'has-errors' : savecategory.category_price.$invalid && savecategory.$submitted, 'no-errors' : savecategory.category_price.$valid  && savecategory.$submitted}"> 
+					 <input type="button" value="Upload" ng-click="uploadPicture()" />
+					<input type="file" ng-select="uploadFile($files)" id="upload_image" name="upload_image" ng-files="getTheFiles($files)">
+				</label> -->
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : savecategory.category_order.$invalid && savecategory.$submitted, 'no-errors' : savecategory.category_order.$valid  && savecategory.$submitted}">
+					<input type="number" id="category_order" inputmode="numeric" placeholder="Order" name="category_order" ng-model="product.order">
+				</label> 
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Is Open?</div>
+					<select id="category_is_open" name="category_is_open">
+					  <option value="0">No</option>
+					  <option value="1">Yes</option>
+					</select>
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_estimate_time">Save</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

@@ -1,0 +1,32 @@
+<ion-view view-title="Category List">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Categories</h1>
+	</div>	   
+	<ion-content class="appSpacingTop odr-lst has-header category_list">
+		<ion-list> 
+			<button class="button button-icon icon ion-android-add-circle" ng-click="addCategory()"></button>
+			<div class="items items-head" style="z-index: 1000;"><h3>Id(Name)</h3><h3></h3><h3 class="text-align-r align-r">Is Open</h3></div>
+				<ion-item ng-repeat="item in items">
+					<div>
+						<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+							<div class="item-cont" ng-click="updateCategory({{item.id}})">
+							<h3 class="col-4">{{item.id}}</h3>
+							<h3 class="cap-text col-4">({{item.name}})</h3>
+							</div>
+							<div class="is-open" ng-click="updateCategory({{item.id}})">
+							<h3 class="col-4 text-align-r" >{{item.is_open}}</h3>
+							</div>
+						</div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content>
+	<div class="tabs tabs-icon-top">
+		<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+	   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+		<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+	</div>	
+</ion-view> 

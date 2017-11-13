@@ -1,0 +1,37 @@
+<ion-view view-title="Extras List">
+	<div class= "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class="title">Extras</h1> 
+	</div>
+				   
+	<ion-content class="appSpacingTop extra-list has-header itm-list">
+		<ion-list>  
+			 <button class="button button-icon icon ion-android-add-circle" ng-click="addExtras()"></button>
+			<div class="items items-head" style="z-index: 1000;">
+				<h3 class="col-60">Id(Name)</h3><h3 class="h-align-r col-40">Price</h3> 
+			</div>
+			<div class="clearfix"></div>
+				<ion-item ng-repeat="item in items" ng-if="item.id">
+					<div>
+						<div style="z-index: 1000;" ng-if="item.msg=='founded'" ng-click="updateExtras({{ item.id }})">
+						<div class="extra-item col-60 pull-left">
+						<h3 class="col-4">{{item.id}}</h3>
+						<h3 class="cap-text col-4">({{item.name}})</h3>
+						</div>
+						<div class="extra-price col-40 pull-right">
+						<h3 id="order_stats" class="col-4  align-r">£{{item.extras_price}}</h3>
+						</div>
+						</div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+</div>	
+</ion-view> 

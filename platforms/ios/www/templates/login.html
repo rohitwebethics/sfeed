@@ -1,0 +1,84 @@
+<ion-view hide-nav-bar="true">
+<ion-view view-title="Please Login" name="login-view">
+    <ion-content class="appSpacingTop">
+    	<!---h1 class="text-center">Login</h1---->
+        
+            <div class="list list-inset entryCustom">
+				<div class="main-logo">
+					<img src="img/smartfeed_logo.png" />
+				</div>
+                <form name="login" ng-controller="LoginCtrl" novalidate ng-submit="loginForm(login)">
+                    <label class="item item-input text-center" ng-class="{ 'has-errors' : login.username.$invalid && login.$submitted, 'no-errors' : login.username.$valid  && login.$submitted}">
+                        <i class="icon ion-ios-person-outline"></i>
+                        <input type="text" id="username" placeholder="Username" name="username" ng-model="username" required>
+                    </label>
+                    
+                    <label class="item item-input text-center" ng-class="{ 'has-errors' : login.password.$invalid && login.$submitted, 'no-errors' : login.password.$valid  && login.$submitted}">
+                        <i class="icon ion-ios-locked-outline"></i>
+                        <input type="password" id="password" placeholder="Password" name="password" ng-model="password" required>
+                    </label>
+					 <!----label class="item item-input item-select text-center">
+						<i class="icon ion-ios-home-outline"><small>Login Type</small></i>
+						<select ng-model='login_type' name='school' required>   
+						  <option value="parent">Parent</option>
+						  <option value="child">Child</option>
+						</select>
+
+					</label---->
+                    <label class="item noBorder">
+                        <button class="button button-block button-theme" type="submit" name="submit">Login</button>
+                    </label>
+                </form>
+            </div>
+       
+       
+      
+                    
+                    
+                    
+        <!-----div class="list text-center">
+        	<div class="errors" style="display: none;"><small>Invalid Username/Password</small></div>
+        </div>
+        
+        <div class="list list-inset">
+	        <div class="appSpacingBottom text-center"><a href="" ng-click="modal.show()">Forgot Your Password ?</a></div>
+        </div>
+        <div class="list list-inset">
+	        <div class="redirect appSpacingBottom text-center"><em>Don’t have an Account ? <a href="#/app/signup">Sign up here</a></em></div>
+        </div>
+        
+        <div class="list list-inset">
+	        <div class="redirect appSpacingBottom text-center" style="font-style:normal;"><p>By : Rayva</p> <p><a href="#/app/contact">Contact Me</a></p></div>
+        </div>
+        
+        
+		<script id="templates/reset-password.html" type="text/ng-template">
+			<ion-modal-view>
+				<ion-header-bar class="bar bar-header bar-positive">
+					<h1 class="title">Reset Password</h1>
+					<button class="button button-clear button-primary" ng-click="modal.hide()"><i class="icon ion-ios-close-outline"></i> </button>
+				</ion-header-bar>
+				<ion-content class="padding appSpacingTop">
+					<form name="forgot" ng-controller="forgotCtrl" novalidate ng-submit="resetPassword(forgot)">
+						<div class="list list-inset entryCustom">
+							<label class="item item-input text-center" ng-class="{ 'has-errors' : reset.password.$invalid && reset.$submitted, 'no-errors' : reset.password.$valid  && reset.$submitted}">
+								<i class="icon ion-ios-email-outline"></i>
+								<input type="email" id="email" placeholder="Enter Your email" name="email" ng-model="email" required>
+							</label>
+							<label class="item noBorder">
+								<button class="button button-block button-theme" type="submit">Reset</button>
+							</label>
+						</div>
+					</form>
+				</ion-content>
+			</ion-modal-view>
+        </script----->
+        
+        
+    </ion-content>
+    
+    
+    
+    
+    
+</ion-view>

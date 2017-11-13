@@ -1,0 +1,49 @@
+<ion-view view-title="Add Location">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Add Location</h1>
+<style>
+.scroll {
+    height: 100%;
+} 
+</style>
+</div>
+    <ion-content class="appSpacingTop has-header"> 
+		<div class="list list-inset entryCustom accept-order"  ng-controller="addLocationCtrl">
+			<form name="savelocation" class="savelocation margin-btm-10" novalidate ng-submit="saveLocation(savelocation)">
+				<label class="item item-input text-center">
+					<input type="text" id="location_name1" placeholder="Enter Name" name="location_name" value="" />
+				</label>
+				<label class="item item-input text-center">
+					<!-- <input type="text" id="location_address1" placeholder="Enter Address" name="location_address" value="" /> --> 
+					<textarea id="location_address1" placeholder="Enter Address" name="location_address" cols="38" rows="4"></textarea>
+					
+				</label>
+				 <!-- <a href="javascript:void(0)"; ng-click="toggleCustom()"><i class="icon ion-search"></i></a>  -->
+				 <div class="col-12">
+			    	 <!-- <a class="search-map button button-block button-theme" href="javascript:void(0)"; ng-click="toggleCustom()">Search <i class="icon ion-search"></i></a>  -->
+			    	 <!-- <a class="search-map button button-block button-theme button-small" href="javascript:void(0)"; ng-click="toggleCustom()">Search</a>  -->
+			    	 <a class="search-map button-small" href="javascript:void(0)"; ng-click="toggleCustom()">Search</a> 
+				 </div> 
+				<input type="hidden" id="location_latitude1" placeholder="Enter Latitude" name="location_latitude" value="{{latitud}}" />
+				<input type="hidden" id="location_logitude1" placeholder="Enter Logitude" name="location_logitude" value="{{longitud}}" />
+				 
+				<label class="item item-input text-center"> 
+					<input type="text" id="phone_number1" placeholder="Enter Phone" name="phone_number">
+				</label>
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="save_location">Save</button>
+				</label>
+			</form> 
+		</div> 
+		<div id="map" data-tap-disabled="true"></div>
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

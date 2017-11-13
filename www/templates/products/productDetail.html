@@ -1,0 +1,138 @@
+
+<ion-view view-title="Product Detail"> 
+	<div class="bar bar-header bar-positive"> 
+	<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+	<h1 class="title">Product Detail</h1>
+	</div>
+	<ion-content class="appSpacingTop has-header">
+	<ion-list>
+		<ion-item class="prd-dtl" ng-repeat="item in items12" ng-if="item.id"> 
+			<div ng-if="item.id">
+					<div ng-if="items12.msg=='found'">
+					<!-- <div class="col-12">
+						<!-- <button class="button button-icon icon ion-android-add-circle" ng-click="addProducts()"></button> -->
+						<!-- <a class="edit-icon-circle top-icons" href="javascript:void(0);" ng-click="updateProducts({{ item.id }})"><i class="icon ion-edit"></i></a> -->
+						<!--<a class="top-icons" href="javascript:void(0);" ng-click="updateProducts({{ item.id }})"><i class="icon ion-edit"></i></a>
+					</div>  --> 
+					<div ng-if="assignedPrivileges.includes('Priv_Products Edit Product') ==  true || assignedPrivileges==''">
+						<div class ="tabs dashboard-tabs action-btns" ng-if="assignedPrivileges.includes('Priv_Products Edit Product') ==  true || assignedPrivileges.includes('Preset_Products Edit Product') ==  true || assignedPrivileges==''">
+							<a class="tab-item active" href="javascript:void(0);" ng-click="updateProducts({{ item.id }})">Edit Product</a>
+						</div>
+					</div> 
+					
+						<div class="ord-sec-1">
+							<div>
+							<div class="col-12">
+								<h3 class="col-6 field-title">Product Name</h3>
+								<h3 class="col-6 align-r">{{item.name}}</h3></br>
+							</div> 
+						 
+							<div class="col-12" ng-if="item.image!=null && item.image!=''" ><img class="product-image" src="{{item.product_image}}" /></div> 
+							</div>
+							
+							<div  ng-if="item.description">
+							<div><h3 class="col-12 field-title">Description</h3><h4 class="col-12 cap-text desc">{{item.description}}</h4></div>  
+						</div>	  
+						</div>
+						
+						<div ng-if="item.categry_name"><h3 class="col-12 field-title">Categories</h3><h4 ng-repeat="cat_item in item.categry_name" class="col-6 cap-text">{{cat_item}}</h4></div>
+						<div style="clear:both;"></div>	 
+						<div ng-if="item.extra_name"><h3 class="col-12">Extras</h3><h4 ng-repeat="extra_item in item.extra_name" class="col cap-text">{{extra_item}}</h4></div>
+						<div style="clear:both;"></div>
+						<div><h3 class="col-6">Price</h3><h4 class="col-6 cap-text  align-r">£{{item.price}}</h4></div>
+						<div style="clear:both;"></div>
+						<div><h3 class="col-6">Is Featured</h3><h4 class="col-6 cap-text align-r" ng-if="item.is_featured == 0">No</h4><h4 class="col-6 cap-text  align-r" ng-if="item.is_featured == 1">Yes</h4></div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="ord-sec-3">
+						<div><h3 class="col-12">Product Symbol</h3></div>  
+						<div ng-repeat="prodct_symbol in item.prodcut_symbols" class="col-12"><img class="col-6 img-symbol" src="{{prodct_symbol.symbol_image}}" /><h4 class="col-6">{{prodct_symbol.symbol_name}}</h4></div>
+						
+						<div style="clear:both;"></div>
+						<h4></h4>
+						
+					</div>
+					<div ng-if="item.sub_product" class="ord-sec-4 sub_product">
+						<h3 class="col-12 field-title">Sub Products</h3>
+						<table class="table">
+						  <thead>
+							<tr>
+							 <th><h3>Product Name</h3></th><th><h3>Price</h3></th><th><h3>Extra Choice</h3></th><!--th><h3>Action</h3></th--->
+							</tr>
+						  </thead>
+						  <tbody>
+						  <tr class="prodct-detls" ng-repeat="sub_prodct in item.sub_product"><td>{{sub_prodct.name}}</td><td>£{{sub_prodct.price}}</td><td class="cap-text">{{sub_prodct.extra_single_choice}}</td>
+						  <!---<td><button class="button" ng-click="modal.show()">Show Extras</button></td--->
+						  
+						  <!--- for show extra products on modal popup ---->
+							<!---script id="templates/modal.html" type="text/ng-template">
+							  <ion-modal-view>
+								<ion-header-bar class="bar bar-header bar-positive">
+								  <h1 class="title">Extras</h1>
+								  <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+								</ion-header-bar>
+								<ion-content class="padding">
+								  <div class="list">
+									<label class="item item-input">
+									  <span class="input-label">s {{sub_prodct.name}}</span>
+									  <input ng-model="newUser.firstName" type="text">
+									</label>
+									<label class="item item-input">
+									  <span class="input-label">Last Name</span>
+									  <input ng-model="newUser.lastName" type="text">
+									</label>
+									<label class="item item-input">
+									  <span class="input-label">Email</span>
+									  <input ng-model="newUser.email" type="text">
+									</label>
+									<button class="button button-full button-positive" ng-click="createContact(newUser)">Create</button>
+								  </div>
+								</ion-content>
+							  </ion-modal-view>
+							</script---->
+						<!--- for show extra products on modal popup ---->
+						  
+						  
+						  </tr> 
+						  </tbody>
+						</table> 
+						
+					</div>
+					<!--div class="ord-sec-5">
+						<div><h3 class="col-12">Address Detail</h3></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">{{item.meta.c_address_1}}</h4></div>              
+						<div style="clear:both;"></div>	  
+						<div ng-if="item.meta.c_address_2!=''"><h4 class="col-6">{{item.meta.c_address_2}}</h4></div>              
+						<div style="clear:both;"></div>	
+						<div ng-if="item.meta.c_city!=''"><h4 class="col-6">{{item.meta.c_city}} {{item.meta.c_zip}}</h4></div>              
+						<div style="clear:both;"></div>	
+						<div ng-if="item.meta.c_state!=''"><h4 class="col-6">{{item.meta.c_state}}</h4></div>              
+						<div style="clear:both;"></div>	 
+						<div ng-if="item.meta.c_country!=''"><h4 class="col-6">{{item.meta.c_country}}</h4></div>              
+						<div style="clear:both;"></div>
+					</div--->
+					<div class="ord-sec-6" ng-if="item.meta.sp_totalpoints">
+						<div><h3 class="col-12">Smart Points Detail</h3></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">Total Points</h4><h4 class="col-6 text-align-r">{{item.meta.sp_totalpoints}}</h4></div>              
+						<div style="clear:both;"></div>	  
+						<div><h4 class="col-6">Total Amount</h4><h4 class="col-6 text-align-r">£{{item.meta.sp_totalamount}}</h4></div>              
+						<div style="clear:both;"></div> 							
+					</div>
+			</div> 
+	  </div>
+		<div class="no-ordrs" ng-if="item.msg=='no record found'">
+			<h4>{{item.msg}}</h4>
+		</div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+
+</ion-view>

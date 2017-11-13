@@ -1,0 +1,43 @@
+<ion-view view-title="Customers List">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Customers</h1>
+	</div>
+				   
+	<ion-content class="appSpacingTop  has-header itm-list"
+                   id="content"
+                   on-swipe-up="onGesture('up',ord_sts)"
+                   on-swipe-right="onGesture('right',ord_sts)"
+                   on-swipe-down="onGesture('down',ord_sts)"
+                   on-swipe-left="onGesture('left',ord_sts)"
+                   on-hold="onGesture('hold',ord_sts)"
+                   on-double-tap="onGesture('tap',ord_sts)"
+                   scroll="true">
+		<ion-list> 
+			<div class="items items-head" style="z-index: 1000;">
+			<!-- <h3 class="10">Id</h3> -->
+			<h3 class="col-60">Name</h3><h3 class="col-40 h-align-r">Action</h3></div>                                            
+				<ion-item ng-repeat="item in items" ng-if="item.id"> 
+					<!-- <div ng-if="item.id" href="#/app/orderDetail={{item.id}}"> --> 
+					<div ng-if="item.id">
+						<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+						<!-- <h3 ng-click="customerDetail({{item.id}})">{{item.id}}</h3> -->
+						<div class="col-60">
+							<h3 class="cap-text pull-left" ng-click="customerDetail({{item.id}})">{{item.name}}</h3>
+						</div>
+						<div class="col-40 pull-right">
+							<h3 class="align-r action-link" ng-click="viewCustomersOrders({{item.id}})" id="order_stats">Order List</h3></div>
+						</div>
+						<!-- <div class="no-ordrs" style="z-index: 1000;" ng-click="orderdetail({{item.id}})" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div> -->
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i> All</a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i> Profile</a>
+</div>
+</ion-view> 

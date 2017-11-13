@@ -1,0 +1,28 @@
+<ion-view view-title="Update Order">
+	<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Order</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom decline-ords" ng-controller="orderDeclineCtrl">
+			<div ng-if="items6 && items6!=''" class="text-center msg-alrt col-12">{{items6}}</div>
+			<div class="clearfix"></div>
+			<h3>Select Decline Reason</h3>
+			<div class="decline-options">
+				<ion-radio name="declineOption" ng-model="decline.reason" ng-value="'Unable to deliver'" ng-click="isShowHide('hide')"><label>Unable to deliver</label></ion-radio>
+				<ion-radio name="declineOption" ng-model="decline.reason" ng-value="'Too Busy'" ng-click="isShowHide('hide')"><label>Too Busy</label><br></ion-radio>
+				<ion-radio name="declineOption" ng-model="decline.reason" ng-value="'Too far away'" ng-click="isShowHide('hide')"><label>Too far away</label></ion-radio>
+				<ion-radio class="dcln-cstm"  name="declineOption" ng-model="decline.reason" ng-value="'Custom'" ng-click="isShowHide('show')" ><label>Custom</label></ion-radio>
+				<textarea id="decline_dscription" placeholder="Enter reason for decline order..." ng-model="decline.reason1" ng-value="" ng-show="showval" cols="38" rows="8"></textarea>
+				<button class="button button-block button-theme" ng-disabled="!decline.reason" ng-click="saveDeclineReason(decline)">Save</button>
+			</div> 
+		</div>
+    </ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>	
+	
+</ion-view> 

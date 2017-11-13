@@ -1,0 +1,98 @@
+<ion-view view-title="Update Address">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Order</h1>
+</div> 
+    <ion-content class="appSpacingTop has-header">
+		{{console.log(locations)}}
+		<div class ="tabs dashboard-tabs">
+		   <a class="tab-item" href="#app/updateOrder=92440">Payment and other details</a>
+		   <a class="tab-item active" href="#app/updateAddress=92440">Pick-Up address</a> 
+		</div> 
+		<div class="list list-inset entryCustom accept-order"> 
+			<div id="addressPickup"> 
+				<form name="updateAddressPickup" class="updateAddress margin-btm-10" novalidate ng-class="{'show-this': items_edit.type == 'pickup'}"> 
+					<label class="item item-select text-center">
+						<div class="input-label select-title">Location</div> 
+						 <select id="all_locations" name="all_locations">
+							<option value='no'>Select</option>
+							<option ng-repeat="item in locations" value="{{item.value}}" ng-selected="items_edit.location_id == item.value">{{item.name}}</option>
+						</select>
+					  </label>  
+					  <div class="input-label select-title">Pickup Date(m/d/y)</div> 
+					<label class="item item-input text-center"> 
+						<input type="text" id="pickup_date" name="pickup_date" value="{{items_edit.p_date}}" >
+					</label>  
+					<div class="input-label select-title">Pickup Time(hh:mm:ss)</div> 					
+					 <label class="item item-input text-center">
+						<input type="text" id="pickup_time" name="pickup_time" value="{{items_edit.p_time}}" >
+					</label>
+					<label class="item noBorder">
+						<button class="button button-block button-theme" ng-click="updtPickAddrs()" type="submit" name="update_estimate_time">update</button>
+					</label>
+				</form>
+			</div> 
+			<div id="addressDelivery">
+				<form name="updateAddressDelivery" class="updateAddress margin-btm-10" novalidate ng-class="{'show-this': items_edit.type == 'delivery'}"> 
+					<label class="item item-select text-center">
+						<div class="input-label select-title">Location</div> 
+						 <select id="del_locations" name="del_locations">
+							<option value='no'>Select</option>
+							<option ng-repeat="item in locations" value="{{item.value}}" ng-selected="items_edit.location_id == item.value">{{item.name}}</option>
+						</select>
+					  </label>  
+					  <div class="input-label select-title">Address Line 1</div> 
+					<label class="item item-input text-center">
+						<input type="text" id="del_address_1" name="del_address_1" value="{{items_edit.d_address_1}}" >
+					</label>
+					 <div class="input-label select-title">Address Line 2</div> 
+					<label class="item item-input text-center">
+						<input type="text" id="del_address_2" name="del_address_2" value="{{items_edit.d_address_2}}" >
+					</label>
+					 <div class="input-label select-title">City</div> 
+					<label class="item item-input text-center">
+						<input type="text" id="del_city" name="del_city" value="{{items_edit.d_city}}" >
+					</label>
+					 <div class="input-label select-title">State</div> 
+					<label class="item item-input text-center">
+						<input type="text" id="del_state" name="del_state" value="{{items_edit.d_state}}" >
+					</label> 
+					<div class="input-label select-title">Postcode/Zip code</div> 
+					<label class="item item-input text-center">
+						<input type="text" id="del_postal_code" name="del_postal_code" value="{{items_edit.d_zip}}" >
+					</label> 
+					<label class="item item-select text-center">
+						<div class="input-label select-title">Country</div> 
+						<select id="del_country" name="del_country"> 
+							<option value='0'>Select</option>
+							<option ng-repeat="item in countries" value="{{item.value}}" ng-selected="items_edit.d_country_id == item.value">{{item.name}}</option>
+						</select>
+					</label>
+					<div class="input-label select-title">Special instructions</div> 
+					<label class="item item-input text-center"> 
+						<textarea id="del_special_note" name="del_special_note" cols="38" rows="8">{{items_edit.d_notes}}</textarea>
+					</label>
+					 <div class="input-label select-title">Delivery Date(m/d/y)</div> 
+					<label class="item item-input text-center"> 
+						<input type="text" id="delivery_date" name="delivery_date" value="{{items_edit.d_dt}}" >
+					</label>  
+					<div class="input-label select-title">Delivery Time(hh:mm:ss)</div> 					
+					 <label class="item item-input text-center">
+						<input type="text" id="delivery_time" name="delivery_time" value="{{items_edit.d_time}}" >
+					</label>
+					<label class="item noBorder">
+						<button class="button button-block button-theme" ng-click="updtDelivryAddrs()" type="submit" name="update_estimate_time">Update</button>
+					</label>
+				</form>
+			</div> 
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

@@ -1,0 +1,96 @@
+<ion-view view-title="Products List">
+	<div class = "bar bar-header bar-positive"> 
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button> 
+		<h1 class = "title">Products</h1>
+	</div>
+				   
+	<ion-content class="appSpacingTop odr-lst prd-list has-header itm-list"
+                   id="content"
+                   on-swipe-up="onGesture('up',ord_sts)"
+                   on-swipe-right="onGesture('right',ord_sts)"
+                   on-swipe-down="onGesture('down',ord_sts)"
+                   on-swipe-left="onGesture('left',ord_sts)"
+                   on-hold="onGesture('hold',ord_sts)"
+                   on-double-tap="onGesture('tap',ord_sts)"
+                   scroll="true">
+		<ion-list>  
+		
+			<div ng-if="assignedPrivileges!='' && ( assignedPrivileges.includes('Priv_Products Add product') ==  true || assignedPrivileges.includes('Preset_Products Add product') ==  true ) "> 
+				<button class="button button-icon icon ion-android-add-circle" ng-click="addProducts()"></button>
+			</div>  
+			<div ng-if="assignedPrivileges==''"> 
+				<button class="button button-icon icon ion-android-add-circle" ng-click="addProducts()"></button>
+			</div>  
+			<div class="items items-head"><h3 class="col-60">Id(Name)</h3><h3 class="align-r col-40 h-align-r">Price</h3></div>                                            
+			<!-- <ion-item ng-repeat="item in items" ng-if="item.id" ng-click="productDetail({{item.id}})">
+				<div ng-if="item.id" >
+					<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+					<div class="pull-left">
+					<h3>{{item.id}}</h3>
+					<h3 class="cap-text">{{item.name}}</h3>
+					</div>
+					<div class="pull-right" >
+					<h3 class="text-align-r" id="order_stats">£{{item.product_price}}</h3>
+					</div>
+					</div>
+					<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+				</div>
+			</ion-item> -->
+			
+			<div ng-if="assignedPrivileges!=''">
+				<!-- <ion-item ng-repeat="item in items" ng-if="item.id && ( assignedPrivileges.includes('Priv_Products Detail') ==  true || assignedPrivileges.includes('Preset_Products Detail') ==  true )"   ng-click="productDetail({{item.id}})"> --> 
+				<ion-item ng-repeat="item in items" ng-if="item.id && assignedPrivileges.includes('Priv_Products Detail') ==  true"   ng-click="productDetail({{item.id}})">
+					<div ng-if="item.id">
+						<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+							<div class="pull-left col-60">
+								<h3>{{item.id}}</h3>
+								<h3 class="cap-text">({{item.name}})</h3>
+							</div>
+							<div class="pull-right col-40" >
+								<h3 class="text-align-r" id="order_stats">£{{item.product_price}}</h3>
+							</div>
+						</div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>
+				<!-- <ion-item ng-repeat="item in items" ng-if="item.id && assignedPrivileges.includes('Priv_Products Detail') ==  false || assignedPrivileges.includes('Preset_Products Detail') ==  false"> -->
+				<ion-item ng-repeat="item in items" ng-if="item.id && assignedPrivileges.includes('Priv_Products Detail') ==  false">
+					<div ng-if="item.id">
+						<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+							<div class="pull-left col-60">
+								<h3>{{item.id}}</h3>
+								<h3 class="cap-text">({{item.name}})</h3>
+							</div>
+							<div class="pull-right col-40" >
+								<h3 class="text-align-r" id="order_stats">£{{item.product_price}}</h3>
+							</div>
+						</div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>
+			</div>
+			<div ng-if="assignedPrivileges==''">
+				<ion-item ng-repeat="item in items" ng-if="item.id" ng-click="productDetail({{item.id}})">
+					<div ng-if="item.id" >
+						<div style="z-index: 1000;" ng-if="item.msg=='founded'">
+						<div class="pull-left col-60">
+						<h3>{{item.id}}</h3>
+						<h3 class="cap-text">({{item.name}})</h3>
+						</div>
+						<div class="pull-right col-40" >
+						<h3 class="text-align-r" id="order_stats">£{{item.product_price}}</h3>
+						</div>
+						</div>
+						<div class="no-ordrs" style="z-index: 1000;" ng-if="item.msg=='no record found'"><h3>{{item.msg}}</h3></div>
+					</div>
+				</ion-item>
+			</div>
+		</ion-list>
+		<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%" icon="ion-load-c"></ion-infinite-scroll>
+	</ion-content> 
+<div class="tabs tabs-icon-top">
+	<a class="tab-item" href="#/app/orderList=pending"><i class="icon ion-alert-circled"></i>Pending</a>
+   <a class="tab-item" href="#/app/orderList=all"><i class="icon ion-android-done-all"></i>All</a>
+	<a class="tab-item" href="#/app/userProfile"><i class="icon ion-person"></i>Profile</a>
+</div>
+</ion-view> 

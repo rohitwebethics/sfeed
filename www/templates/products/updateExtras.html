@@ -1,0 +1,31 @@
+<ion-view view-title="Update Extra">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Extra</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="updateExtrasCtrl">
+			<!---div ng-if="items_edit.msg && items_edit.msg!=''" class="text-center msg-alrt col-12">{{items_edit.msg}}</div---->
+			<form name="updateextra" class="updateextra" novalidate ng-submit="updateExtras(updateextra)">
+				<label class="item item-input text-center time-unit" ng-class="{ 'has-errors' : updateextra.extra_price.$invalid && updateextra.$submitted, 'no-errors' : updateextra.extra_price.$valid  && updateextra.$submitted}"> 
+					<input type="text" id="extra_name" placeholder="Enter name" name="extra_name" value="{{items_edit.name}}" required >
+				</label>
+				<label class="item item-input text-center time-unit" ng-class="{ 'has-errors' : updateextra.extra_price.$invalid && updateextra.$submitted, 'no-errors' : updateextra.extra_price.$valid  && updateextra.$submitted}"> 
+					<input type="number" id="extra_price" inputmode="numeric" pattern="[0-9]*" placeholder="Enter price" name="extra_price"  value="{{items_edit.price}}" required>
+				</label>
+				<input type="hidden" id="extra_id" name="extra_id" ng-model="extra_id" value="{{items_edit.id}}" required >
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="update_estimate_time">Update</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+

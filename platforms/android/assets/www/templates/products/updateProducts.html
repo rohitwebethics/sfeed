@@ -1,0 +1,79 @@
+<ion-view view-title="Update Product">
+<div class="bar bar-header bar-positive"> 
+<button class="button icon" ng-click="$ionicGoBack()"><i class="ion-arrow-left-c"></i></i></button> 
+<h1 class="title">Update Product</h1>
+</div>
+    <ion-content class="appSpacingTop has-header">
+		<div class="list list-inset entryCustom accept-order"  ng-controller="updateProductsCtrl">
+			<!---div ng-if="items_edit.msg && items_edit.msg!=''" class="text-center msg-alrt col-12">{{items_edit.msg}}</div--->
+			<form name="updateproducts" class="updateproducts" novalidate ng-submit="updateProducts()">
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updateproducts.product_name.$invalid && updateproducts.$submitted, 'no-errors' : updateproducts.product_name.$valid  && updateproducts.$submitted}">
+					<input type="text" id="product_name" placeholder="Enter name" name="product_name" value="{{items_edit.name}}" required>
+				</label>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updateproducts.product_description.$invalid && updateproducts.$submitted, 'no-errors' : updateproducts.product_description.$valid  && updateproducts.$submitted}">
+					<textarea id="product_description" placeholder="Enter description" name="product_description" cols="38" rows="8">{{items_edit.description}}</textarea>
+				</label>
+				 <label class="item item-select text-center" ng-class="{ 'has-errors' : updateproducts.product_description_show.$invalid && updateproducts.$submitted, 'no-errors' : updateproducts.product_description_show.$valid  && updateproducts.$submitted}">
+					<div class="input-label select-title">Show description on receipt?</div>
+					<!-- <select id="product_description_show" name="product_description_show">
+					  <option value="0" {{items_edit.is_desc_onreceipt === "0" ? "selected" : ""}}>No</option>
+					  <option value="1" {{items_edit.is_desc_onreceipt === "1" ? "selected" : ""}}>Yes</option>
+					</select> -->
+					
+					 <select id="product_description_show" name="product_description_show">
+						<option value='no'>Select</option>
+						<option ng-repeat="item in descOnreceipt" value="{{item.value}}" ng-selected="items_edit.is_desc_onreceipt == item.value">{{item.name}}</option>
+					</select>
+				  </label>
+				 
+				  <!--  <input type="hidden" value="{{ isSingl }}" name="is_single" id="is_single"> 
+				   <input type="hidden" value="{{ items_edit.product_is_single }}" name="selected_is_single" id="selected_is_single"> 
+				<label class="item item-checkbox text-center" ng-class="{ 'has-errors' : updateproducts.product_is_single.$invalid && updateproducts.$submitted, 'no-errors' : updateproducts.product_is_single.$valid  && updateproducts.$submitted}"> 
+					<input type="checkbox" id="product_is_single" name="product_is_single" ng-model="isSingl" ng-checked="items_edit.product_is_single == 'yes' || items_edit.product_is_single == '1'">Is single Choice
+				</label> -->
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updateproducts.product_price.$invalid && updateproducts.$submitted, 'no-errors' : updateproducts.product_price.$valid  && updateproducts.$submitted}">
+					<input type="number" id="product_price" inputmode="numeric" pattern="[0-9]*" placeholder="Enter price" name="product_price" value="{{items_edit.price}}" required>
+				</label>
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Is Fetaured?</div>
+					<!-- <select id="product_is_featured" name="product_is_featured">
+					   <option value="0" ng-selected="{{items_edit.is_featured == 0}}">No</option>
+					   <option value="1" ng-selected="{{items_edit.is_featured == 1}}">Yes</option>
+					</select>
+					 -->
+					 <select id="product_is_featured" name="product_is_featured">
+						<option value='no'>Select</option>
+						<option ng-repeat="item in fetaured" value="{{item.value}}" ng-selected="items_edit.is_featured == item.value">{{item.name}}</option>
+					</select>
+				</label>
+				
+					
+				<label class="item item-select text-center">
+					<div class="input-label select-title">Is Open?</div> 
+					 <!---select id="product_is_open" name="product_is_open">
+						<option value='no'>Select</option>
+						<option ng-repeat="item in isOpen" value="{{item.value}}" ng-selected="items_edit.is_open == item.value">{{item.name}}</option>
+					</select--->
+					<select id="product_is_open" name="product_is_open">
+						<option value='no'>Select</option>
+						<option ng-repeat="item in isOpen" value="{{item.value}}" ng-selected="items_edit.is_open == item.value">{{item.name}}</option>
+					</select>
+				</label>
+				<label class="item item-input text-center" ng-class="{ 'has-errors' : updateproducts.product_order.$invalid && updateproducts.$submitted, 'no-errors' : updateproducts.product_order.$valid  && updateproducts.$submitted}">
+					<input type="number" id="product_order" inputmode="numeric" placeholder="Order" name="product_order" value="{{items_edit.order}}" >
+				</label>  
+				<label class="item noBorder">
+					<button class="button button-block button-theme" type="submit" name="update_estimate_time">update</button>
+				</label>
+			</form>
+		</div> 
+</ion-content> 
+	
+<ion-footer-bar align-title = "center" class = "bar-assertive">
+<div class="button-bar">
+  <button class="button button-positive button-clear icon ion-android-arrow-dropleft" ng-click="$ionicGoBack()"> Back</button>
+</div>
+</ion-footer-bar>
+	
+</ion-view>
+
