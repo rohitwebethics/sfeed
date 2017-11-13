@@ -1,8 +1,9 @@
 {
   "name": "Smat Feed",
-  "app_id": "ba3bc5c4",
+  "app_id": "5c99f8e8",
   "type": "ionic1",
   "watchPatterns": [
     "scss/**/*"
-  ]
+  ],
+  "integrations": {}
 }
