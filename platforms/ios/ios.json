@@ -75,6 +75,14 @@
                         {
                             "xml": "<preference name=\"CordovaWebViewEngine\" value=\"CDVWKWebViewEngine\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"IonicDeploy\"><param name=\"ios-package\" onload=\"true\" value=\"IonicDeploy\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"IonicCordovaCommon\"><param name=\"ios-package\" onload=\"true\" value=\"IonicCordovaCommon\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -108,6 +116,36 @@
                     "IS_GCM_ENABLED": [
                         {
                             "xml": "<true />",
+                            "count": 1
+                        }
+                    ],
+                    "IonAppId": [
+                        {
+                            "xml": "<string>5c99f8e8</string>",
+                            "count": 1
+                        }
+                    ],
+                    "IonChannelName": [
+                        {
+                            "xml": "<string>Master</string>",
+                            "count": 1
+                        }
+                    ],
+                    "IonApi": [
+                        {
+                            "xml": "<string>https://api.ionicjs.com</string>",
+                            "count": 1
+                        }
+                    ],
+                    "IonUpdateMethod": [
+                        {
+                            "xml": "<string>auto</string>",
+                            "count": 1
+                        }
+                    ],
+                    "IonMaxVersions": [
+                        {
+                            "xml": "<string>2</string>",
                             "count": 1
                         }
                     ]
@@ -184,6 +222,17 @@
             "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
         },
         "cordova-plugin-ionic-webview": {
+            "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
+        },
+        "cordova-plugin-add-swift-support": {
+            "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
+        },
+        "cordova-plugin-ionic": {
+            "APP_ID": "5c99f8e8",
+            "CHANNEL_NAME": "Master",
+            "UPDATE_API": "https://api.ionicjs.com",
+            "UPDATE_METHOD": "auto",
+            "MAX_STORE": "2",
             "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
         }
     },
@@ -624,6 +673,15 @@
             "clobbers": [
                 "cordova.exec"
             ]
+        },
+        {
+            "id": "cordova-plugin-ionic.common",
+            "file": "plugins/cordova-plugin-ionic/www/common.js",
+            "pluginId": "cordova-plugin-ionic",
+            "clobbers": [
+                "IonicCordova"
+            ],
+            "runs": true
         }
     ],
     "plugin_metadata": {
@@ -642,6 +700,8 @@
         "phonegap-plugin-push": "1.10.5",
         "onesignal-cordova-plugin": "2.1.2",
         "cordova-plugin-printer": "0.7.4-dev",
-        "cordova-plugin-ionic-webview": "1.1.16"
+        "cordova-plugin-ionic-webview": "1.1.16",
+        "cordova-plugin-add-swift-support": "1.7.0",
+        "cordova-plugin-ionic": "2.0.3"
     }
 }

@@ -435,6 +435,15 @@ module.exports = [
         "clobbers": [
             "cordova.exec"
         ]
+    },
+    {
+        "id": "cordova-plugin-ionic.common",
+        "file": "plugins/cordova-plugin-ionic/www/common.js",
+        "pluginId": "cordova-plugin-ionic",
+        "clobbers": [
+            "IonicCordova"
+        ],
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -455,7 +464,9 @@ module.exports.metadata =
     "phonegap-plugin-push": "1.10.5",
     "onesignal-cordova-plugin": "2.1.2",
     "cordova-plugin-printer": "0.7.4-dev",
-    "cordova-plugin-ionic-webview": "1.1.16"
+    "cordova-plugin-ionic-webview": "1.1.16",
+    "cordova-plugin-add-swift-support": "1.7.0",
+    "cordova-plugin-ionic": "2.0.3"
 };
 // BOTTOM OF METADATA
 });

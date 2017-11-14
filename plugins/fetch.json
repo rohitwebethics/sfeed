@@ -17,11 +17,17 @@
   },
   "cordova-plugin-splashscreen": {
     "source": {
-      "type": "registry",
-      "id": "cordova-plugin-splashscreen@~4.0.1"
+      "type": "local",
+      "path": "E:\\Git\\smartfeed\\sfeed\\node_modules\\cordova-plugin-splashscreen"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "APP_ID": "5c99f8e8",
+      "CHANNEL_NAME": "Master",
+      "UPDATE_METHOD": "auto",
+      "UPDATE_API": "https://api.ionicjs.com",
+      "MAX_STORE": "2"
+    }
   },
   "ionic-plugin-keyboard": {
     "source": {
@@ -127,7 +133,11 @@
       "id": "cordova-plugin-ionic@^2.0.3"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "APP_ID": "5c99f8e8",
+      "CHANNEL_NAME": "Master",
+      "UPDATE_METHOD": "auto"
+    }
   },
   "cordova-plugin-ionic-webview": {
     "source": {
@@ -135,6 +145,14 @@
       "id": "cordova-plugin-ionic-webview@^1.1.11"
     },
     "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-add-swift-support": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-add-swift-support@^1.6.1"
+    },
+    "is_top_level": false,
     "variables": {}
   }
 }

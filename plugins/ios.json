@@ -43,6 +43,14 @@
     },
     "cordova-plugin-ionic-webview": {
       "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
+    },
+    "cordova-plugin-ionic": {
+      "APP_ID": "5c99f8e8",
+      "CHANNEL_NAME": "Master",
+      "UPDATE_API": "https://api.ionicjs.com",
+      "UPDATE_METHOD": "auto",
+      "MAX_STORE": "2",
+      "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
     }
   },
   "dependent_plugins": {
@@ -50,6 +58,9 @@
       "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
     },
     "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
+    },
+    "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.ionicframework.ionicfiles377325"
     }
   }
